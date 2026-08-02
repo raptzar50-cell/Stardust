@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E LIT — Alex Brown: Session 5 — The Party (Part 1)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=IM+Fell+English:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── SESSION 5: DARK IMMERSIVE ── */
+    .obs-note {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 13px;
+      color: #7a6f5e;
+      background: rgba(180,160,120,0.07);
+      border-left: 2px solid rgba(180,160,120,0.4);
+      padding: 8px 16px;
+      margin: 12px 0 12px 96px;
+      border-radius: 0 3px 3px 0;
+    }
+
+    /* ── MEMORY TRIGGER ── */
+    .memory-trigger {
+      display: inline;
+      color: #1a2fc2;
+      text-decoration: underline;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      font-style: italic;
+    }
+    .memory-trigger:hover { opacity: 0.7; }
+
+    /* ── PARTY IMMERSIVE SECTION ── */
+    .party-section {
+      background: #000;
+      color: #fff;
+      margin: 0 -40px;
+      padding: 60px 40px;
+      font-family: var(--font-serif);
+      font-size: 16px;
+      line-height: 2;
+    }
+
+    /* Blurry crowd text */
+    .crowd-text {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.08em;
+      line-height: 2.2;
+      text-align: center;
+      filter: blur(0.5px);
+      margin: 20px 0;
+    }
+
+    /* Spiral container */
+    .spiral-section {
+      background: #000;
+      margin: 0 -40px;
+      padding: 80px 40px;
+      position: relative;
+      overflow: hidden;
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .spiral-canvas-wrap {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      margin: 0 auto;
+    }
+
+    #spiralCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Inner monologue words */
+    .inner-words {
+      font-family: var(--font-sans);
+      font-weight: 800;
+      font-size: clamp(24px, 4vw, 48px);
+      color: rgba(255,255,255,0.85);
+      text-align: center;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+      animation: wordPulse 2s ease-in-out infinite;
+      position: relative;
+      z-index: 2;
+      margin-top: 40px;
+    }
+    @keyframes wordPulse {
+      0%,100% { opacity:0.85; transform:scale(1); }
+      50%      { opacity:0.5;  transform:scale(0.97); }
+    }
+
+    .inner-small {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.3em;
+      text-align: center;
+      margin-top: 16px;
+      text-transform: uppercase;
+    }
+
+    /* Room description */
+    .room-blur {
+      position: relative;
+    }
+    .room-blur p {
+      font-family: var(--font-serif);
+      font-size: 15px;
+      line-height: 2;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 12px;
+    }
+
+    /* Sofa moment */
+    .sofa-moment {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 4px;
+      padding: 28px 32px;
+      margin: 40px 0;
+      font-family: var(--font-serif);
+      font-size: 15px;
+      line-height: 2;
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+    }
+    .sofa-dots {
+      font-size: 24px;
+      letter-spacing: 0.5em;
+      color: rgba(255,255,255,0.15);
+      display: block;
+      margin-top: 12px;
+    }
+
+    /* ARE YOU ALRIGHT — end card */
+    .end-card {
+      background: #000;
+      margin: 0 -40px -20px;
+      padding: 80px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+    }
+    .end-card .speaker { font-family:var(--font-mono);font-size:11px;color:#555;letter-spacing:0.25em; }
+    .end-card .line {
+      font-family: var(--font-sans);
+      font-size: clamp(28px,5vw,56px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #fff;
+      text-align: center;
+    }
+    .end-card .next-link {
+      margin-top: 20px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      color: rgba(255,255,255,0.3);
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 10px 24px;
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .end-card .next-link:hover { color:#fff; border-color:rgba(255,255,255,0.5); }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <span class="logo-acronym">E.T.I.</span>
+        <span class="logo-full">Eastbrook Therapeutic Institute</span>
+      </div>
+      <nav class="header-nav">
+        <span class="nav-tag">SESSION 05</span>
+        <a href="chapter1.html" class="nav-link">← Chapter One</a>
+      </nav>
+    </div>
+    <div class="header-classification">
+      <span>CLASSIFICATION: OPEN</span>
+      <span class="divider">|</span>
+      <span>PATIENT: ALEX BROWN &nbsp;|&nbsp; ETI-2024-001</span>
+      <span class="divider">|</span>
+      <span>SESSION 5 OF 5 &nbsp;|&nbsp; 08.05.2024 — "The Party" (Part 1)</span>
+    </div>
+  </header>
+
+  <div class="doc-page" style="padding-top:90px;">
+    <div style="background:var(--navy);padding:40px 80px 60px;">
+      <a href="chapter1.html" class="back-btn" id="back-to-ch1">← Return to Chapter One</a>
+    </div>
+
+    <div class="doc-page-bg">
+      <div class="document-sheet">
+        <div class="doc-header-stripe">
+          <span class="doc-header-title">Eastbrook Therapeutic Institute — Session Transcript</span>
+          <span class="doc-header-ref">REF: ETI-2024-001-S05 &nbsp;|&nbsp; AUDIO: TAPE 5A</span>
+        </div>
+        <div class="doc-hole-column">
+          <div class="punch-hole"></div><div class="punch-hole"></div><div class="punch-hole"></div>
+          <div class="punch-hole"></div><div class="punch-hole"></div><div class="punch-hole"></div>
+          <div class="punch-hole"></div>
+        </div>
+
+        <div class="doc-content">
+          <p class="doc-type-label">SESSION TRANSCRIPT — NO. 5</p>
+          <h1 class="doc-patient-name">Alex Brown</h1>
+          <p class="doc-session-num">SESSION DATE: 08.05.2024 &nbsp;&nbsp;·&nbsp;&nbsp; DURATION: 78 MIN &nbsp;&nbsp;·&nbsp;&nbsp; THERAPIST: DR. M. CLARK</p>
+
+          <div class="doc-info-grid" style="margin-bottom:36px;">
+            <div class="info-cell"><div class="info-cell-label">Session Number</div><div class="info-cell-value">5 of 5</div></div>
+            <div class="info-cell"><div class="info-cell-label">Date</div><div class="info-cell-value">08 May, 2024</div></div>
+            <div class="info-cell"><div class="info-cell-label">Session Type</div><div class="info-cell-value">Case Narrative — The Party</div></div>
+            <div class="info-cell"><div class="info-cell-label">Patient Demeanour</div><div class="info-cell-value">Dissociative at points, highly detailed recall</div></div>
+          </div>
+
+          <hr class="doc-divider" />
+
+          <h2 style="font-family:var(--font-sans);font-size:16px;font-weight:700;color:var(--ink);letter-spacing:0.05em;margin-bottom:24px;text-transform:uppercase;">Transcript — Verbatim</h2>
+
+          <div class="session-dialogue">
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">What about Akira?</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">He was like a brother. I knew him for 4 years — he was a sophomore and used to work as a DJ at the Bronx Palace.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">Did you go to his shows often?</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">I didn't like parties that much. They would be very social for me.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">I understand. Why did you go that night then?</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">He said it's for all freshmen and I didn't want to feel left out and ..... I had a fight with Dad so I needed a place to go.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">And what happened there?</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">It was a dark room. A lot of people. It was my first time there — people drinking, dancing, a lot of people. I was looking for Akira. Then I bumped into Gia — a friend from high school. She started talking about her dropout plan and how she wanted to pursue blogs. I wasn't paying much attention. Then she asked <span class="memory-trigger" id="me-trigger">"me."</span></span>
+            </div>
+
+          </div><!-- /dialogue -->
+        </div><!-- /doc-content -->
+      </div><!-- /document-sheet -->
+    </div><!-- /doc-page-bg -->
+  </div>
+
+  <!-- ══════════ PARTY IMMERSIVE ══════════ -->
+  <div class="party-section">
+    <div class="room-blur">
+      <p style="text-align:center;font-size:20px;opacity:0.3;letter-spacing:0.3em;margin-bottom:40px;">— the room —</p>
+      <p>It was blurry. A lot — <em>a lot</em> — of people, all passing by me. I didn't like the touch. Drinks spilling. I couldn't find Akira.</p>
+      <div class="crowd-text">
+        akira? &nbsp;&nbsp; akira? &nbsp;&nbsp; akira?
+      </div>
+      <p style="margin-top:20px;">blurred lines — slow music — Gia? where is she — I couldn't see her</p>
+      <p>it felt foggy. a lot of fog. despite the colors of the show, it felt dark.</p>
+      <p style="margin-top:32px;font-style:italic;opacity:0.5;">i don't wanna be here &nbsp;·&nbsp; i wanna go home</p>
+    </div>
+  </div>
+
+  <!-- ══════════ SPIRAL SECTION ══════════ -->
+  <div class="spiral-section">
+    <div class="spiral-canvas-wrap">
+      <canvas id="spiralCanvas" width="400" height="400"></canvas>
+    </div>
+
+    <div class="inner-words" id="innerWords">why &nbsp; why &nbsp; why</div>
+    <div class="inner-small">who &nbsp;·&nbsp; who &nbsp;·&nbsp; where &nbsp;·&nbsp; where</div>
+
+    <div style="margin-top:60px;text-align:center;max-width:480px;">
+      <p style="font-family:var(--font-mono);font-size:13px;color:rgba(255,255,255,0.5);line-height:2;letter-spacing:0.05em;">
+        BREATH &nbsp;·&nbsp; BREATH &nbsp;·&nbsp; <strong style="color:rgba(255,255,255,0.8);">BREATH</strong>
+      </p>
+      <p style="font-family:var(--font-serif);font-style:italic;font-size:15px;color:rgba(255,255,255,0.35);margin-top:16px;line-height:1.8;">
+        my hand — I can't feel it &nbsp;·&nbsp; dad? &nbsp;·&nbsp; AM I sorry &nbsp;·&nbsp; am I ???
+      </p>
+    </div>
+  </div>
+
+  <!-- ══════════ AFTERMATH ══════════ -->
+  <div class="party-section" style="padding-top:40px;">
+    <div class="room-blur">
+      <p>i was — i was there. the floor was wet. i slipped and people around me laughed.</p>
+      <p>it felt weird. it felt difficult.</p>
+      <p style="margin-top:20px;">i stood up and started running into people, trying to find Akira. i couldn't see. even more girls with their boyfriends, making out. one girl flashing herself, another on the floor. someone was mixing all drinks up.</p>
+    </div>
+
+    <div class="sofa-moment">
+      <span>i found a sofa and sat there</span>
+      <span class="sofa-dots">·&nbsp;&nbsp;·&nbsp;&nbsp;·&nbsp;&nbsp;·&nbsp;&nbsp;·&nbsp;&nbsp;·&nbsp;&nbsp;·&nbsp;&nbsp;·&nbsp;&nbsp;·&nbsp;&nbsp;·&nbsp;&nbsp;·&nbsp;&nbsp;·</span>
+    </div>
+  </div>
+
+  <!-- ══════════ END CARD ══════════ -->
+  <div class="end-card">
+    <span class="speaker">DR. CLARK</span>
+    <div class="line">ARE You alright?</div>
+    <a href="alex-session5b.html" class="next-link">CONTINUE — PART 2 →</a>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="footer-logo">E.T.I.</span>
+      <p class="footer-text">This document is the property of Eastbrook Therapeutic Institute. Unauthorized access is a criminal offense under the Mental Health Records Protection Act (2019).</p>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 E LIT — A Work of Fiction</span>
+      <span>ETI-2024-001-S05-A</span>
+    </div>
+  </footer>
+
+  <script>
+    // ── MEMORY TRIGGER ──
+    document.getElementById('me-trigger').addEventListener('click', function() {
+      window.location.href = 'alex-memory.html';
+    });
+
+    // ── SPIRAL CANVAS ──
+    (function() {
+      const canvas = document.getElementById('spiralCanvas');
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width, H = canvas.height;
+      let t = 0;
+
+      function draw() {
+        ctx.fillStyle = 'rgba(0,0,0,0.04)';
+        ctx.fillRect(0,0,W,H);
+
+        const cx = W/2, cy = H/2;
+        const loops = 6;
+        const maxR = 180;
+        const steps = 800;
+
+        ctx.beginPath();
+        for (let i = 0; i < steps; i++) {
+          const angle = (i / steps) * loops * Math.PI * 2 + t;
+          const r = (i / steps) * maxR;
+          const x = cx + r * Math.cos(angle);
+          const y = cy + r * Math.sin(angle);
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        const hue = (t * 30) % 360;
+        ctx.strokeStyle = `hsla(${hue}, 60%, 70%, 0.6)`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        t += 0.008;
+        requestAnimationFrame(draw);
+      }
+      draw();
+
+      // Inner words cycle
+      const words = [
+        'why &nbsp; why &nbsp; why',
+        'who &nbsp; who &nbsp; who',
+        'where &nbsp; where',
+        'breath &nbsp; breath',
+        'home &nbsp; home &nbsp; home'
+      ];
+      let wi = 0;
+      const el = document.getElementById('innerWords');
+      setInterval(() => {
+        wi = (wi + 1) % words.length;
+        el.style.opacity = '0';
+        setTimeout(() => {
+          el.innerHTML = words[wi];
+          el.style.opacity = '0.85';
+        }, 400);
+        el.style.transition = 'opacity 0.4s ease';
+      }, 1800);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E LIT — Alex Brown: Session 1 Transcript</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=IM+Fell+English:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── SESSION 1 OVERRIDES: WHITE BG ── */
+    body { background: #fff; }
+    .doc-page-bg { background: #fff; }
+    .document-sheet { background: #fff; box-shadow: 0 4px 40px rgba(0,0,0,0.08); }
+    ::-webkit-scrollbar-track { background: #f0f0f0; }
+
+    /* Observer note style */
+    .obs-note {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 13px;
+      color: #7a6f5e;
+      background: rgba(180,160,120,0.07);
+      border-left: 2px solid rgba(180,160,120,0.4);
+      padding: 8px 16px;
+      margin: 12px 0 12px 96px;
+      border-radius: 0 3px 3px 0;
+    }
+
+    /* ── LOCKED / BLURRED SECTION ── */
+    .locked-section {
+      position: relative;
+      margin-top: 40px;
+      border-top: 1px dashed rgba(160,28,28,0.3);
+      padding-top: 28px;
+    }
+    .locked-blur {
+      filter: blur(5px);
+      user-select: none;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+    .locked-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      z-index: 2;
+    }
+    .locked-stamp {
+      font-family: var(--font-stamp);
+      font-size: 16px;
+      letter-spacing: 0.25em;
+      color: #c0392b;
+      border: 2px solid #c0392b;
+      padding: 6px 22px;
+      border-radius: 3px;
+      transform: rotate(-2deg);
+      background: rgba(255,255,255,0.85);
+    }
+    .locked-note {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      color: #999;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.85);
+      padding: 3px 10px;
+      border-radius: 2px;
+    }
+    /* ── AUDIO PLAYER ── */
+    #audioplayer {
+      width: min(480px, 90vw);
+      height: 60px;
+      margin: 30px auto;
+      border: 1px solid rgba(160,140,100,0.4);
+      border-radius: 8px;
+      background: rgba(0,0,0,0.03);
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+    }
+
+    #pButton {
+      height: 40px; 
+      width: 40px;
+      border: none;
+      background-size: 50% 50%;
+      background-repeat: no-repeat;
+      background-position: center;
+      float: left;
+      outline: none;
+      cursor: pointer;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background-color: rgba(30,110,58,0.15);
+    }
+
+    .play {
+      background-image: url('http://www.alexkatz.me/codepen/img/play.png'), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231e6e3a'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E");
+    }
+
+    .pause {
+      background-image: url('http://www.alexkatz.me/codepen/img/pause.png'), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231e6e3a'%3E%3Cpath d='M6 19h4V5H6v14zm8-14v14h4V5h-4z'/%3E%3C/svg%3E");
+    }
+
+    #timeline {
+      flex: 1;
+      height: 16px;
+      margin-left: 15px;
+      border-radius: 15px;
+      background: rgba(0,0,0,0.15);
+      position: relative;
+      cursor: pointer;
+    }
+
+    #playhead {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #1e6e3a;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <span class="logo-acronym">E.T.I.</span>
+        <span class="logo-full">Eastbrook Therapeutic Institute</span>
+      </div>
+      <nav class="header-nav">
+        <span class="nav-tag">SESSION 01</span>
+        <a href="chapter1.html" class="nav-link">← Chapter One</a>
+      </nav>
+    </div>
+    <div class="header-classification">
+      <span>CLASSIFICATION: OPEN</span>
+      <span class="divider">|</span>
+      <span>PATIENT: ALEX BROWN &nbsp;|&nbsp; ETI-2024-001</span>
+      <span class="divider">|</span>
+      <span>SESSION 1 OF 5 &nbsp;|&nbsp; 10.04.2024</span>
+    </div>
+  </header>
+
+  <div class="doc-page" style="padding-top:90px;">
+    <div style="background:#000; padding:40px 80px 60px;">
+      <a href="chapter1.html" class="back-btn" id="back-to-ch1">← Return to Chapter One</a>
+    </div>
+
+    <div class="doc-page-bg">
+      <div class="document-sheet">
+        <div class="doc-header-stripe">
+          <span class="doc-header-title">Eastbrook Therapeutic Institute — Session Transcript</span>
+          <span class="doc-header-ref">REF: ETI-2024-001-S01 &nbsp;|&nbsp; AUDIO: TAPE 1A</span>
+        </div>
+
+        <div class="doc-hole-column">
+          <div class="punch-hole"></div>
+          <div class="punch-hole"></div>
+          <div class="punch-hole"></div>
+          <div class="punch-hole"></div>
+          <div class="punch-hole"></div>
+          <div class="punch-hole"></div>
+          <div class="punch-hole"></div>
+        </div>
+
+        <div class="doc-content">
+          <p class="doc-type-label">SESSION TRANSCRIPT — NO. 1</p>
+          <h1 class="doc-patient-name">Alex Brown</h1>
+          <p class="doc-session-num">SESSION DATE: 10.04.2024 &nbsp;&nbsp;·&nbsp;&nbsp; DURATION: 48 MIN &nbsp;&nbsp;·&nbsp;&nbsp; THERAPIST: DR. M. CLARK</p>
+
+          <div class="doc-info-grid" style="margin-bottom:36px;">
+            <div class="info-cell">
+              <div class="info-cell-label">Session Number</div>
+              <div class="info-cell-value">1 of 5</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label">Date</div>
+              <div class="info-cell-value">10 April, 2024</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label">Session Type</div>
+              <div class="info-cell-value">Initial Intake — Forensic Assessment</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label">Patient Demeanour</div>
+              <div class="info-cell-value">Highly anxious, minimal verbal output</div>
+            </div>
+          </div>
+
+          <!-- ── AUDIO PLAYER: Sundown Theme ── -->
+          <div id="audioplayer">
+            <button id="pButton" class="play" aria-label="Play"></button>
+            <div id="timeline">
+              <div id="playhead"></div>
+            </div>
+          </div>
+          <audio id="music" src="Angel's Stardust/3. Sundown (Theme I).mp3" preload="metadata"></audio>
+
+          <hr class="doc-divider" />
+
+          <h2 style="font-family:var(--font-sans);font-size:16px;font-weight:700;color:var(--ink);letter-spacing:0.05em;margin-bottom:24px;text-transform:uppercase;">Transcript — Verbatim</h2>
+
+          <div class="session-dialogue">
+
+            <p class="obs-note">he was quite nervous, hands fidgety, shaking slightly. his eyes felt dull, stutter in voice, slow breathing — showed clear signs of anxiety.</p>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">Well, it's quite a heavy rain isn't it? Feels like the city would flood. <em>[pause]</em> You don't talk much?</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">Would you like some water? Make yourself comfortable.</span>
+            </div>
+
+            <p class="obs-note">he wasn't saying anything. only nodding.</p>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">I am quite sorry we meet like this. You don't have to be scared of me — I am not an officer. I understand your situation, and I understand this is how we meet. But you must understand this is for the good of all, and I will try my best to make you feel alright during this.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">Shall we begin?</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">Y-yes.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">Before we begin, I want to make it clear — I'm a psychologist. But I'm not your therapist. I have been brought in by the DA to investigate what happened to your friend Sophia. I understand what you are going through and that's why we will make it easier for you. But do understand — anything you tell me isn't private the way it would be if you were seeing your own therapist. It will end up in the case file. I am not an officer. I can't arrest anyone. I can't make you say anything you don't want to say. After this is done I'll help you find a proper therapist and help in everything I can to make sure things go well for you. I'm not asking you to trust me today. I'm just asking you to know exactly what this is, so nothing about it surprises you later.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">I under-stand.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">Before we jump into the case — you can tell me about yourself. Anything you would like.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">T-thank you. I am Alex.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">What are you planning for ahead of you?</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">I am thinking to g-go for maths.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">That's wonderful. You know, maths — I hated it. Such a difficult subject. I'm glad you like it.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">Th-ank you.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">So what about your family?</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">I ..... I live with my father.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">And your mom?</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">My parents separated.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">I'm sorry to hear that. It must be difficult — handling two families at once.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">Y-yes.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">Would you like some water?</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">S-sure.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">What about your hobbies?</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">I like to — play guitar and I l-ike to roam.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">Roam? As in travel?</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">No — just roam, I guess.</span>
+            </div>
+
+            <p class="obs-note">he seems to get more comfortable.</p>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">How was your freshman year going so far?</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">G-good. I made friends and ....</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">And?</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">I — I was doing good.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">Glad to hear that.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">Have you had therapy before?</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">I was consulted once. I took- it.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">What for? If you don't mind telling?</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">I was suggested to have anxiety. I-I .. I took about 2 sessions.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">And how was it? Why did you quit?</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">I — I just left it out of schedule.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">Well — I hope I can help you even in this circumstance.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">Thank you.</span>
+            </div>
+
+          </div><!-- /dialogue -->
+
+          <hr class="doc-divider" />
+
+          <!-- ── LOCKED SECTION ── -->
+          <div class="locked-section">
+            <div class="locked-overlay">
+              <div class="locked-stamp">SESSION NOTES PENDING</div>
+              <div class="locked-note">Rest of session locked — Dr. Clark has filed notes only for this portion as of review date</div>
+            </div>
+            <div class="locked-blur">
+              <div class="therapist-note">
+                <p class="therapist-note-label">Continuation — Dr. Clark (in-session notes only)</p>
+                <p>He opened up about the family dynamic slightly more — the father situation seems to be a significant stressor though he minimises it. The separation from the mother predates freshman year by approximately three years. He deflects when asked directly. The anxiety diagnosis from prior consultation is consistent with presentation today. I noted his breathing regulate slightly once we moved away from direct family questioning. The guitar detail is interesting — creative outlet. The "roaming" — he means walks alone, I believe. Not travel. That distinction feels important.</p>
+                <p style="margin-top:10px;">We did not get to Sophia today. I did not push. He needs to feel the room before I can take him anywhere near it. That was today's only goal — and he is still here, which means something.</p>
+                <p style="margin-top:10px;">Note: he said "I was doing good" and stopped himself. There is something in that pause. He knows what comes after "good." I'll wait for him to bring it.</p>
+              </div>
+            </div>
+          </div>
+          <!-- /locked -->
+
+          <hr class="doc-divider" style="margin-top:60px;" />
+
+          <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:16px;">
+            <div>
+              <p style="font-family:var(--font-mono);font-size:10px;color:var(--ink-ghost);letter-spacing:0.12em;">SESSION CLOSED: 10.04.2024 &nbsp;·&nbsp; PARTIAL TRANSCRIPT — FULL NOTES PENDING REVIEW</p>
+              <p style="font-family:var(--font-mono);font-size:10px;color:var(--ink-ghost);letter-spacing:0.12em;margin-top:4px;">AUDIO TAPE 1A ARCHIVED &nbsp;·&nbsp; LOWER PORTION LOCKED PENDING AUTH</p>
+            </div>
+            <div style="font-family:var(--font-stamp);font-size:14px;color:var(--green-open);border:2px solid var(--green-open);padding:4px 12px;border-radius:3px;transform:rotate(-2deg);">FILED</div>
+          </div>
+        </div>
+
+        <div class="doc-footer-strip">
+          <span class="doc-footer-text">ETI-2024-001-S01 &nbsp;|&nbsp; OPEN — PARTIAL</span>
+          <span class="doc-footer-text">PAGE 1 OF 1 &nbsp;|&nbsp; CHAPTER 01</span>
+        </div>
+      </div>
+
+      <div style="max-width:820px;margin:40px auto 0;display:flex;justify-content:space-between;align-items:center;">
+        <a href="chapter1.html" class="back-btn">← Back to Folder</a>
+        <a href="alex-session2.html" class="back-btn" style="color:var(--blue-accent);">Session 2 →</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="footer-logo">E.T.I.</span>
+      <p class="footer-text">This document is the property of Eastbrook Therapeutic Institute. Unauthorized access is a criminal offense under the Mental Health Records Protection Act (2019).</p>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 E LIT — A Work of Fiction</span>
+      <span>ETI-2024-001-S01</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    (function() {
+      var music = document.getElementById('music');
+      var duration = music ? music.duration : 0;
+      var pButton = document.getElementById('pButton');
+      var playhead = document.getElementById('playhead');
+      var timeline = document.getElementById('timeline');
+      if (!music || !pButton || !playhead || !timeline) return;
+
+      var timelineWidth = timeline.offsetWidth - playhead.offsetWidth;
+
+      pButton.addEventListener("click", play);
+      music.addEventListener("timeupdate", timeUpdate, false);
+
+      timeline.addEventListener("click", function(event) {
+        moveplayhead(event);
+        if (duration) music.currentTime = duration * clickPercent(event);
+      }, false);
+
+      function clickPercent(event) {
+        return (event.clientX - getPosition(timeline)) / timelineWidth;
+      }
+
+      playhead.addEventListener('mousedown', mouseDown, false);
+      window.addEventListener('mouseup', mouseUp, false);
+
+      var onplayhead = false;
+
+      function mouseDown() {
+        onplayhead = true;
+        window.addEventListener('mousemove', moveplayhead, true);
+        music.removeEventListener('timeupdate', timeUpdate, false);
+      }
+
+      function mouseUp(event) {
+        if (onplayhead == true) {
+          moveplayhead(event);
+          window.removeEventListener('mousemove', moveplayhead, true);
+          if (duration) music.currentTime = duration * clickPercent(event);
+          music.addEventListener('timeupdate', timeUpdate, false);
+        }
+        onplayhead = false;
+      }
+
+      function moveplayhead(event) {
+        var newMargLeft = event.clientX - getPosition(timeline);
+        if (newMargLeft >= 0 && newMargLeft <= timelineWidth) {
+          playhead.style.marginLeft = newMargLeft + "px";
+        }
+        if (newMargLeft < 0) {
+          playhead.style.marginLeft = "0px";
+        }
+        if (newMargLeft > timelineWidth) {
+          playhead.style.marginLeft = timelineWidth + "px";
+        }
+      }
+
+      function timeUpdate() {
+        if (!duration && music.duration) duration = music.duration;
+        if (duration) {
+          var playPercent = timelineWidth * (music.currentTime / duration);
+          playhead.style.marginLeft = playPercent + "px";
+        }
+        if (music.currentTime == duration) {
+          pButton.className = "play";
+        }
+      }
+
+      function play() {
+        if (music.paused) {
+          music.play().then(() => {
+            pButton.className = "pause";
+          }).catch(e => console.log(e));
+        } else {
+          music.pause();
+          pButton.className = "play";
+        }
+      }
+
+      music.addEventListener("canplaythrough", function() {
+        duration = music.duration;
+      }, false);
+
+      function getPosition(el) {
+        return el.getBoundingClientRect().left;
+      }
+    })();
+  </script>
+</body>
+</html>

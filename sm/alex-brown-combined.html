@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Preston — Case of Alex Brown</title>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&family=Roboto&family=Source+Code+Pro&display=swap");
+
+* {
+	color: white;
+	font-family: "Source Code Pro", monospace;
+	margin: 0px;
+	padding: 0px;
+}
+html, body {
+	background-color: black;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	user-select: none;
+}
+
+.stage{
+	position:relative;
+	width:100vw; height:100vh;
+}
+
+/* ---- video / gif background layers ---- */
+.bg-layer{
+	position:absolute; inset:0;
+	width:100%; height:100%;
+	object-fit:cover;   /* fills the screen edge-to-edge, scaled proportionally (not stretched) — crops overage instead of letterboxing */
+}
+#bgVideo{
+	z-index:1;
+	opacity:1;
+	transition: opacity 2s ease-in-out;
+}
+#bgGif{
+	z-index:2;
+	opacity:0;
+	transition: opacity 2s ease-in-out;
+}
+#bgGif.visible{ opacity:1; }
+#bgVideo.hidden{ opacity:0; }
+
+.duotone-overlay{
+	position:absolute; inset:0; z-index:3;
+	background: linear-gradient(120deg, rgba(43,95,168,0.35), rgba(168,43,43,0.3));
+	mix-blend-mode: color;
+	pointer-events:none;
+}
+.vignette{
+	position:absolute; inset:0; z-index:4;
+	background: radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,0.55) 100%);
+	pointer-events:none;
+}
+
+/* ---- scramble-text title, bottom-right, sits above the video ---- */
+.align {
+	flex-direction: column;
+	display: flex;
+	position: fixed;
+	right: 32px;
+	bottom: 32px;
+	z-index: 5;
+	opacity: 1;
+	transition: 1s ease-out;
+}
+.align h1 {
+	font-size: 40px;
+	padding: 5px;
+	transition: 0.5s border ease;
+	white-space: nowrap;
+}
+.align #start {
+	text-align: right;
+	position: relative;
+	opacity: 0;
+	top: 10px;
+	transition: 1s all ease-out;
+}
+</style>
+</head>
+<body id="body">
+
+<div class="stage">
+
+	<video id="bgVideo" class="bg-layer" src="video-hq.mp4" autoplay muted playsinline></video>
+	<video id="bgGif" class="bg-layer" src="gif-hq.mp4" muted loop playsinline preload="auto"></video>
+
+	<div class="duotone-overlay"></div>
+	<div class="vignette"></div>
+
+	<div class="align" id="align">
+		<h1 id="title">*** ** **** *****</h1>
+		<p id="start">click to start</p>
+	</div>
+
+	<!-- Background music -->
+	<audio id="bgMusic" src="Omori_-_White_Space.mp3" loop></audio>
+
+</div>
+
+<script>
+// ---- video → gif seamless crossfade ----
+var bgVideo = document.getElementById('bgVideo');
+var bgGif = document.getElementById('bgGif');
+bgVideo.play().catch(()=>{});
+bgGif.load(); // preload so the crossfade has zero decode delay
+
+var CROSSFADE_LEAD = 2; // seconds before video end to start fading into the gif
+bgVideo.addEventListener('timeupdate', function () {
+	if (bgVideo.duration && bgVideo.currentTime >= bgVideo.duration - CROSSFADE_LEAD) {
+		if (!bgGif.classList.contains('visible')) {
+			bgGif.currentTime = 0;
+			bgGif.play();
+			bgGif.classList.add('visible');
+			bgVideo.classList.add('hidden');
+		}
+	}
+});
+
+// ---- scramble text ----
+var characters_up = [
+	"A","B","C","D","E","F","G","H","I","J","K","L","M",
+	"N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
+];
+
+// "CASE OF ALEX BROWN" — spaces preserved at their real positions
+var title = ["*","*","*","*"," ","*","*"," ","*","*","*","*"," ","*","*","*","*","*"];
+
+var myFuncUpper = function (char_num, num) {
+	var i = 0;
+	var character0 = 0;
+	while (i < char_num) {
+		(function (i) {
+			setTimeout(function () {
+				character0 = characters_up[i];
+				title[num] = character0;
+				update_txt(title);
+			}, 100 * i);
+		})(i++);
+	}
+	return true;
+};
+
+var complete = 0;
+function intro() {
+	complete = 1;
+	setTimeout(function () {
+		complete = 2;
+		// C A S E   O F   A L E X   B R O W N
+		myFuncUpper(3, 0);   // C
+		myFuncUpper(1, 1);   // A
+		myFuncUpper(19, 2);  // S
+		myFuncUpper(5, 3);   // E
+		// space at index 4
+		myFuncUpper(15, 5);  // O
+		myFuncUpper(6, 6);   // F
+		// space at index 7
+		myFuncUpper(1, 8);   // A
+		myFuncUpper(12, 9);  // L
+		myFuncUpper(5, 10);  // E
+		myFuncUpper(24, 11); // X
+		// space at index 12
+		myFuncUpper(2, 13);  // B
+		myFuncUpper(18, 14); // R
+		myFuncUpper(15, 15); // O
+		myFuncUpper(23, 16); // W
+		myFuncUpper(14, 17); // N
+	}, 1000);
+	setTimeout(function () {
+		complete = 3;
+		document.getElementById("title").style.border = "solid 5px white";
+		document.getElementById("start").style.opacity = "1";
+		document.getElementById("start").style.top = "0px";
+	}, 3800); // padded to safely cover the longest reveal (X = 24 steps)
+}
+document.onload = intro();
+
+function update_txt(title) {
+	var string = "";
+	title.forEach((element) => {
+		string += element;
+	});
+	document.getElementById("title").innerHTML = string;
+}
+
+// ---- audio ----
+var bgMusic = document.getElementById("bgMusic");
+bgMusic.volume = 0.6;
+
+function tryPlayMusic(){
+	var p = bgMusic.play();
+	if (p !== undefined) {
+		p.catch(function(){
+			// Autoplay-with-sound was blocked by the browser's own policy —
+			// this is a platform-level restriction, not fixable from code.
+			// It will succeed on the first real click via start() below.
+		});
+	}
+}
+
+// Attempt immediately, and again once the file is actually ready to play —
+// covers the case where the first attempt fires before the audio has loaded.
+tryPlayMusic();
+bgMusic.addEventListener('canplaythrough', tryPlayMusic, { once: true });
+document.addEventListener('DOMContentLoaded', tryPlayMusic);
+
+function start() {
+	if (complete == 3) {
+		document.getElementById("align").style.right = "-10%";
+		document.getElementById("align").style.opacity = "0%";
+		setTimeout(function () {
+			// Navigate to the notepad chapter
+				location = "../notepad-black-desktop (4).html";
+		}, 1200);
+	}
+}
+
+// ---- fullscreen ----
+// Browsers require a real click before allowing fullscreen — no code
+// can bypass this. Piggybacked on the existing body click below so
+// there's no separate prompt or extra interaction added.
+var fullscreenRequested = false;
+function enterFullscreen() {
+	if (fullscreenRequested) return;
+	fullscreenRequested = true;
+	var el = document.documentElement;
+	if (el.requestFullscreen) {
+		el.requestFullscreen().catch(()=>{});
+	} else if (el.webkitRequestFullscreen) {   // Safari
+		el.webkitRequestFullscreen();
+	} else if (el.mozRequestFullScreen) {      // old Firefox
+		el.mozRequestFullScreen();
+	} else if (el.msRequestFullscreen) {       // old Edge/IE
+		el.msRequestFullscreen();
+	}
+}
+
+document.getElementById("body").addEventListener("click", enterFullscreen);
+document.getElementById("body").addEventListener("click", start);
+</script>
+
+</body>
+</html>

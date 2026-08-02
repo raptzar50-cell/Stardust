@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E LIT — Intro</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      overflow: hidden;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* Full-screen video */
+    #introVideo {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    /* Skip hint — bottom centre */
+    #skipHint {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+      pointer-events: none;
+    }
+    #skipHint.visible { opacity: 1; }
+
+    .skip-key {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.55);
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+    .skip-key kbd {
+      display: inline-block;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: 10px;
+      font-family: inherit;
+      color: rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.05);
+    }
+
+    /* First-press feedback bar */
+    #spaceBar {
+      width: 80px;
+      height: 2px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 2px;
+      position: relative;
+      overflow: hidden;
+    }
+    #spaceBarFill {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.6);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.25s ease;
+    }
+    #spaceBar.half #spaceBarFill { transform: scaleX(1); }
+
+    /* Fade-out overlay */
+    #fadeOut {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      background: #000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+    }
+    #fadeOut.active { opacity: 1; pointer-events: all; }
+  </style>
+</head>
+<body>
+
+  <video
+    id="introVideo"
+    src="maxresdefault_1.mp4"
+    autoplay
+    muted
+    playsinline
+  ></video>
+
+  <!-- skip hint -->
+  <div id="skipHint">
+    <div class="skip-key">
+      <kbd>SPACE</kbd>
+      <span>×2 to skip</span>
+    </div>
+    <div id="spaceBar"><div id="spaceBarFill"></div></div>
+  </div>
+
+  <!-- black fade-to-next overlay -->
+  <div id="fadeOut"></div>
+
+  <script>
+    const video    = document.getElementById('introVideo');
+    const skipHint = document.getElementById('skipHint');
+    const spaceBar = document.getElementById('spaceBar');
+    const fadeOut  = document.getElementById('fadeOut');
+
+    /* ── show hint after 1 s ── */
+    setTimeout(() => skipHint.classList.add('visible'), 1000);
+
+    /* ── navigate when video naturally ends ── */
+    video.addEventListener('ended', goNext);
+
+    /* ── double-press SPACE to skip ── */
+    let firstPress   = false;
+    let resetTimer   = null;
+    const DOUBLE_GAP = 700; // ms between two presses
+
+    document.addEventListener('keydown', e => {
+      if (e.code !== 'Space') return;
+      e.preventDefault();
+
+      if (!firstPress) {
+        /* first press — light up the progress bar */
+        firstPress = true;
+        spaceBar.classList.add('half');
+
+        resetTimer = setTimeout(() => {
+          firstPress = false;
+          spaceBar.classList.remove('half');
+        }, DOUBLE_GAP);
+      } else {
+        /* second press — skip! */
+        clearTimeout(resetTimer);
+        goNext();
+      }
+    });
+
+    function goNext() {
+      if (goNext._done) return;
+      goNext._done = true;
+      video.pause();
+      fadeOut.classList.add('active');
+      setTimeout(() => {
+        window.location.href = 'sm/alex-brown-combined.html';
+      }, 650);
+    }
+  </script>
+</body>
+</html>
