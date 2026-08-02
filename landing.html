@@ -98,8 +98,9 @@
 
   <video
     id="introVideo"
-    src="maxresdefault_1.mp4"
+    src="BLOOD - KENDRICK LAMAR (ANIMATED MUSIC VIDEO) (1).mp4"
     autoplay
+    muted
     playsinline
   ></video>
 
@@ -121,13 +122,16 @@
     const spaceBar = document.getElementById('spaceBar');
     const fadeOut  = document.getElementById('fadeOut');
 
-    // Ensure audio plays
-    video.muted = false;
-    video.play().catch(() => {
-      // If browser blocked unmuted autoplay, unmute on first interaction
+    // Attempt unmuted play, fallback to muted autoplay + unmute on interaction
+    video.play().then(() => {
+      // Try unmuting immediately
+      video.muted = false;
+    }).catch(() => {
+      // Browser blocked unmuted autoplay: start muted and unmute on user gesture
+      video.muted = true;
+      video.play();
       const unmute = () => {
         video.muted = false;
-        video.play();
         document.removeEventListener('click', unmute);
         document.removeEventListener('keydown', unmute);
       };
