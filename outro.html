@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>E LIT — Intro</title>
+  <title>E LIT — Outro</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -16,7 +16,7 @@
     }
 
     /* Full-screen video */
-    #introVideo {
+    #outroVideo {
       position: fixed;
       inset: 0;
       width: 100%;
@@ -97,8 +97,8 @@
 <body>
 
   <video
-    id="introVideo"
-    src="maxresdefault_1.mp4"
+    id="outroVideo"
+    src="BLOOD - KENDRICK LAMAR (ANIMATED MUSIC VIDEO) (1).mp4"
     autoplay
     muted
     playsinline
@@ -117,7 +117,7 @@
   <div id="fadeOut"></div>
 
   <script>
-    const video    = document.getElementById('introVideo');
+    const video    = document.getElementById('outroVideo');
     const skipHint = document.getElementById('skipHint');
     const spaceBar = document.getElementById('spaceBar');
     const fadeOut  = document.getElementById('fadeOut');
@@ -168,7 +168,7 @@
       video.pause();
       fadeOut.classList.add('active');
       setTimeout(() => {
-        window.location.href = 'sm/alex-brown-combined.html';
+        window.location.href = 'chapter1.html';
       }, 650);
     }
   </script>
