@@ -98,7 +98,7 @@
 
   <video
     id="introVideo"
-    src="maxresdefault_1.mp4"
+    src="Maxresdefault 2.mp4"
     autoplay
     muted
     playsinline
@@ -108,7 +108,7 @@
   <div id="skipHint">
     <div class="skip-key">
       <kbd>SPACE</kbd>
-      <span>×2 to skip</span>
+      <span>pause &nbsp;·&nbsp; ×2 skip</span>
     </div>
     <div id="spaceBar"><div id="spaceBarFill"></div></div>
   </div>
@@ -137,27 +137,35 @@
     /* ── navigate when video naturally ends ── */
     video.addEventListener('ended', goNext);
 
-    /* ── double-press SPACE to skip ── */
+    /* ── SPACE controls: single press = pause/play, double press = skip ── */
     let firstPress   = false;
     let resetTimer   = null;
-    const DOUBLE_GAP = 700; // ms between two presses
+    const DOUBLE_GAP = 500; // ms between two presses for double press
 
     document.addEventListener('keydown', e => {
       if (e.code !== 'Space') return;
       e.preventDefault();
 
       if (!firstPress) {
-        /* first press — light up the progress bar */
+        /* first press — light up progress bar & wait to distinguish single vs double */
         firstPress = true;
         spaceBar.classList.add('half');
 
         resetTimer = setTimeout(() => {
           firstPress = false;
           spaceBar.classList.remove('half');
+          /* single press confirmed: toggle pause / play */
+          if (video.paused) {
+            video.play();
+          } else {
+            video.pause();
+          }
         }, DOUBLE_GAP);
       } else {
         /* second press — skip! */
         clearTimeout(resetTimer);
+        firstPress = false;
+        spaceBar.classList.remove('half');
         goNext();
       }
     });
@@ -171,6 +179,12 @@
         window.location.href = 'sm/alex-brown-combined.html';
       }, 650);
     }
+
+    // ── SECRET: double-click screen → login page ──
+    document.addEventListener('dblclick', function(e) {
+      e.preventDefault();
+      window.location.href = 'login.html';
+    });
   </script>
 </body>
 </html>

@@ -98,7 +98,7 @@
 
   <video
     id="outroVideo"
-    src="BLOOD - KENDRICK LAMAR (ANIMATED MUSIC VIDEO) (1).mp4"
+    src="ok.mp4"
     autoplay
     muted
     playsinline
@@ -166,11 +166,18 @@
       if (goNext._done) return;
       goNext._done = true;
       video.pause();
+      localStorage.setItem('akira_unlocked', 'true');
       fadeOut.classList.add('active');
       setTimeout(() => {
-        window.location.href = 'chapter1.html';
+        window.location.href = 'akira-index.html';
       }, 650);
     }
+
+    // ── SECRET: double-click screen → login page ──
+    document.addEventListener('dblclick', function(e) {
+      e.preventDefault();
+      window.location.href = 'login.html';
+    });
   </script>
 </body>
 </html>

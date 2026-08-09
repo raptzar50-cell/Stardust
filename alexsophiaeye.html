@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E LIT — Sophia in Alex's Eyes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Special+Elite&family=IM+Fell+English:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── FORMAT SHIFT: SOPHIA ↔ ALEX ── */
+    .format-shift-banner {
+      background: #000;
+      margin: 40px -40px 0;
+      padding: 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .format-shift-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(90deg,
+          transparent 0, transparent 40px,
+          rgba(255, 255, 255, 0.03) 40px, rgba(255, 255, 255, 0.03) 41px);
+    }
+
+    .shift-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.35em;
+      color: rgba(255, 255, 255, 0.25);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .shift-title {
+      font-family: var(--font-sans);
+      font-size: clamp(20px, 3vw, 32px);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.02em;
+      position: relative;
+    }
+
+    .shift-sub {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.35);
+      margin-top: 10px;
+    }
+
+    /* ── SOPHIA DIALOGUE SECTION ── */
+    .sophia-dialogue {
+      position: relative;
+      background-color: #fff;
+      padding: 60px 80px;
+      max-width: 100%;
+    }
+
+    .sophia-line {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+      align-items: baseline;
+    }
+
+    .sophia-speaker {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding-top: 3px;
+      text-align: right;
+      border-right: 2px solid;
+      padding-right: 16px;
+    }
+
+    .sophia-speaker.sophia {
+      color: #c0392b;
+      border-color: #c0392b;
+    }
+
+    .sophia-speaker.alex {
+      color: #1a2fc2;
+      border-color: #1a2fc2;
+    }
+
+    .sophia-text {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      line-height: 1.75;
+      color: #1a1a1a;
+    }
+
+    .sophia-text.glitch-text {
+      font-family: var(--font-mono);
+      letter-spacing: 0.12em;
+      color: rgba(0, 0, 0, 0.28);
+    }
+
+    /* Awkward silence block */
+    .silence-block {
+      margin: 36px 0;
+      padding: 28px;
+      border-top: 1px dashed rgba(0, 0, 0, 0.12);
+      border-bottom: 1px dashed rgba(0, 0, 0, 0.12);
+      text-align: center;
+    }
+
+    .silence-block span {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.4em;
+      color: rgba(0, 0, 0, 0.2);
+      text-transform: uppercase;
+    }
+
+    .silence-dots {
+      display: block;
+      font-size: 24px;
+      color: rgba(0, 0, 0, 0.08);
+      letter-spacing: 1em;
+      margin-top: 8px;
+    }
+
+    /* Song moment */
+    .song-moment {
+      background: rgba(26, 47, 194, 0.04);
+      border: 1px solid rgba(26, 47, 194, 0.12);
+      border-radius: 6px;
+      padding: 24px 28px;
+      margin: 28px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .song-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: rgba(26, 47, 194, 0.5);
+      text-transform: uppercase;
+    }
+
+    /* Bunny pull quote */
+    .bunny-quote {
+      background: #000;
+      color: #fff;
+      margin: 0 -80px;
+      padding: 60px 80px;
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(18px, 2.5vw, 26px);
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    .bunny-quote em {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Continue link */
+    .part2-continue {
+      display: flex;
+      justify-content: center;
+      padding: 60px;
+      background: #fff;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .part2-continue a {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: #1a1a1a;
+      text-decoration: none;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      padding: 14px 32px;
+      border-radius: 2px;
+      transition: all 0.3s;
+      text-transform: uppercase;
+    }
+
+    .part2-continue a:hover {
+      background: #000;
+      color: #fff;
+      border-color: #000;
+    }
+
+    /* ── AUDIO PLAYER: SESSION 5B ── */
+    #player {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      min-width: 280px;
+      max-width: 600px;
+      min-height: 100px;
+      background-color: #fff;
+      border: solid 1px #ccc;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px auto;
+      box-shadow: 5px 5px 10px grey;
+      transition: all 1s linear;
+    }
+
+    #screen {
+      width: 100%;
+      margin: 10px 20px;
+      height: 25px;
+      overflow: hidden;
+      border-radius: 3px;
+      padding: 5px;
+      background-color: #222;
+      font-family: 'Iceland', cursive, 'Share Tech Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 1px;
+      color: #0f0;
+      text-align: center;
+      transition: all 1s linear;
+    }
+
+    #player button {
+      width: 40px;
+      height: 40px;
+      border-radius: 5px;
+      font-size: 15px;
+      background-color: #fff;
+      color: #666;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #player button:hover {
+      background-color: #ccc;
+    }
+
+    html,
+    body {
+      background: #ffffff !important;
+      overflow-x: hidden;
+    }
+
+    /* ── FLARE OVERLAY: confined to the pink dialogue box only, clipped so no
+       streak can ever show outside it — diagonal drift is stable/consistent
+       rather than viewport-wide ── */
+    .sophia-dialogue {
+      overflow: hidden;
+    }
+
+    #flareCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+      opacity: 0;
+      transition: opacity 1.1s ease;
+    }
+
+    #flareCanvas.active {
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <span class="logo-acronym">E.T.I.</span>
+        <span class="logo-full">Eastbrook Therapeutic Institute</span>
+      </div>
+      <nav class="header-nav">
+        <span class="nav-tag">SESSION 05 — PT. 2 (cont.)</span>
+        <a href="alex-session5b.html" class="nav-link">← Back</a>
+      </nav>
+    </div>
+    <div class="header-classification">
+      <span>CLASSIFICATION: OPEN</span>
+      <span class="divider">|</span>
+      <span>PATIENT: ALEX BROWN &nbsp;|&nbsp; ETI-2024-001</span>
+      <span class="divider">|</span>
+      <span>SESSION 5 — "The Party" (Part 2) &nbsp;|&nbsp; 08.05.2024</span>
+    </div>
+  </header>
+
+  <!-- ── FORMAT SHIFT ── -->
+  <div class="format-shift-banner">
+    <span class="shift-label">— transcript shifts —</span>
+    <div class="shift-title">Sophia &amp; Alex</div>
+    <div class="shift-sub">the party, continued — as he remembers it</div>
+  </div>
+
+  <!-- ── SOPHIA / ALEX DIALOGUE ── -->
+  <div class="sophia-dialogue">
+
+    <canvas id="flareCanvas"></canvas>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker sophia">SOPHIA</span>
+      <span class="sophia-text">Alex? Alex!</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker alex">ALEX</span>
+      <span class="sophia-text">Yes — it's been a while!</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker sophia">SOPHIA</span>
+      <span class="sophia-text">Oh my god, it is you. How has it been? Wait — are you joining CMTR?</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker alex">ALEX</span>
+      <span class="sophia-text">Yes!</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker sophia">SOPHIA</span>
+      <span class="sophia-text">Me as well! What major?</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker alex">ALEX</span>
+      <span class="sophia-text">Maths. You?</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker sophia">SOPHIA</span>
+      <span class="sophia-text">Probably something.</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker alex">ALEX</span>
+      <span class="sophia-text">What do you mean???</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker sophia">SOPHIA</span>
+      <span class="sophia-text">I'll figure it out — prob something in science. Did you meet others?</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker alex">ALEX</span>
+      <span class="sophia-text">That was the plan but I'm not good at parties.</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker sophia">SOPHIA</span>
+      <span class="sophia-text">Me as well.</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker alex">ALEX</span>
+      <span class="sophia-text">Where the hell is Akira?</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker sophia">SOPHIA</span>
+      <span class="sophia-text">For real — I think he's late.</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker alex">ALEX</span>
+      <span class="sophia-text">He is always late. I tried calling him</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker sophia">SOPHIA</span>
+      <span class="sophia-text">He always keep me waiting , i tried calling him too , where the hell is he?</span>
+    </div>
+
+    <div class="silence-block">
+      <span>awkward silence</span>
+      <span class="silence-dots">·&nbsp;&nbsp;·&nbsp;&nbsp;·</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker sophia">SOPHIA</span>
+      <span class="sophia-text">Well — what about his "other" gang members? Where are they? Did you meet them?</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker alex">ALEX</span>
+      <span class="sophia-text">I did not meet much except Aster and Ryan.</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker sophia">SOPHIA</span>
+      <span class="sophia-text">Oh I remember them — they were very awkward.</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker alex">ALEX</span>
+      <span class="sophia-text">I agree. They had no concept of social — social? WHAT WAS THE WORD AGAIN—</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker sophia">SOPHIA</span>
+      <span class="sophia-text">You mean social anxiety?</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker alex">ALEX</span>
+      <span class="sophia-text">Yes.</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker sophia">SOPHIA</span>
+      <span class="sophia-text">I agree — they broke the statue of the founder the day they moved in. LIKE, man.</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker alex">ALEX</span>
+      <span class="sophia-text">It was insane.</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker sophia">SOPHIA</span>
+      <span class="sophia-text">There will be some crazy people in this uni. Oh — btw I didn't mean to ask but why are
+        you sitting alone?</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker alex">ALEX</span>
+      <span class="sophia-text">I got very nervous here.</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker sophia">SOPHIA</span>
+      <span class="sophia-text">Don't worry — it is a huge place after all.</span>
+    </div>
+
+    <!-- Background Ambient Audio -->
+    <audio id="bgMusic" autoplay preload="auto">
+      <source src="Angel%27s%20Stardust/9.%20Promise%20%28Reprise%29.mp3" type="audio/mpeg">
+      <source src="Angel's Stardust/9. Promise (Reprise).mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Song moment -->
+    <div class="song-moment">
+      <span class="song-label">— earphones —</span>
+      <div id="player">
+        <div id="screen">10. CHERRY-COLOURED FUNK</div>
+        <div class="botonera">
+          <button id="pButton" aria-label="Play">▶</button>
+        </div>
+      </div>
+      <audio id="music" preload="auto">
+        <source src="Angel%27s%20Stardust/10.%20Cherry-coloured%20Funk.mp3" type="audio/mpeg">
+        <source src="Angel's Stardust/10. Cherry-coloured Funk.mp3" type="audio/mpeg">
+      </audio>
+      <div class="sophia-line" style="margin:0;">
+        <span class="sophia-speaker alex">ALEX</span>
+        <span class="sophia-text">You wanna listen to this song? It would be super weird to play earphones in a
+          party.</span>
+      </div>
+      <div class="sophia-line" style="margin:0 0 8px;">
+        <span class="sophia-speaker alex" style="visibility:hidden;">ALEX</span>
+        <span class="sophia-text">— no no, thank you. I would love to.</span>
+      </div>
+    </div>
+
+    <div class="bunny-quote">
+      I could only see her. She had the smile of a bunny — that's what her nickname was.<br>
+      <em>I couldn't deny that I liked her.</em>
+    </div>
+
+    <div class="sophia-line" style="padding-top:32px;">
+      <span class="sophia-speaker sophia">SOPHIA</span>
+      <span class="sophia-text">This is my favourite band.</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker alex">ALEX</span>
+      <span class="sophia-text">This is a cool song.</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker sophia">SOPHIA</span>
+      <span class="sophia-text">I can never pronounce there right.</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker alex">ALEX</span>
+      <span class="sophia-text">They sound good tho.</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker sophia">SOPHIA</span>
+      <span class="sophia-text">I know right!</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker sophia">SOPHIA</span>
+      <span class="sophia-text">Thanks. Do you like indie stuff?</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker alex">ALEX</span>
+      <span class="sophia-text">A bit.</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker sophia">SOPHIA</span>
+      <span class="sophia-text">I like this a lot. It feels like life to me.</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker alex">ALEX</span>
+      <span class="sophia-text">Life?</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker sophia">SOPHIA</span>
+      <span class="sophia-text">You know — like evenings? Or like the LED lights at night.</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker alex">ALEX</span>
+      <span class="sophia-text">I guess? It does sound nice. Like — the world is moving just fine. No rush.</span>
+    </div>
+
+    <div class="sophia-line">
+      <span class="sophia-speaker sophia">SOPHIA</span>
+      <span class="sophia-text">Exactly. Wait — is that Akira?</span>
+    </div>
+
+  </div><!-- /sophia-dialogue -->
+
+  <div class="part2-continue">
+    <a href="alex-sophia.html">SOPHIA IN ALEX'S EYES →</a>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="footer-logo">E.T.I.</span>
+      <p class="footer-text">This document is the property of Eastbrook Therapeutic Institute. Unauthorized access is a
+        criminal offense under the Mental Health Records Protection Act (2019).</p>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 E LIT — A Work of Fiction</span>
+      <span id="dr-clark-trigger"
+        style="cursor:pointer;user-select:none;-webkit-user-select:none;pointer-events:all;">DR. MARY CLARK
+        &nbsp;·&nbsp; ETI-2024-001-S05-B</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      var bgMusic = document.getElementById('bgMusic');
+      var music = document.getElementById('music');
+      var pButton = document.getElementById('pButton');
+      var screen = document.getElementById('screen');
+
+      // ── 1. BACKGROUND AUDIO: resumes exactly where it left off on the previous page, or autoplays fresh ──
+      if (bgMusic) {
+        bgMusic.muted = false;
+
+        var savedTime = sessionStorage.getItem('bgMusicTime');
+        var savedPaused = sessionStorage.getItem('bgMusicPaused');
+        if (savedTime !== null) {
+          bgMusic.addEventListener('loadedmetadata', function () {
+            bgMusic.currentTime = parseFloat(savedTime) || 0;
+          }, { once: true });
+          sessionStorage.removeItem('bgMusicTime');
+          sessionStorage.removeItem('bgMusicPaused');
+        }
+
+        function tryAutoplay() {
+          if (savedPaused === '1') return Promise.resolve(true); // it was paused before, stay paused
+          var p = bgMusic.play();
+          if (p !== undefined) {
+            return p.then(function () {
+              return true;
+            }).catch(function (e) {
+              console.log("Autoplay blocked, will start on first interaction:", e);
+              return false;
+            });
+          }
+          return Promise.resolve(false);
+        }
+
+        tryAutoplay().then(function (started) {
+          if (started) return;
+          var startOnInteraction = function () {
+            bgMusic.play().catch(function (e) {
+              console.log("Autoplay retry failed:", e);
+            });
+            document.removeEventListener('click', startOnInteraction);
+            document.removeEventListener('keydown', startOnInteraction);
+            document.removeEventListener('touchstart', startOnInteraction);
+          };
+          document.addEventListener('click', startOnInteraction, { once: true });
+          document.addEventListener('keydown', startOnInteraction, { once: true });
+          document.addEventListener('touchstart', startOnInteraction, { once: true });
+        });
+      }
+
+      // ── 2. CASSETTE PLAYER: 10. Cherry-coloured Funk Play/Pause ──
+      if (music && pButton) {
+        function playCherryFunk() {
+          if (bgMusic && !bgMusic.paused) {
+            bgMusic.pause();
+          }
+
+          if (music.paused) {
+            var promise = music.play();
+            if (promise !== undefined) {
+              promise.then(function () {
+                pButton.innerHTML = "❚❚";
+                if (screen) screen.innerText = "PLAYING: CHERRY-COLOURED FUNK";
+              }).catch(function (e) {
+                console.log(e);
+              });
+            }
+          } else {
+            music.pause();
+            pButton.innerHTML = "▶";
+            if (screen) screen.innerText = "PAUSED";
+          }
+        }
+
+        pButton.addEventListener("click", function (e) {
+          e.stopPropagation();
+          playCherryFunk();
+        });
+
+        music.addEventListener('ended', function () {
+          pButton.innerHTML = "▶";
+          if (screen) screen.innerText = "10. CHERRY-COLOURED FUNK";
+        });
+      }
+
+      // ── SECRET: double-click DR. MARY CLARK / title / logo → login page ──
+      var drMaryTriggers = document.querySelectorAll('#dr-clark-trigger, .header-title, .glitch-title, .doc-session-num, .card-name, .logo-acronym, .logo-full, .header-logo, .footer-logo');
+      drMaryTriggers.forEach(function (el) {
+        el.style.cursor = 'pointer';
+        el.addEventListener('dblclick', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          window.location.href = 'login.html';
+        });
+      });
+
+      // ── SCROLL FADE: .sophia-dialogue bleeds from white to #CF5E93 as you scroll through it ──
+      var dialogueEl = document.querySelector('.sophia-dialogue');
+      var flareCanvasEl = document.getElementById('flareCanvas');
+      var fadeStart = [255, 255, 255];
+      var fadeEnd = [207, 94, 147]; // #CF5E93
+      var flareThreshold = 0.4; // wisps only appear once the pink has taken over enough
+
+      function updateDialogueFade() {
+        if (!dialogueEl) return;
+        var rect = dialogueEl.getBoundingClientRect();
+        var winH = window.innerHeight;
+        var total = rect.height + winH;
+        var scrolled = winH - rect.top;
+        var progress = Math.max(0, Math.min(1, scrolled / total));
+        var r = Math.round(fadeStart[0] + (fadeEnd[0] - fadeStart[0]) * progress);
+        var g = Math.round(fadeStart[1] + (fadeEnd[1] - fadeStart[1]) * progress);
+        var b = Math.round(fadeStart[2] + (fadeEnd[2] - fadeStart[2]) * progress);
+        dialogueEl.style.backgroundColor = 'rgb(' + r + ',' + g + ',' + b + ')';
+
+        if (flareCanvasEl) {
+          if (progress >= flareThreshold) {
+            flareCanvasEl.classList.add('active');
+          } else {
+            flareCanvasEl.classList.remove('active');
+          }
+        }
+      }
+
+      window.addEventListener('scroll', updateDialogueFade, { passive: true });
+      window.addEventListener('resize', updateDialogueFade);
+      updateDialogueFade();
+    })();
+  </script>
+
+  <!-- ── HEX FLAME: warm flame particles, wandering upward through the pink ── -->
+  <script>
+    (function () {
+      var canvas = document.getElementById('flareCanvas');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+
+      var settings = {
+        size: 6,                // px per triangle — same mosaic look as the original
+        lifeTime: 3000,
+        angle: 32,               // degrees off vertical — fixed diagonal drift, same for every particle
+        speed: 0.55,             // grid units/frame along that diagonal — same for every particle (stable)
+        innerFlameStartColor: { r: 255, g: 190, b: 60 },  // #FFBE3C
+        innerFlameEndColor: { r: 140, g: 30, b: 0 },   // #8C1E00
+        outerFlameStartColor: { r: 255, g: 120, b: 30 },  // #FF781E
+        outerFlameEndColor: { r: 150, g: 25, b: 0 }    // #961900
+      };
+
+      var rad = (settings.angle * Math.PI) / 180;
+      var dirX = Math.sin(rad), dirY = Math.cos(rad);
+
+      var width, height, dimW, dimH, flames = [];
+      var container = canvas.parentElement; // .sophia-dialogue — clipped via overflow:hidden
+
+      // sized to the pink box itself, not the viewport — the flame physically
+      // cannot draw outside .sophia-dialogue
+      function resize() {
+        width = canvas.width = container.clientWidth;
+        height = canvas.height = container.scrollHeight;
+        dimW = Math.ceil(width / settings.size);
+        dimH = Math.ceil(height / settings.size);
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      function initFlame(reset) {
+        var colorStart = settings.innerFlameStartColor,
+          colorStop = settings.innerFlameEndColor;
+
+        if (Math.random() > 0.5) {
+          colorStart = settings.outerFlameStartColor;
+          colorStop = settings.outerFlameEndColor;
+        }
+
+        return {
+          x: Math.random() * dimW,
+          y: reset ? dimH + Math.random() * 8 : Math.random() * dimH,
+          colorStart: colorStart,
+          colorStop: colorStop,
+          startTime: Date.now(),
+          lifeTime: settings.lifeTime * (0.6 + Math.random() * 0.8)
+        };
+      }
+
+      var particleCount = 260;
+      for (var i = 0; i < particleCount; i++) {
+        flames.push(initFlame());
+      }
+
+      function colorChange(startColor, endColor, totalSteps, step) {
+        var scale = Math.max(0, Math.min(1, step / totalSteps)),
+          r = endColor.r + scale * (startColor.r - endColor.r),
+          g = endColor.g + scale * (startColor.g - endColor.g),
+          b = endColor.b + scale * (startColor.b - endColor.b);
+        return {
+          r: Math.floor(Math.min(255, Math.max(0, r))),
+          g: Math.floor(Math.min(255, Math.max(0, g))),
+          b: Math.floor(Math.min(255, Math.max(0, b)))
+        };
+      }
+
+      // same triangle shape as the original script — alternates orientation on the
+      // half-grid so the triangles tile into a solid mosaic instead of floating dots
+      function drawTriangle(gx, gy) {
+        var size = settings.size;
+        ctx.beginPath();
+        if (parseInt(gx) === gx) {
+          ctx.moveTo(gx * size, gy * size);
+          ctx.lineTo(gx * size + size / 2, gy * size + size);
+          ctx.lineTo(gx * size - size / 2, gy * size + size);
+        } else {
+          ctx.moveTo(gx * size - size / 2, gy * size);
+          ctx.lineTo(gx * size + size / 2, gy * size);
+          ctx.lineTo(gx * size, gy * size + size);
+        }
+        ctx.fill();
+      }
+
+      function render() {
+        requestAnimationFrame(render);
+        if (!canvas.classList.contains('active')) return;
+        if (width === 0 || height === 0) return;
+
+        ctx.clearRect(0, 0, width, height);
+        ctx.globalCompositeOperation = 'lighter';
+
+        var now = Date.now();
+        for (var i = 0; i < flames.length; i++) {
+          var flame = flames[i];
+          var curStep = (flame.startTime + flame.lifeTime) - now;
+
+          // fixed diagonal heading, no per-particle wobble — a stable drift, not a flicker
+          flame.x = Math.round((flame.x + dirX * settings.speed) * 2) / 2;
+          flame.y -= dirY * settings.speed;
+
+          if (flame.y <= -2 || flame.x >= dimW + 2 || curStep <= 0) {
+            flames[i] = initFlame(true);
+            continue;
+          }
+
+          var color = colorChange(flame.colorStart, flame.colorStop, dimH, flame.y);
+          var alpha = Math.max(0, Math.min(1, curStep / flame.lifeTime));
+
+          ctx.fillStyle = 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',' + alpha + ')';
+          drawTriangle(flame.x, flame.y);
+        }
+
+        ctx.globalCompositeOperation = 'source-over';
+      }
+
+      render();
+    })();
+  </script>
+</body>
+
+</html>

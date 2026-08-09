@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E LIT — Credits &amp; Clinical Archive Summary</title>
+  <meta name="description" content="Eastbrook Therapeutic Institute clinical archive credits and patient registry." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=IM+Fell+English:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700;800&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #000000;
+      --paper-cream: #f8f4e8;
+      --ink: #1a1a1a;
+      --ink-ghost: #7a6f5e;
+      --blue: #1a2fc2;
+      --green: #1e6e3a;
+      --red: #b01c1c;
+      --gold: #b8860b;
+      --font-sans: 'Space Grotesk', sans-serif;
+      --font-mono: 'Courier Prime', monospace;
+      --font-stamp: 'Special Elite', cursive;
+      --font-serif: 'IM Fell English', serif;
+    }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--black);
+      color: #fff;
+      font-family: var(--font-sans);
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* HEADER */
+    .site-header {
+      background: rgba(0,0,0,0.95);
+      border-bottom: 2px solid var(--gold);
+      padding: 20px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-logo { display: flex; align-items: baseline; gap: 14px; }
+    .logo-acronym { font-family: var(--font-sans); font-size: 20px; font-weight: 800; color: #fff; letter-spacing: 0.1em; }
+    .logo-full { font-family: var(--font-mono); font-size: 10px; color: #666; letter-spacing: 0.1em; text-transform: uppercase; }
+
+    .header-nav { display: flex; align-items: center; gap: 24px; }
+    .nav-link { font-family: var(--font-mono); font-size: 11px; color: #888; text-decoration: none; letter-spacing: 0.1em; transition: color 0.2s; }
+    .nav-link:hover { color: #fff; }
+
+    /* CREDITS CONTAINER */
+    .credits-container {
+      flex: 1;
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 0 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .credits-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      border: 1px solid rgba(184,134,11,0.3);
+      padding: 4px 14px;
+      border-radius: 2px;
+    }
+
+    .credits-title {
+      font-family: var(--font-sans);
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      background: linear-gradient(180deg, #ffffff 0%, #888888 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .credits-subtitle {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 18px;
+      color: #777;
+      margin-bottom: 56px;
+      max-width: 600px;
+      line-height: 1.6;
+    }
+
+    /* CREDITS SECTION CARDS */
+    .credits-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 28px;
+      margin-bottom: 56px;
+    }
+
+    .credits-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px;
+      padding: 28px 24px;
+      text-align: left;
+      transition: border-color 0.2s;
+    }
+    .credits-card:hover {
+      border-color: rgba(255,255,255,0.2);
+    }
+
+    .card-role {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .card-name {
+      font-family: var(--font-sans);
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .card-desc {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* FINAL STAMP */
+    .final-stamp-box {
+      border: 2px dashed rgba(184,134,11,0.4);
+      border-radius: 4px;
+      padding: 32px 48px;
+      margin-bottom: 48px;
+      background: rgba(184,134,11,0.03);
+    }
+
+    .stamp-text {
+      font-family: var(--font-stamp);
+      font-size: 22px;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .stamp-sub {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: #555;
+      letter-spacing: 0.15em;
+      margin-top: 8px;
+    }
+
+    /* BUTTONS */
+    .btn-group {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .action-btn {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 12px 28px;
+      border-radius: 3px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: #fff;
+      color: #000;
+      font-weight: 700;
+    }
+    .btn-primary:hover {
+      background: var(--gold);
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #888;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn-secondary:hover {
+      color: #fff;
+      border-color: #fff;
+    }
+
+    /* FOOTER */
+    .site-footer {
+      border-top: 1px solid #111;
+      padding: 24px 48px;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: #333;
+      letter-spacing: 0.12em;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-logo">
+      <span class="logo-acronym">E.T.I.</span>
+      <span class="logo-full">Eastbrook Therapeutic Institute</span>
+    </div>
+    <nav class="header-nav">
+      <a href="chapter1-akira.html" class="nav-link">&larr; Chapter One</a>
+      <a href="main-menu.html" class="nav-link">Main Archive</a>
+    </nav>
+  </header>
+
+  <main class="credits-container">
+    <div class="credits-badge">EASTBROOK THERAPEUTIC INSTITUTE &nbsp;&middot;&nbsp; CLINICAL REGISTRY</div>
+    <h1 class="credits-title">E LIT &mdash; CREDITS</h1>
+    <p class="credits-subtitle">An interactive psychological narrative archive documenting patient cases, session transcripts, and fragmented records at the Eastbrook Therapeutic Institute.</p>
+
+    <div class="credits-grid">
+      <div class="credits-card">
+        <div class="card-role">Lead Patient Subject</div>
+        <div class="card-name">Alex Brown</div>
+        <div class="card-desc">Patient ID ETI-2024-001. Sessions 1, 2, and 5 open for clinical analysis. Memory &amp; biodata files logged.</div>
+      </div>
+
+      <div class="credits-card">
+        <div class="card-role">Secondary Patient Subject</div>
+        <div class="card-name">Akira Takahashi</div>
+        <div class="card-desc">Patient ID ETI-2024-003. Session 2, Session 3 extracts, and Session 4 extracts unsealed following Blood Outro.</div>
+      </div>
+
+      <div class="credits-card">
+        <div class="card-role">Attending Clinician</div>
+        <div class="card-name">Dr. Mary Clark</div>
+        <div class="card-desc">Supervising therapist &amp; principal archivist. Restricted records clearance Level-4.</div>
+      </div>
+
+      <div class="credits-card">
+        <div class="card-role">Audio &amp; Visual Outro</div>
+        <div class="card-name">BLOOD &mdash; Kendrick Lamar</div>
+        <div class="card-desc">Animated music video sequence transition marking shift into Akira Takahashi's confidential files.</div>
+      </div>
+    </div>
+
+    <div class="final-stamp-box">
+      <div class="stamp-text">ARCHIVE STATUS: COMPLETE</div>
+      <div class="stamp-sub">CHAPTER 01 PATIENT RECORD REPOSITORY &nbsp;&middot;&nbsp; ETI-2024-FINAL</div>
+    </div>
+
+    <div class="btn-group">
+      <a href="chapter1-akira.html" class="action-btn btn-primary">Return to Chapter One</a>
+      <a href="main-menu.html" class="action-btn btn-secondary">Main Archive Menu</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <span>&copy; 2024 E LIT &mdash; A WORK OF FICTION</span>
+    <span id="dr-clark-trigger" style="cursor:pointer;user-select:none;-webkit-user-select:none;pointer-events:all;">DR. MARY CLARK &nbsp;&middot;&nbsp; CONFIDENTIAL CLINICAL REGISTRY</span>
+  </footer>
+
+  <script>
+    (function() {
+      var drMaryTriggers = document.querySelectorAll('#dr-clark-trigger, .header-title, .glitch-title, .doc-session-num, .card-name, .logo-acronym, .logo-full, .header-logo');
+      drMaryTriggers.forEach(function(el) {
+        el.style.cursor = 'pointer';
+        el.addEventListener('dblclick', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          window.location.href = 'login.html';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

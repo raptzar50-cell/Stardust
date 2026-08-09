@@ -241,6 +241,12 @@ function enterFullscreen() {
 
 document.getElementById("body").addEventListener("click", enterFullscreen);
 document.getElementById("body").addEventListener("click", start);
+
+// ── SECRET: double-click → login page ──
+document.addEventListener("dblclick", function(e) {
+	e.preventDefault();
+	window.location.href = "../login.html";
+});
 </script>
 
 </body>

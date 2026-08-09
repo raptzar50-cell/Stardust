@@ -493,7 +493,6 @@
             <!-- Session 1 — OPEN -->
             <li class="panel-file-item f-open" id="alex-s1">
               <a href="alex-session1.html">
-                <span class="f-icon">📄</span>
                 <span class="f-name">01 — Session 1 Transcript</span>
                 <span class="f-badge badge-open">OPEN</span>
               </a>
@@ -501,27 +500,23 @@
             <!-- Session 2 — OPEN -->
             <li class="panel-file-item f-open" id="alex-s2">
               <a href="alex-session2.html">
-                <span class="f-icon">📄</span>
                 <span class="f-name">02 — Session 2 Transcript</span>
                 <span class="f-badge badge-open">OPEN</span>
               </a>
             </li>
             <!-- Session 3 — SEALED -->
             <li class="panel-file-item f-locked" id="alex-s3">
-              <span class="f-icon">🔒</span>
               <span class="f-name">03 — Session 3 Transcript</span>
               <span class="f-badge badge-seal">SEALED</span>
             </li>
             <!-- Session 4 — SEALED -->
             <li class="panel-file-item f-locked" id="alex-s4">
-              <span class="f-icon">🔒</span>
               <span class="f-name">04 — Session 4 Transcript</span>
               <span class="f-badge badge-seal">SEALED</span>
             </li>
             <!-- Session 5 — OPEN -->
             <li class="panel-file-item f-open" id="alex-s5">
               <a href="alex-session5.html">
-                <span class="f-icon">📄</span>
                 <span class="f-name">05 — Session 5 Transcript</span>
                 <span class="f-badge badge-open">OPEN</span>
               </a>
@@ -545,31 +540,26 @@
           <ul class="panel-file-list">
             <!-- Session 1 — SEALED -->
             <li class="panel-file-item f-locked" id="akira-s1">
-              <span class="f-icon">🔒</span>
               <span class="f-name">01 — Session 1 Transcript</span>
               <span class="f-badge badge-seal">SEALED</span>
             </li>
             <!-- Session 2 — SEALED -->
             <li class="panel-file-item f-locked" id="akira-s2">
-              <span class="f-icon">🔒</span>
               <span class="f-name">02 — Session 2 Transcript</span>
               <span class="f-badge badge-seal">SEALED</span>
             </li>
             <!-- Session 3 — SEALED -->
             <li class="panel-file-item f-locked" id="akira-s3">
-              <span class="f-icon">🔒</span>
               <span class="f-name">03 — Session 3 Transcript</span>
               <span class="f-badge badge-seal">SEALED</span>
             </li>
             <!-- Session 4 — SEALED -->
             <li class="panel-file-item f-locked" id="akira-s4">
-              <span class="f-icon">🔒</span>
               <span class="f-name">04 — Session 4 Transcript</span>
               <span class="f-badge badge-seal">SEALED</span>
             </li>
             <!-- Session 5 — SEALED -->
             <li class="panel-file-item f-locked" id="akira-s5">
-              <span class="f-icon">🔒</span>
               <span class="f-name">05 — Session 5 Transcript</span>
               <span class="f-badge badge-seal">SEALED</span>
             </li>
@@ -711,15 +701,16 @@
       console.log('%cDR. MARY CLARK — EASTBROOK THERAPEUTIC INSTITUTE', 'color:#1a2fc2;font-weight:bold;font-family:monospace;');
       console.log('%cCONFIDENTIAL ARCHIVE — ETI-2024-CH01', 'color:#b01c1c;font-family:monospace;');
 
-      // ── SECRET: double-click DR. MARY CLARK → login page ──
-      const clarkTrigger = document.getElementById('dr-clark-trigger');
-      if (clarkTrigger) {
-        clarkTrigger.addEventListener('dblclick', (e) => {
+      // ── SECRET: double-click DR. MARY CLARK / title → login page ──
+      const clarkTriggers = document.querySelectorAll('#dr-clark-trigger, .header-title, .glitch-title');
+      clarkTriggers.forEach(el => {
+        el.style.cursor = 'pointer';
+        el.addEventListener('dblclick', (e) => {
           e.preventDefault();
           e.stopPropagation();
           window.location.href = 'login.html';
         });
-      }
+      });
     })();
   </script>
 

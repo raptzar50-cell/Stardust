@@ -1,78 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>E LIT — Alex Memory</title>
+
+  <!-- Display font for the opening line -->
+  <link href="https://fonts.cdnfonts.com/css/ramidots" rel="stylesheet">
+  <!-- TODO: incomplete font link as provided (missing family/query) — replace with the real
+       fonts.googleapis.com/css2?family=... URL once you send it -->
+  <link href="https://googleapis.com" rel="stylesheet">
+
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
+
+    html.locked {
+      overflow: hidden;
+      height: 100%;
+    }
+
+    /* position:fixed (instead of overflow:hidden) pins the body exactly
+       where it was scrolled to — top is set inline via JS to -scrollY
+       right before this class is added, so locking mid-page doesn't snap
+       back up to the top. */
+    body.locked {
+      position: fixed;
+      left: 0;
+      right: 0;
+      width: 100%;
+    }
+
     body {
       min-height: 100vh;
-      background: #fff;
-      color: #000;
+      background: #000;
+      color: #fff;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
       font-family: Georgia, serif;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      transition: background-color 0.4s ease, color 0.4s ease;
       overflow-x: hidden;
     }
 
-    /* ── BIG CSS FADING TEXT (QUOTE) ── */
+    /* ── 1. BLACK GLASSY INTRO / QUOTE STAGE ── */
     .quote-stage {
-      min-height: 90vh;
+      position: relative;
+      min-height: 100vh;
       width: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       padding: 40px 20px;
+      background: #000;
+      overflow: hidden;
+      perspective: 800px;
+      perspective-origin: 50% 100%;
     }
 
-    blockquote {
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      text-align: center;
+    /* particle rig */
+    .wrap {
+      position: absolute;
+      inset: 0;
+      height: 100%;
+      width: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .c {
+      opacity: 0;
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    .quote-lines {
+      position: relative;
+      z-index: 2;
       max-width: 900px;
+      text-align: center;
+      transition: filter 1.4s ease, opacity 1.4s ease;
     }
-    cite {
-      display: block;
-      text-align: right;
-      font-family: Verdana, Arial, sans-serif;
-      margin-top: 1rem;
-      font-size: .9rem;
-      color: #888;
-      font-style: normal;
+
+    .quote-lines.smudging {
+      filter: blur(16px);
+      opacity: 0;
     }
-    blockquote q {
-      font-family: Georgia, serif;
-      font-style: italic;
-      letter-spacing: .1rem;
+
+    .quote-lines .line {
+      font-family: 'Ramidots', Georgia, serif;
+      font-size: clamp(1.8rem, 5vw, 3.4rem);
+      letter-spacing: .08rem;
+      line-height: 1.2;
+      color: #dbe6ff;
+      text-shadow: 0 0 12px rgba(120, 170, 255, 0.55), 0 0 2px rgba(255, 255, 255, 0.4);
     }
-    blockquote q span { 
+
+    .quote-lines .line+.line {
+      margin-top: 3.2rem;
+    }
+
+    /* placeholder — swap in the real font-family once the correct Google
+       Fonts link/family name is provided */
+    .quote-lines .line-one {
+      font-family: 'REPLACE_ME', 'Ramidots', Georgia, serif;
+    }
+
+    .quote-lines .line .word {
       will-change: opacity, filter;
       opacity: 0;
       filter: blur(0px);
       display: inline-block;
       margin: 0 4px;
-    }
-    q {
-      quotes: "“" "”" "‘" "’";
-    }
-    q:before {
-      content: open-quote;
-      margin-right: .8rem;
-    }
-    q:after {
-      content: close-quote;
-    }
-    q:before, q:after {
-      color: #aaa;
-      font-size: 3.5rem;
     }
 
     /* ── SCROLLING NARRATIVE SECTIONS ── */
@@ -91,33 +136,304 @@
       letter-spacing: 0.05em;
     }
 
-    /* ── SPIRAL SECTION ── */
-    .spiral-container {
+    .narrative-block .line,
+    .aftermath-block .line {
+      display: block;
+      margin: 1.1em 0;
+    }
+
+    /* ── DECORATIVE LINE SPACER SECTIONS (lengthen page) ── */
+    .line-field {
       width: 100%;
       max-width: 700px;
       margin: 60px auto;
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: 34px;
+    }
+
+    .line-field .hline {
+      display: block;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.25;
+    }
+
+    .line-field .hline:nth-child(3n) {
+      width: 20%;
+      opacity: 0.5;
+    }
+
+    .line-field .hline:nth-child(3n+1) {
+      width: 70%;
+      opacity: 0.15;
+    }
+
+    .line-field .hline:nth-child(3n+2) {
+      width: 45%;
+      opacity: 0.3;
+    }
+
+    /* ── FOG FIELD: like line-field, but each line drifts black → grey →
+       black on its own cycle instead of sitting at a fixed opacity — a
+       flickering haze around the "room was blurry" text. ── */
+    .fog-field {
+      width: 100%;
+      max-width: 700px;
+      margin: 50px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+      filter: blur(0.4px);
+    }
+
+    .fog-field .fog-line {
+      display: block;
+      height: 1px;
+      width: 55%;
+      background: currentColor;
+      opacity: 0;
+      animation: fog-flicker 6s ease-in-out infinite;
+    }
+
+    .fog-field .fog-line:nth-child(5n+1) {
+      width: 70%;
+      animation-duration: 5.2s;
+      animation-delay: 0.2s;
+    }
+
+    .fog-field .fog-line:nth-child(5n+2) {
+      width: 25%;
+      animation-duration: 6.8s;
+      animation-delay: 1.4s;
+    }
+
+    .fog-field .fog-line:nth-child(5n+3) {
+      width: 45%;
+      animation-duration: 7.6s;
+      animation-delay: 0.6s;
+    }
+
+    .fog-field .fog-line:nth-child(5n+4) {
+      width: 18%;
+      animation-duration: 4.6s;
+      animation-delay: 2.1s;
+    }
+
+    .fog-field .fog-line:nth-child(5n+5) {
+      width: 60%;
+      animation-duration: 8.3s;
+      animation-delay: 1.0s;
+    }
+
+    @keyframes fog-flicker {
+      0% {
+        opacity: 0;
+      }
+
+      /* black */
+      50% {
+        opacity: 0.4;
+      }
+
+      /* grey */
+      100% {
+        opacity: 0;
+      }
+
+      /* back to black */
+    }
+
+    /* full-bleed backdrop behind the "room was blurry" section — the
+       BACKGROUND drifts black → grey → black, not the text itself */
+    .fog-bg-zone {
+      position: relative;
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+      animation: bg-fog-flicker 9s ease-in-out infinite;
+    }
+
+    @keyframes bg-fog-flicker {
+      0% {
+        background-color: #000000;
+      }
+
+      50% {
+        background-color: #3a3a3a;
+      }
+
+      100% {
+        background-color: #000000;
+      }
+    }
+
+    /* ── SPIRAL SECTION: a full-bleed black stage where the fragments
+       type themselves out letter by letter and spiral outward — replaces
+       the old static giant word-spiral. ── */
+    .spiral-buffer-zone {
+      background: #000;
+      width: 100%;
+    }
+
+    .spiral-container {
+      width: 100%;
+      margin: 0;
+      padding: 40px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       position: relative;
     }
 
-    #spiralCanvas {
-      width: 450px;
-      height: 450px;
-      max-width: 90vw;
-      max-height: 90vw;
+    .spiral-stage {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      background: #000;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* slow heavy breathing — the whole stage swells like a racing chest */
+      animation: cluster-breathe 3.6s ease-in-out infinite;
     }
 
-    .spiral-caption {
-      font-family: monospace;
-      font-size: 1.1rem;
-      color: #ff5555;
+    @keyframes cluster-breathe {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.03);
+      }
+    }
+
+    @keyframes cluster-tremor {
+      0% {
+        transform: translate(0, 0);
+      }
+
+      25% {
+        transform: translate(1.5px, -1px);
+      }
+
+      50% {
+        transform: translate(-1px, 1.5px);
+      }
+
+      75% {
+        transform: translate(1px, 1px);
+      }
+
+      100% {
+        transform: translate(0, 0);
+      }
+    }
+
+    #spiralInput {
+      display: block;
+      width: 2rem;
+      height: 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 100%;
+      position: relative;
+      overflow: visible;
+      color: #fff;
+      cursor: pointer;
+      /* a small, fast tremor — nervous energy under the slow breathing */
+      animation: cluster-tremor 0.5s steps(2) infinite;
+    }
+
+    /* once the typing is done and it settles, it keeps turning slowly */
+    #spiralInput.settled {
+      animation: cluster-tremor 0.5s steps(2) infinite, spiral-spin 46s linear infinite;
+    }
+
+    /* ── PORTAL: a small circle that expands from the spiral's position to
+       cover the whole screen when clicked — a smooth "page within a page"
+       transition rather than a hard cut or a real navigation. ── */
+    .spiral-portal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 40px;
+      height: 40px;
+      margin-top: -20px;
+      margin-left: -20px;
+      border-radius: 50%;
+      background: #000;
+      transform: scale(0);
+      z-index: 500;
+      pointer-events: none;
+      transition: transform 1.2s cubic-bezier(.65, 0, .35, 1);
+    }
+
+    .spiral-portal.open {
+      transform: scale(60);
+    }
+
+    .spiral-portal.closing {
+      transition: transform 1.1s cubic-bezier(.5, 0, .25, 1);
+    }
+
+    #spiralInput span {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
       text-align: center;
-      margin-top: 20px;
-      letter-spacing: 0.15em;
-      line-height: 1.8;
-      max-width: 500px;
+      transform-origin: center center;
+      height: 4rem;
+      line-height: 4rem;
+      z-index: 1;
+      width: 4rem;
+      color: #fff;
+      font-family: monospace;
+      font-weight: bold;
+      text-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      transform: translate(0, 0) rotate(0deg);
+      transition: transform 1.1s cubic-bezier(.22, .61, .36, 1), opacity 0.9s ease;
+    }
+
+    .spiral {
+      font-family: monospace;
+      font-weight: bold;
+      font-size: 21px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      color: #000;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.85), 0 0 1px rgba(0, 0, 0, 0.5);
+      transform-origin: 50% 50%;
+      animation: spiral-spin 42s linear infinite;
+    }
+
+    .spiral.spin-reverse {
+      animation-direction: reverse;
+    }
+
+    .spiral span {
+      position: absolute;
+      top: 0;
+      left: 0;
+      white-space: nowrap;
+      transform-origin: 0 0;
+    }
+
+    @keyframes spiral-spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     .spiral-ends-label {
@@ -129,11 +445,81 @@
       margin: 60px 0 20px;
     }
 
+    /* ── CAPTION: only the first few panicked words spiral into a brief
+       "snake" wobble — just long enough to feel disorienting — then fade
+       out. The later, calmer words come in as plain text and settle with
+       a slow fade to white. ── */
+    .spiral-caption-wrap {
+      width: 100%;
+      max-width: 520px;
+      min-height: 380px;
+      margin: 20px auto 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .caption-first-stage {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      max-width: 80vw;
+      max-height: 80vw;
+      opacity: 0;
+      transition: opacity 0.9s ease;
+    }
+
+    .caption-first-stage.visible {
+      opacity: 1;
+      /* a handful of wobbles — "till it felt weird" — then it stops on its own */
+      animation: snake-wobble 1.2s ease-in-out 4;
+    }
+
+    @keyframes snake-wobble {
+
+      0%,
+      100% {
+        transform: scale(1) rotate(0deg);
+      }
+
+      50% {
+        transform: scale(1.08) rotate(3deg);
+      }
+    }
+
+    .caption-first-stage .spiral {
+      font-size: 12px;
+      color: #b9c6dd;
+      text-shadow: 0 0 4px rgba(120, 170, 255, 0.45);
+    }
+
+    .spiral-caption-later {
+      font-family: monospace;
+      font-size: 0.8rem;
+      text-align: center;
+      letter-spacing: 0.13em;
+      line-height: 1.9;
+      max-width: 480px;
+      color: rgba(185, 198, 221, 0.45);
+      opacity: 0;
+      transition: opacity 1.4s ease, color 2.6s ease;
+    }
+
+    .spiral-caption-later.visible {
+      opacity: 1;
+    }
+
+    .spiral-caption-later.to-white {
+      color: #fff;
+    }
+
     /* ── AFTERMATH SECTION ── */
     .aftermath-block {
       max-width: 750px;
       width: 90%;
-      margin: 40px auto 100px;
+      margin: 40px auto 60px;
       font-size: 1.25rem;
       line-height: 2.1;
       text-align: center;
@@ -141,35 +527,149 @@
 
     /* ── THERAPIST CALL ── */
     .therapist-call {
-      min-height: 40vh;
+      min-height: 50vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 20px;
+      gap: 34px;
       margin-bottom: 80px;
     }
-    .therapist-call h2 {
+
+    /* "glass" shattered-type effect, reversed: broken by default, resolves to
+       normal on hover / during its auto animation cycle */
+    .glass {
+      --alpha: .8;
+      --center: 55% 45%;
+      position: relative;
+      display: inline-block;
+      font-size: clamp(2rem, 8vw, 4.5rem);
+      font-weight: 700;
       font-family: sans-serif;
-      font-size: 2.5rem;
-      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: transparent;
+      line-height: 1;
     }
+
+    .glass>span {
+      color: rgba(200, 255, 255, .8);
+      text-shadow: .05em 0 0 rgba(200, 255, 255, .7);
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform-origin: var(--center);
+      transition: transform 1.4s ease-in-out;
+    }
+
+    .glass>span:nth-child(1) {
+      clip-path: polygon(0 20%, var(--center), 0 80%);
+      transform: translate(-.14em, 0) rotate(-6deg);
+    }
+
+    .glass>span:nth-child(2) {
+      clip-path: polygon(0 0, 50% 0, var(--center), 0 20%);
+      transform: rotate(9deg) translate(-.2em, -.12em);
+    }
+
+    .glass>span:nth-child(3) {
+      clip-path: polygon(50% 0, 100% 0, 100% 25%, var(--center));
+      transform: translate(.1em, -.14em) rotate(4deg);
+    }
+
+    .glass>span:nth-child(4) {
+      clip-path: polygon(100% 25%, var(--center), 100% 80%);
+      transform: rotate(-8deg) translate(.2em, .05em);
+    }
+
+    .glass>span:nth-child(5) {
+      clip-path: polygon(100% 80%, 100% 100%, 80% 100%, var(--center));
+      transform: rotate(10deg) translate(.12em, .1em);
+    }
+
+    .glass>span:nth-child(6) {
+      clip-path: polygon(0 80%, var(--center), 80% 100%, 0 100%);
+      transform: translate(-.16em, .12em) rotate(-4deg);
+    }
+
+    /* reversed logic: hovering (or the "settled" animation phase) brings the
+       shards back into normal, unbroken alignment */
+    .glass.settled>span,
+    .glass:hover>span {
+      transform: rotate(0deg) translate(0, 0);
+    }
+
+    .therapist-label {
+      font-family: monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      opacity: 0.5;
+    }
+
     .continue-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-family: monospace;
       font-size: 1rem;
       letter-spacing: 0.2em;
       color: #fff;
       background: #1a2fc2;
       border: none;
-      padding: 14px 32px;
+      padding: 22px 48px;
       border-radius: 4px;
       cursor: pointer;
       text-decoration: none;
       text-transform: uppercase;
       transition: background 0.2s ease;
     }
+
     .continue-btn:hover {
       background: #2540d4;
+    }
+
+    /* shrink + center the glass effect so it fits inside the button */
+    .glass-btn .glass {
+      font-size: 1.6rem;
+      line-height: 1.1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .glass-btn .glass>span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .glass-btn .glass>span:nth-child(1) {
+      transform: translate(calc(-50% - .14em), -50%) rotate(-6deg);
+    }
+
+    .glass-btn .glass>span:nth-child(2) {
+      transform: translate(calc(-50% - .2em), calc(-50% - .12em)) rotate(9deg);
+    }
+
+    .glass-btn .glass>span:nth-child(3) {
+      transform: translate(calc(-50% + .1em), calc(-50% - .14em)) rotate(4deg);
+    }
+
+    .glass-btn .glass>span:nth-child(4) {
+      transform: translate(calc(-50% + .2em), calc(-50% + .05em)) rotate(-8deg);
+    }
+
+    .glass-btn .glass>span:nth-child(5) {
+      transform: translate(calc(-50% + .12em), calc(-50% + .1em)) rotate(10deg);
+    }
+
+    .glass-btn .glass>span:nth-child(6) {
+      transform: translate(calc(-50% - .16em), calc(-50% + .12em)) rotate(-4deg);
+    }
+
+    .glass-btn .glass.settled>span,
+    .glass-btn .glass:hover>span {
+      transform: translate(-50%, -50%) rotate(0deg);
     }
 
     .back-nav {
@@ -184,34 +684,113 @@
       text-decoration: none;
       opacity: 0.6;
     }
-    .back-nav:hover { opacity: 1; }
+
+    .back-nav:hover {
+      opacity: 1;
+    }
   </style>
 </head>
-<body>
+
+<body class="locked">
+
+  <div class="spiral-portal" id="spiralPortal" aria-hidden="true"></div>
 
   <a href="alex-session5.html" class="back-nav">← Back to Session 5</a>
 
-  <!-- ── 1. BIG FADING CSS TEXT ── -->
+  <!-- ── 1. BLACK GLASSY SCREEN / BIG QUOTE ── -->
   <div class="quote-stage">
-    <blockquote>
-      <q>what are you doing for the rest of your life</q>
-      <cite>— Gia</cite>
-    </blockquote>
+    <div class="wrap" id="particleWrap"></div>
+
+    <div class="quote-lines">
+      <div class="line line-one">what are you doing</div>
+      <div class="line">for the rest</div>
+      <div class="line">of your life?</div>
+    </div>
 
     <!-- Hidden audio element for autoplay -->
     <audio id="music" src="Angel's Stardust/6. Rest Of Your Life.mp3" autoplay></audio>
   </div>
 
   <!-- ── 2. NARRATIVE BLUR ── -->
-  <div class="narrative-block room-blur-text">
-    <p>the room was blurry, a lot a lot of people all passing by me, i didn't like the touch, drinks spilling, i couldn't find akira akira? akira? akira? blurred lines, slow music, gina? where is she, i couldn't see her it felt foggy, a lot of fog, despite the colors of the show, it felt dark i dont wanna be here i wanna go home home my heart was pacing a lot of people, i was spiraling</p>
+  <div class="fog-bg-zone">
+    <div class="fog-field" aria-hidden="true">
+      <span class="fog-line"></span>
+      <span class="fog-line"></span>
+      <span class="fog-line"></span>
+      <span class="fog-line"></span>
+    </div>
+
+    <div class="narrative-block room-blur-text">
+      <div class="line">the room was blurry, a lot a lot of people</div>
+      <div class="line">all passing by me, i didn't like the touch</div>
+      <div class="line">drinks spilling, i couldn't find akira</div>
+      <div class="line">akira? akira? akira?</div>
+
+      <div class="fog-field" aria-hidden="true">
+        <span class="fog-line"></span>
+        <span class="fog-line"></span>
+        <span class="fog-line"></span>
+        <span class="fog-line"></span>
+      </div>
+
+      <div class="line">blurred lines, slow music, gina? where is she</div>
+      <div class="line">i couldn't see her it felt foggy, a lot of fog</div>
+      <div class="line">despite the colors of the show, it felt dark</div>
+      <div class="line">i dont wanna be here i wanna go home home</div>
+      <div class="line">my heart was pacing a lot of people</div>
+      <div class="line">i was spiraling</div>
+    </div>
+
+    <div class="fog-field" aria-hidden="true">
+      <span class="fog-line"></span>
+      <span class="fog-line"></span>
+      <span class="fog-line"></span>
+      <span class="fog-line"></span>
+    </div>
   </div>
 
-  <!-- ── 3. SPIRAL SECTION ── -->
-  <div class="spiral-container">
-    <canvas id="spiralCanvas" width="500" height="500"></canvas>
-    <div class="spiral-caption">
-      why why why why who who who where where breath breath BREATH my hand i cant feel it dad? I AM sorry am i???
+  <!-- ── 3. SPIRAL SECTION: one giant, readable spiral. The caption below
+       it starts as plain text, then morphs into its own small breathing
+       "snake" spiral once the big one has settled. This whole zone
+       (buffer lines + spiral-container + buffer lines) is forced solid
+       black so there's no seam against the spiral's own black stage —
+       the scroll-driven fade to white only takes over once this zone
+       ends, beneath the spiral. ── -->
+  <div class="spiral-buffer-zone" id="spiralBufferZone">
+    <div class="line-field" aria-hidden="true">
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
+    </div>
+
+    <div class="spiral-container">
+      <div class="spiral-stage" id="spiralStage">
+        <div id="spiralInput"></div>
+      </div>
+
+      <div class="spiral-caption-wrap" id="captionStage">
+        <div class="caption-first-stage" id="captionFirstStage">
+          <div class="spiral" id="captionSnake"></div>
+        </div>
+        <p class="spiral-caption-later" id="captionLater">my hand i cant feel it dad? I AM sorry am i??? dad dad i am
+          sorry breathe relax its fuzzy alot of words i dont wanna think i dont wanna feel feel i wanna go home home</p>
+      </div>
+    </div>
+
+    <div class="line-field" aria-hidden="true">
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
     </div>
   </div>
 
@@ -219,151 +798,690 @@
 
   <!-- ── 4. AFTERMATH ── -->
   <div class="aftermath-block">
-    <p>i was i was there the floor was wet, i slipped and people around me laughed it felt weird it felt difficult i stood up and started running into people tryin to find akira and i couldn't see even more girls with their boyfriends making out one girl flashing herself another on floor someone was mixing all drinks up i found a sofa and sat there...................</p>
+    <div class="line">i was i was there the floor was wet</div>
+    <div class="line">i slipped and people around me laughed</div>
+    <div class="line">it felt weird it felt difficult</div>
+    <div class="line">i stood up and started running into people</div>
+    <div class="line">tryin to find akira and i couldn't see</div>
+    <div class="line">even more girls with their boyfriends making out</div>
+    <div class="line">one girl flashing herself another on floor</div>
+    <div class="line">someone was mixing all drinks up</div>
+    <div class="line">more and more people, a lot of people</div>
+    <div class="line">i felt lost</div>
+    <div class="line">i tried calling him, he did not pick up</div>
+    <div class="line">i felt like something is hitting me in chest</div>
+    <div class="line">i felt left out</div>
+
+    <!-- extra filler lines here just to give the black→grey→white fade
+         more scroll distance to ease through before the last line -->
+    <div class="line-field" aria-hidden="true">
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
+      <span class="hline"></span>
+    </div>
+
+    <div class="line">i found a sofa and sat there...................</div>
+  </div>
+
+  <!-- more decorative lines before the closing beat -->
+  <div class="line-field" aria-hidden="true">
+    <span class="hline"></span>
+    <span class="hline"></span>
+    <span class="hline"></span>
+    <span class="hline"></span>
   </div>
 
   <!-- ── 5. THERAPIST QUESTION & NEXT ── -->
   <div class="therapist-call">
-    <p style="font-family:monospace;font-size:0.8rem;letter-spacing:0.25em;opacity:0.5;">DR. CLARK</p>
-    <h2>1' ARE You alright</h2>
-    <a href="alex-session5b.html" class="continue-btn">Continue Session 5 — Part 2 →</a>
+    <p class="therapist-label">DR. CLARK</p>
+    <a href="alex-session5b.html" class="continue-btn glass-btn">
+      <span class="glass" id="glassText">
+        <span>Are you alright</span>
+        <span>Are you alright</span>
+        <span>Are you alright</span>
+        <span>Are you alright</span>
+        <span>Are you alright</span>
+        <span>Are you alright</span>
+      </span>
+    </a>
   </div>
 
-  <script>
-    /* ── QUOTE WORD FADE ANIMATION ── */
-    function splitWords() {
-      let quote = document.querySelector("blockquote q");
-      if (!quote) return;
-      let text = quote.innerText;
-      let quotewords = text.split(" ");
-      let wordCount = quotewords.length;
-      quote.innerHTML = "";
-      for (let i = 0; i < wordCount; i++) {
-        quote.innerHTML += "<span>" + quotewords[i] + "</span>";
-        if (i < quotewords.length - 1) {
-          quote.innerHTML += " ";
-        }
-      }
-      quotewords = document.querySelectorAll("blockquote q span");
-      fadeWords(quotewords);
-    }
+  <!-- GSAP 3 (core + Physics2D) and jQuery for the particle intro.
+       Note: Physics2DPlugin was a Club GreenSock-only perk back in GSAP 1.x/2.x
+       and was never hosted on a public CDN — that's why it silently failed
+       before. GSAP 3 ships it as a free, publicly-hosted plugin. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Physics2DPlugin.min.js"></script>
 
-    function getRandom(min, max) {
+  <script>
+    function random(min, max) {
       return Math.random() * (max - min) + min;
     }
 
-    function fadeWords(quotewords) {
-      Array.prototype.forEach.call(quotewords, function(word) {
-        word.animate([{
-          opacity: 0,
-          filter: "blur(" + getRandom(2,5) + "px)"
-        }, {
-          opacity: 1,
-          filter: "blur(0px)"
-        }], { 
+    /* ── SCROLL LOCK HELPERS ──
+       Locking via plain overflow:hidden snaps the page back to the top
+       whenever it's engaged mid-scroll. These pin the body in place with
+       position:fixed at its current scroll offset instead, so re-locking
+       at the spiral (or anywhere else) holds the reader exactly where
+       they are rather than yanking them back up. */
+    var _lockScrollY = 0;
+    function lockScroll() {
+      _lockScrollY = window.scrollY || document.documentElement.scrollTop;
+      document.body.style.top = (-_lockScrollY) + "px";
+      document.documentElement.classList.add("locked");
+      document.body.classList.add("locked");
+    }
+    function unlockScroll() {
+      document.documentElement.classList.remove("locked");
+      document.body.classList.remove("locked");
+      document.body.style.top = "";
+      window.scrollTo(0, _lockScrollY);
+    }
+
+    /* ── QUOTE LINE FADE ANIMATION ──
+       Each word gets an outer span (controls the entrance fade) and each
+       letter inside it gets its own span (controls the scroll-triggered
+       spiral, further down). The bubbles get 9 seconds alone before any
+       text shows up at all — this just builds the word/letter spans and
+       starts each word's own fade animation at `baseDelay`; the 9s wait
+       itself is applied by the caller below. */
+    function splitLines(startDelay) {
+      var lines = document.querySelectorAll(".quote-lines .line");
+      var globalDelay = startDelay || 0;
+      lines.forEach(function (line) {
+        var text = line.textContent;
+        var words = text.split(" ");
+        line.innerHTML = "";
+        words.forEach(function (w, i) {
+          var wordSpan = document.createElement("span");
+          wordSpan.className = "word";
+          buildLetterSpans(wordSpan, w);
+          line.appendChild(wordSpan);
+          if (i < words.length - 1) line.appendChild(document.createTextNode(" "));
+        });
+        fadeWords(line.querySelectorAll(".word"), globalDelay);
+        globalDelay += 900;
+      });
+    }
+
+    function fadeWords(words, baseDelay) {
+      words.forEach(function (word) {
+        word.animate([
+          { opacity: 0, filter: "blur(" + random(2, 5) + "px)" },
+          { opacity: 1, filter: "blur(0px)" }
+        ], {
           duration: 1000,
-          delay: getRandom(500, 3300),
-          fill: 'forwards'
+          delay: baseDelay + random(0, 700),
+          fill: "forwards"
         });
       });
     }
 
-    splitWords();
-
-    /* ── WHITE TO BLACK BG ON SCROLL USING GREYS ── */
-    window.addEventListener('scroll', function() {
-      let scrollTop = window.scrollY || document.documentElement.scrollTop;
-      let docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      let scrollPercent = Math.min(1, Math.max(0, scrollTop / Math.min(docHeight, 1200)));
-
-      // Interpolate from 255 (white) to 0 (black)
-      let bgVal = Math.round(255 * (1 - scrollPercent));
-      let textVal = Math.round(255 * scrollPercent);
-
-      document.body.style.backgroundColor = `rgb(${bgVal}, ${bgVal}, ${bgVal})`;
-      document.body.style.color = `rgb(${textVal}, ${textVal}, ${textVal})`;
-    });
-
-    /* ── CANVAS SPIRAL ANIMATION WITH SPIRAL TEXT ── */
-    (function() {
-      const canvas = document.getElementById('spiralCanvas');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      const W = canvas.width, H = canvas.height;
-      let angleOffset = 0;
-
-      const spiralText = "why why why why who who who where where breath breath BREATH my hand i cant feel it dad? I AM sorry am i???";
-
-      function render() {
-        ctx.clearRect(0, 0, W, H);
-        const cx = W / 2, cy = H / 2;
-        
-        // Draw spiral line
-        ctx.beginPath();
-        const loops = 5;
-        const maxRadius = 220;
-        const steps = 600;
-        for (let i = 0; i < steps; i++) {
-          const r = (i / steps) * maxRadius;
-          const a = (i / steps) * loops * Math.PI * 2 + angleOffset;
-          const x = cx + r * Math.cos(a);
-          const y = cy + r * Math.sin(a);
-          if (i === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
+    /* Splits text into individual, non-space letter spans appended to
+       `parent`. Spaces are kept as plain text nodes so line-wrapping still
+       behaves normally. */
+    function buildLetterSpans(parent, text) {
+      for (var c = 0; c < text.length; c++) {
+        var ch = text[c];
+        if (ch === " ") {
+          parent.appendChild(document.createTextNode(" "));
+          continue;
         }
-        ctx.strokeStyle = "rgba(220, 50, 50, 0.6)";
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        // Draw spiral text along path
-        ctx.fillStyle = "rgba(230, 70, 70, 0.9)";
-        ctx.font = "14px monospace";
-        ctx.textAlign = "center";
-        
-        const chars = spiralText.split('');
-        for (let i = 0; i < chars.length; i++) {
-          const progress = i / chars.length;
-          const r = 30 + progress * (maxRadius - 40);
-          const a = progress * loops * Math.PI * 2 + angleOffset;
-          const x = cx + r * Math.cos(a);
-          const y = cy + r * Math.sin(a);
-          
-          ctx.save();
-          ctx.translate(x, y);
-          ctx.rotate(a + Math.PI / 2);
-          ctx.fillText(chars[i], 0, 0);
-          ctx.restore();
-        }
-
-        angleOffset -= 0.008;
-        requestAnimationFrame(render);
+        var span = document.createElement("span");
+        span.className = "spiral-letter";
+        span.textContent = ch;
+        parent.appendChild(span);
       }
+    }
 
-      render();
+    /* Plain lines (narrative/aftermath) that don't need the word fade-in —
+       just split straight into letter spans. */
+    function buildLetterLine(lineEl) {
+      var text = lineEl.textContent;
+      lineEl.textContent = "";
+      buildLetterSpans(lineEl, text);
+    }
+
+    /* ── INTRO TIMELINE ──
+       0s               particles start (elsewhere in this file)
+       0s   → 9s        bubbles only, no text
+       9s               text starts fading in, word by word
+       ~12.5s → ~17.5s  text sits fully visible (~5s hold)
+       17.5s            text starts to smudge (blur + fade) out
+       20.5s            scroll lock opens (3s after the smudge begins) */
+    var BUBBLES_ONLY_MS = 9000;
+    var TEXT_SETTLE_MS = 3500;   // roughly how long the staggered words take to finish appearing
+    var TEXT_HOLD_MS = 5000;     // how long it stays fully visible before smudging
+    var SMUDGE_TO_LOCK_OPEN_MS = 3000;
+
+    var smudgeStartAt = BUBBLES_ONLY_MS + TEXT_SETTLE_MS + TEXT_HOLD_MS;
+    var lockOpenAt = smudgeStartAt + SMUDGE_TO_LOCK_OPEN_MS;
+
+    // Build the word-spans right away — they're invisible (opacity: 0 in
+    // CSS) until their own animation fires, so nothing is shown until the
+    // delay below elapses. This has to run synchronously, NOT inside a
+    // setTimeout — a setTimeout here would leave the original plain text
+    // sitting in the DOM (visible) for the first 9 seconds instead of the
+    // invisible spans.
+    splitLines(BUBBLES_ONLY_MS);
+
+    setTimeout(function () {
+      var quoteLines = document.querySelector(".quote-lines");
+      if (quoteLines) quoteLines.classList.add("smudging");
+    }, smudgeStartAt);
+
+    document.querySelectorAll(".aftermath-block .line")
+      .forEach(buildLetterLine);
+
+    /* ── SCROLL-TRIGGERED SPIRAL: each line's letters start out already
+       coiled into a small spiral. The first time a line scrolls into
+       view, they unfurl into a normal straight line — and then stay
+       straight for good, instead of re-coiling every time it re-enters
+       the viewport. Only the aftermath text (below the spiral) gets
+       this — the opening quote and the narrative-block text above the
+       spiral stay as plain fading-in text. ── */
+    (function () {
+      var lines = document.querySelectorAll(".aftermath-block .line");
+
+      lines.forEach(function (line) {
+        var letters = line.querySelectorAll(".spiral-letter");
+        var n = letters.length;
+        if (!n) return;
+
+        var totalDeg = 480; // a little over one loop — compact, not a full spread
+        var minRadius = 4;
+        var maxRadius = 34;
+
+        letters.forEach(function (letter, idx) {
+          var t = (idx + 1) / n;
+          var angle = (idx + 1) * (totalDeg / n);
+          var radius = minRadius + Math.sqrt(t) * (maxRadius - minRadius);
+          var rad = (angle * Math.PI) / 180;
+          var dx = (radius * Math.cos(rad)).toFixed(1);
+          var dy = (radius * Math.sin(rad)).toFixed(1);
+
+          letter.style.display = "inline-block";
+          letter.style.willChange = "transform";
+          letter.style.transition = "transform 0.9s cubic-bezier(.4,0,.2,1)";
+          letter.style.transitionDelay = (idx * 12) + "ms";
+          letter.dataset.spiralTransform = "translate(" + dx + "px, " + dy + "px) rotate(" + angle.toFixed(0) + "deg)";
+          // start coiled, right from the animation, instead of straight
+          letter.style.transform = letter.dataset.spiralTransform;
+        });
+
+        line._settled = false;
+      });
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          var line = entry.target;
+          if (line._settled || !entry.isIntersecting) return;
+
+          var letters = line.querySelectorAll(".spiral-letter");
+          if (!letters.length) return;
+
+          line._settled = true;
+          letters.forEach(function (letter) {
+            letter.style.transform = "translate(0, 0) rotate(0deg)";
+          });
+          observer.unobserve(line); // straight for good — no re-coiling
+        });
+      }, { threshold: 0.5 });
+
+      lines.forEach(function (line) {
+        observer.observe(line);
+      });
     })();
 
-    /* ── AUTOPLAY CONTROLS FOR MEMORY AUDIO ── */
-    (function() {
-      var music = document.getElementById('music');
-      if (!music) return;
+    /* ── SCROLL UNLOCK — fires 3s after the intro text starts smudging out,
+       so the reader isn't dropped into scrolling mid-sentence. Runs
+       unconditionally, before anything below that could possibly throw. ── */
+    setTimeout(unlockScroll, lockOpenAt);
 
-      function attemptPlay() {
-        music.play().catch(function() {
-          var autoPlayFallback = function() {
-            music.play();
-            document.removeEventListener('click', autoPlayFallback);
-            document.removeEventListener('scroll', autoPlayFallback);
-            document.removeEventListener('keydown', autoPlayFallback);
+    /* ── BACKGROUND: BLACK → WHITE ON SCROLL ──
+       Stays pure black through the whole spiral zone (matching its own
+       forced-black background exactly, so there's no seam) and only
+       starts easing up to white once that zone ends, beneath the spiral. */
+    var spiralBufferZone = document.getElementById("spiralBufferZone");
+    var blackHoldPercent = 0.45; // fallback if the zone isn't found for some reason
+    if (spiralBufferZone) {
+      var zoneBottom = spiralBufferZone.offsetTop + spiralBufferZone.offsetHeight;
+      var totalScrollable = document.documentElement.scrollHeight;
+      if (totalScrollable > 0) {
+        blackHoldPercent = Math.min(0.92, Math.max(0.1, zoneBottom / totalScrollable));
+      }
+    }
+
+    var stops = [
+      { p: 0.00, r: 0, g: 0, b: 0 },              // black
+      { p: blackHoldPercent, r: 0, g: 0, b: 0 },         // stays black through the spiral zone
+      { p: 1.00, r: 255, g: 255, b: 255 }                // then eases up to white beneath it
+    ];
+
+    function lerp(a, b, t) { return Math.round(a + (b - a) * t); }
+
+    // smoothstep-style easing: gentle at the start and end of the fade
+    function ease(t) { return t * t * (3 - 2 * t); }
+
+    function colorAt(percent) {
+      for (var i = 0; i < stops.length - 1; i++) {
+        var a = stops[i], b = stops[i + 1];
+        if (percent >= a.p && percent <= b.p) {
+          var t = (percent - a.p) / (b.p - a.p || 1);
+          var te = ease(t);
+          return {
+            r: lerp(a.r, b.r, te),
+            g: lerp(a.g, b.g, te),
+            b: lerp(a.b, b.b, te)
           };
-          document.addEventListener('click', autoPlayFallback);
-          document.addEventListener('scroll', autoPlayFallback);
-          document.addEventListener('keydown', autoPlayFallback);
+        }
+      }
+      return stops[stops.length - 1];
+    }
+
+    window.addEventListener("scroll", function () {
+      var scrollTop = window.scrollY || document.documentElement.scrollTop;
+      var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      var scrollPercent = Math.min(1, Math.max(0, scrollTop / Math.max(docHeight, 1)));
+
+      var bg = colorAt(scrollPercent);
+      var textVal = { r: 255 - bg.r, g: 255 - bg.g, b: 255 - bg.b };
+
+      document.body.style.backgroundColor = "rgb(" + bg.r + "," + bg.g + "," + bg.b + ")";
+      document.body.style.color = "rgb(" + textVal.r + "," + textVal.g + "," + textVal.b + ")";
+    });
+
+    /* ── PARTICLE INTRO (jQuery + GSAP 3 physics2D) ──
+       Wrapped in try/catch: if this fails for any reason (CDN hiccup, plugin
+       missing, etc.) it must never block the scroll-unlock / spiral / glass
+       scripts further down this file from running. */
+    (function () {
+      try {
+        if (typeof gsap === "undefined" || typeof Physics2DPlugin === "undefined") {
+          console.warn("Particle intro skipped: GSAP or Physics2DPlugin failed to load.");
+          return;
+        }
+        gsap.registerPlugin(Physics2DPlugin);
+
+        var $wrap = $("#particleWrap");
+        var particleCount = 160;
+        for (var n = 0; n < particleCount; n++) {
+          $wrap.append('<div class="c"></div>');
+        }
+
+        var $c = $(".c");
+        var hi = 300 / $c.length;
+        var wi = 100 / $c.length;
+
+        $c.each(function (i) {
+          var el = this;
+          var size = random(5, 50);
+
+          gsap.set(el, {
+            left: i * wi + "vw",
+            top: "101vh",
+            z: random(-100, 100),
+            width: size,
+            height: size,
+            opacity: 1,
+            border: "2px solid hsl(" + ((i * hi) - 5) + ", 100%, 50%)"
+          });
+
+          gsap.to(el, {
+            duration: random(2, 6),
+            physics2D: {
+              velocity: random(100, 300),
+              gravity: 100,
+              angle: random(-80, -100)
+            },
+            scale: 0.1,
+            opacity: 0,
+            repeat: -1,
+            delay: i * -0.2
+          });
+        });
+      } catch (err) {
+        console.warn("Particle intro failed, continuing without it:", err);
+      }
+    })();
+
+    /* ── SPIRAL: word-level, single continuous Archimedean coil. Every
+       word from the four fragments sits on ONE spiral, growing outward in
+       three loops so the whole thing stays legible instead of piling up
+       at the center. An SVG guide-line traces the same curve as an actual
+       spiral "body" beneath the words — this is the connecting tail that
+       ties the whole cluster together as one shape. */
+    function radiusAt(t, minRadius, maxRadius) {
+      return minRadius + Math.pow(t, 0.5) * (maxRadius - minRadius);
+    }
+
+    function buildSpiralPath(svg, minRadius, maxRadius, totalDeg, cx, cy, strokeColor, strokeWidth) {
+      var steps = 320;
+      var d = "";
+      for (var s = 0; s <= steps; s++) {
+        var t = s / steps;
+        var r = radiusAt(t, minRadius, maxRadius);
+        var rad = (t * totalDeg) * Math.PI / 180;
+        var x = cx + r * Math.cos(rad);
+        var y = cy + r * Math.sin(rad);
+        d += (s === 0 ? "M " : "L ") + x.toFixed(1) + " " + y.toFixed(1) + " ";
+      }
+      var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", d.trim());
+      path.setAttribute("fill", "none");
+      path.setAttribute("stroke", strokeColor || "rgba(120,170,255,0.4)");
+      path.setAttribute("stroke-width", strokeWidth || "2.5");
+      path.setAttribute("stroke-linecap", "round");
+      svg.appendChild(path);
+    }
+
+    function buildSpiral(containerId, text, opts) {
+      opts = opts || {};
+      var words = text.trim().split(/\s+/);
+      var count = words.length;
+      var totalDeg = opts.totalDeg != null ? opts.totalDeg : 1080; // three loops, so it reads as one long connected coil
+      var degInc = totalDeg / count;
+      var minRadius = opts.minRadius != null ? opts.minRadius : 50;
+      var maxRadius = opts.maxRadius != null ? opts.maxRadius : 350;
+      var coiledRadius = opts.coiledRadius != null ? opts.coiledRadius : 12;
+      var spreadDelayMs = opts.spreadDelayMs != null ? opts.spreadDelayMs : 4000;
+      var reverse = !!opts.reverse;
+
+      var container = document.getElementById(containerId);
+      if (!container) return;
+      container.innerHTML = "";
+      container.classList.toggle("spin-reverse", reverse);
+
+      // spiral guide-line (the connecting "tail"), same curve the words sit on
+      var svgSize = maxRadius * 2 + 40;
+      var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("width", svgSize);
+      svg.setAttribute("height", svgSize);
+      svg.setAttribute("viewBox", "0 0 " + svgSize + " " + svgSize);
+      svg.style.position = "absolute";
+      svg.style.top = "0";
+      svg.style.left = "0";
+      svg.style.transform = "translate(-50%, -50%)";
+      svg.style.opacity = "0";
+      svg.style.transition = "opacity 2s ease-in";
+      buildSpiralPath(svg, minRadius, maxRadius, totalDeg, svgSize / 2, svgSize / 2, opts.strokeColor, opts.strokeWidth);
+      container.appendChild(svg);
+
+      var spans = [];
+
+      var coiledTransform = function (angle) {
+        return "rotate(" + angle + "deg) translate(" + coiledRadius + "px)";
+      };
+
+      var spreadOnce = function () {
+        svg.style.opacity = "1";
+        spans.forEach(function (span) {
+          span.style.transform = span.dataset.finalTransform;
+        });
+      };
+
+      var coilOnce = function () {
+        svg.style.opacity = "0";
+        spans.forEach(function (span) {
+          span.style.transform = span.dataset.coiledTransform;
+        });
+      };
+
+      words.forEach(function (word, idx) {
+        var i = idx + 1;
+        var t = i / count;
+        var angle = i * degInc;
+        var finalRadius = radiusAt(t, minRadius, maxRadius);
+
+        var span = document.createElement("span");
+        span.textContent = word;
+        span.style.transition = "transform 3s cubic-bezier(.22,.61,.36,1)";
+        span.style.transitionDelay = (idx * 20) + "ms"; // staggers the uncoil, outward along the tail
+        span.style.transform = coiledTransform(angle);
+        span.dataset.coiledTransform = coiledTransform(angle);
+        span.dataset.finalTransform = "rotate(" + angle + "deg) translate(" + finalRadius.toFixed(1) + "px)";
+        container.appendChild(span);
+        spans.push(span);
+      });
+
+      if (opts.loop) {
+        // breathes: coils in, spreads out, coils back in, repeat — a
+        // continuous snake-like motion instead of a single reveal
+        var breathing = false;
+        setTimeout(function () {
+          spreadOnce();
+          breathing = true;
+          setInterval(function () {
+            if (breathing) { coilOnce(); } else { spreadOnce(); }
+            breathing = !breathing;
+          }, 3200);
+        }, spreadDelayMs);
+      } else {
+        setTimeout(spreadOnce, spreadDelayMs);
+      }
+    }
+
+    var spiralSegments = [
+      "why why why why who who who where where breath breath BREATH my",
+      "hand i cant feel it dad? I AM sorry am i??? dad dad",
+      "i am sorry breathe relax its fuzzy alot of words i dont",
+      "wanna think i dont wanna feel feel i wanna go home home"
+    ];
+
+    /* ── ANIMATED SPIRAL TYPER: replaces the old giant word-spiral.
+       Every letter of the combined fragments types itself out, one at a
+       time, and spirals outward using the same angle/radius math as the
+       typing-circle effect — but driven automatically instead of by
+       keystrokes, and in white on black instead of the rainbow. Fires
+       once, the first time the stage scrolls into view. ── */
+    (function () {
+      var stage = document.getElementById("spiralStage");
+      var container = document.getElementById("spiralInput");
+      if (!stage || !container) return;
+
+      var phrase = spiralSegments.join(" ");
+      var chars = phrase.split("");
+      var played = false;
+
+      function appendSpiralLetter(ch, index) {
+        var angle = .16 * index;
+        var base = 5;
+        var spacing = .75;
+        var x = (base + angle) * Math.cos(angle);
+        var y = (base + angle) * Math.sin(angle);
+        var rotation = angle * Math.cos(angle);
+
+        var el = document.createElement("span");
+        el.textContent = ch;
+        el.style.fontSize = (.02 * index) + "rem";
+        container.appendChild(el);
+
+        // force a layout pass so the transition below actually animates
+        // in, instead of snapping straight to the final position
+        void el.offsetWidth;
+
+        requestAnimationFrame(function () {
+          el.style.opacity = "1";
+          el.style.transform =
+            "rotate(" + rotation + "deg)" +
+            "translateY(" + (y * spacing) + "rem)" +
+            "translateX(" + (x * spacing) + "rem)";
         });
       }
 
+      function typeNext(i) {
+        if (i >= chars.length) {
+          // done typing — let the last letters settle into place, then
+          // keep it slowly turning instead of sitting still
+          setTimeout(function () {
+            container.classList.add("settled");
+          }, 900);
+          return;
+        }
+        appendSpiralLetter(chars[i], i);
+        setTimeout(function () { typeNext(i + 1); }, 65);
+      }
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting && !played) {
+            played = true;
+
+            // locks scrolling again, same as the intro — right where the
+            // reader is, for as long as the typing animation actually
+            // takes (plus a settle beat), instead of a fixed guess
+            var typingDurationMs = chars.length * 65 + 1800;
+            lockScroll();
+            setTimeout(unlockScroll, typingDurationMs);
+
+            typeNext(0);
+          }
+        });
+      }, { threshold: 0.9 }); // fires once the spiral stage fills the whole screen, not partway above it
+
+      observer.observe(stage);
+    })();
+
+    /* ── CAPTION SEQUENCE: only the first few panicked words spiral into
+       a brief wobble — "till it felt weird" — then fade out. The later,
+       calmer words come in as plain text and settle with a slow fade to
+       white. Called once the portal below has finished covering the
+       screen, so it plays as the "next page". ── */
+    var captionPlayed = false;
+    function playCaptionSequence() {
+      if (captionPlayed) return;
+      captionPlayed = true;
+
+      var firstStage = document.getElementById("captionFirstStage");
+      var laterText = document.getElementById("captionLater");
+      if (!firstStage || !laterText) return;
+
+      var firstWords = "why why why why who who who where where breath breath BREATH";
+
+      firstStage.classList.add("visible");
+      buildSpiral("captionSnake", firstWords, {
+        totalDeg: 620,
+        minRadius: 8,
+        maxRadius: 130,
+        coiledRadius: 4,
+        spreadDelayMs: 150,
+        strokeColor: "rgba(185,198,221,0.35)",
+        strokeWidth: 1.5
+        // no loop here — the CSS wobble handles the finite "weird" pulsing
+      });
+
+      firstStage.addEventListener("animationend", function onWobbleEnd() {
+        firstStage.removeEventListener("animationend", onWobbleEnd);
+        firstStage.style.opacity = "0";
+        setTimeout(function () {
+          firstStage.style.display = "none";
+          laterText.classList.add("visible");
+          setTimeout(function () {
+            laterText.classList.add("to-white"); // the slow fade to white
+          }, 900);
+        }, 950);
+      });
+    }
+
+    /* ── PORTAL: click the spiral and a small black circle expands from
+       it to smoothly cover the whole screen — like a page transition,
+       not a hard cut. Once fully covered, the page jumps to the caption
+       section (hidden behind the portal) and the caption sequence plays;
+       the portal then shrinks back away, revealing the new "page". ── */
+    (function () {
+      var input = document.getElementById("spiralInput");
+      var portal = document.getElementById("spiralPortal");
+      var captionStage = document.getElementById("captionStage");
+      if (!input || !portal || !captionStage) return;
+
+      var opened = false;
+
+      input.addEventListener("click", function () {
+        if (opened) return;
+        opened = true;
+
+        var rect = input.getBoundingClientRect();
+        portal.style.left = (rect.left + rect.width / 2) + "px";
+        portal.style.top = (rect.top + rect.height / 2) + "px";
+        portal.classList.add("open");
+
+        portal.addEventListener("transitionend", function onCover(e) {
+          if (e.propertyName !== "transform") return;
+          portal.removeEventListener("transitionend", onCover);
+
+          // fully covered — jump to the next "page" while it's hidden
+          captionStage.scrollIntoView({ block: "center" });
+          playCaptionSequence();
+
+          // give the reveal a beat, then shrink the portal away again
+          setTimeout(function () {
+            portal.classList.add("closing");
+            portal.classList.remove("open");
+          }, 500);
+        });
+      });
+    })();
+
+    /* ── "ARE YOU ALRIGHT" — glass effect, reversed: broken by default,
+       settles into a normal state once and stays there (the recovery beat
+       happens a single time, it doesn't keep re-breaking). ── */
+    (function () {
+      var glass = document.getElementById("glassText");
+      if (!glass) return;
+      setTimeout(function () {
+        glass.classList.add("settled");
+      }, 3200);
+    })();
+
+    /* ── AUTOPLAY MUSIC ──
+       The scroll unlock now runs unconditionally near the top of this script,
+       so this block only handles attempting audio autoplay. */
+    (function () {
+      var music = document.getElementById("music");
+      if (!music) return;
+
+      function attemptPlay() {
+        var playPromise = music.play();
+        if (playPromise && playPromise.catch) {
+          playPromise.catch(function () {
+            var fallback = function () {
+              music.play();
+              document.removeEventListener("click", fallback);
+              document.removeEventListener("scroll", fallback);
+              document.removeEventListener("keydown", fallback);
+            };
+            document.addEventListener("click", fallback);
+            document.addEventListener("scroll", fallback);
+            document.addEventListener("keydown", fallback);
+          });
+        }
+      }
+
       attemptPlay();
+
+      // ── SECRET: double-click DR. MARY CLARK / title / logo → login page ──
+      var drMaryTriggers = document.querySelectorAll('#dr-clark-trigger, .header-title, .glitch-title, .doc-session-num, .card-name, .logo-acronym, .logo-full, .header-logo, .footer-logo');
+      drMaryTriggers.forEach(function (el) {
+        el.style.cursor = 'pointer';
+        el.addEventListener('dblclick', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          window.location.href = 'login.html';
+        });
+      });
     })();
   </script>
 
 </body>
+
 </html>

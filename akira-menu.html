@@ -471,14 +471,12 @@
           <ul class="panel-file-list">
             <!-- Session 1 — SEALED -->
             <li class="panel-file-item f-locked" id="akira-s1">
-              <span class="f-icon">&#x1F512;</span>
               <span class="f-name">01 &mdash; Session 1 Transcript</span>
               <span class="f-badge badge-seal">SEALED</span>
             </li>
             <!-- Session 2 — OPEN -->
             <li class="panel-file-item f-open" id="akira-s2">
               <a href="akira-session2.html">
-                <span class="f-icon">&#x1F4C4;</span>
                 <span class="f-name">02 &mdash; Session 2 Transcript</span>
                 <span class="f-badge badge-open">OPEN</span>
               </a>
@@ -486,22 +484,28 @@
             <!-- Session 3 — OPEN -->
             <li class="panel-file-item f-open" id="akira-s3">
               <a href="akira-session3.html">
-                <span class="f-icon">&#x1F4C4;</span>
                 <span class="f-name">03 &mdash; Session 3 Transcript</span>
                 <span class="f-badge badge-open">OPEN</span>
               </a>
             </li>
-            <!-- Session 4 — SEALED -->
-            <li class="panel-file-item f-locked" id="akira-s4">
-              <span class="f-icon">&#x1F512;</span>
-              <span class="f-name">04 &mdash; Session 4 Transcript</span>
-              <span class="f-badge badge-seal">SEALED</span>
+            <!-- Session 4 — OPEN -->
+            <li class="panel-file-item f-open" id="akira-s4">
+              <a href="akira-session4.html">
+                <span class="f-name">04 &mdash; Extracts from Session 4</span>
+                <span class="f-badge badge-open">OPEN</span>
+              </a>
             </li>
             <!-- Session 5 — SEALED -->
             <li class="panel-file-item f-locked" id="akira-s5">
-              <span class="f-icon">&#x1F512;</span>
               <span class="f-name">05 &mdash; Session 5 Transcript</span>
               <span class="f-badge badge-seal">SEALED</span>
+            </li>
+            <!-- Credits — OPEN -->
+            <li class="panel-file-item f-open" id="akira-credits">
+              <a href="credits.html">
+                <span class="f-name">06 &mdash; Credits &amp; Clinical Registry</span>
+                <span class="f-badge badge-open">OPEN</span>
+              </a>
             </li>
           </ul>
 
@@ -581,7 +585,7 @@
   <!-- FOOTER -->
   <footer class="site-footer">
     <span>&copy; 2024 E LIT &mdash; A WORK OF FICTION</span>
-    <span>DR. MARY CLARK &nbsp;&middot;&nbsp; ETI-ARCH-2024-CH01 &nbsp;&middot;&nbsp; RESTRICTED</span>
+    <span id="dr-clark-trigger" style="cursor:pointer;user-select:none;-webkit-user-select:none;pointer-events:all;">DR. MARY CLARK &nbsp;&middot;&nbsp; ETI-ARCH-2024-CH01 &nbsp;&middot;&nbsp; RESTRICTED</span>
   </footer>
 
   <!-- FOLDER ENTRY COVER — slides down to reveal the page -->
@@ -670,6 +674,17 @@
 
       console.log('%cAKIRA TAKAHASHI — EASTBROOK THERAPEUTIC INSTITUTE', 'color:#1e6e3a;font-weight:bold;font-family:monospace;');
       console.log('%cCONFIDENTIAL ARCHIVE — ETI-2024-CH01', 'color:#b01c1c;font-family:monospace;');
+
+      // ── SECRET: double-click DR. MARY CLARK / title → login page ──
+      var clarkTriggers = document.querySelectorAll('#dr-clark-trigger, .header-title, .glitch-title');
+      clarkTriggers.forEach(function(el) {
+        el.style.cursor = 'pointer';
+        el.addEventListener('dblclick', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          window.location.href = 'login.html';
+        });
+      });
     })();
   </script>
 

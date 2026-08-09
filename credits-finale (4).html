@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Codepen Times</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital@0;1&family=Manrope:wght@400;700;800&family=Playfair+Display:ital@0;1&family=Playfair+Display+SC&family=Lato:wght@300&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --font: "EB Garamond", serif;
+      --font-title: "Playfair Display", serif;
+      --font-sans-serif: "Manrope", sans-serif;
+      --black: #1c1f33;
+      --black--acc: #222;
+      --gray: #eee;
+      --gray-1: #ededed;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-size: 1.1rem;
+      font-family: var(--font);
+      color: var(--black);
+      background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/567707/paper_fibers.png) repeat;
+      padding: 4rem 2rem;
+      line-height: 1.3;
+      text-align: justify;
+    }
+
+    a {
+      text-decoration: none;
+      display: block;
+      color: var(--black);
+    }
+
+    a:hover,
+    a:focus,
+    a:active,
+    a:visited {
+      color: var(--black--acc);
+    }
+
+    .main__wrapper {
+      max-width: 1135px;
+      margin: auto;
+    }
+
+    h1 {
+      font: 50px/1 "Playfair Display SC";
+      text-align: center;
+    }
+
+    @media (min-width: 700px) {
+      h1 {
+        font: 70px/1 "Playfair Display SC";
+      }
+    }
+
+    h3 {
+      font: italic 20px var(--font-title);
+      margin-bottom: 1rem;
+    }
+
+    h4 {
+      font: 20px/1.2 var(--font-title);
+    }
+
+    h5 {
+      font: 700 20px/1 var(--font);
+      transition: 0.3s ease;
+    }
+
+    p {
+      line-height: 1.3;
+    }
+
+    p a {
+      display: inline;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    .title--large {
+      font-family: var(--font-title);
+      font-size: 32px;
+      font-style: italic;
+      text-align: left;
+      margin-bottom: 0.8rem;
+    }
+
+    @media (min-width: 700px) {
+      .title--large {
+        font-size: 42px;
+        margin: 0;
+      }
+    }
+
+    main h1,
+    main aside {
+      grid-column: 1 / -1;
+    }
+
+    @media (min-width: 700px) {
+      main {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr) 23%;
+        grid-template-rows: repeat(5, auto);
+        grid-gap: 1.2rem;
+      }
+
+      main .main-title {
+        grid-column: 1 / -1;
+      }
+
+      main .terrarium {
+        grid-column: 1 / -1;
+      }
+
+      main .main-text {
+        grid-column: span 5;
+      }
+
+      main .sidebar {
+        grid-column: 1 / -1;
+      }
+
+      main .hogwarts {
+        grid-row: span 3;
+      }
+
+      main .menu {
+        grid-column: 1 / -1;
+        grid-row: 13;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      main .main-title {
+        grid-column: 1 / -2;
+      }
+
+      main .terrarium {
+        grid-column: 3 / span 2;
+      }
+
+      main .main-text {
+        grid-column: span 2;
+      }
+
+      main .sidebar {
+        grid-row: 3 / 9;
+        grid-column: 5 / 6;
+      }
+
+      main .hogwarts {
+        grid-column: 3;
+        grid-row: span 2;
+      }
+
+      main .menu {
+        grid-row: 7 / 8;
+        grid-column: 2 / 4;
+      }
+    }
+
+    main .social {
+      grid-column: 1 / -2;
+      grid-row: 8 / 9;
+    }
+
+    main .article-bar-1 {
+      grid-row: span 4;
+    }
+
+    @media (min-width: 700px) and (max-width: 1024px) {
+      main .toggles {
+        grid-column: 3 / 6;
+        grid-row: 10 / 13;
+      }
+
+      main .plan {
+        grid-column: span 4;
+      }
+
+      main .style,
+      main .magazine,
+      main .pasta {
+        grid-column: 1 / 3;
+      }
+    }
+
+    main .cssgrid-collection {
+      grid-column: 1 / -1;
+      grid-row: 9;
+    }
+
+    .span--2 {
+      grid-column: span 2;
+    }
+
+    .long--2 {
+      grid-row: span 2;
+    }
+
+    .long--4 {
+      grid-row: span 4;
+    }
+
+    .with-border {
+      border-top: 1px solid;
+      padding-top: 0.6rem;
+    }
+
+    img {
+      width: 100%;
+      filter: grayscale(95%);
+      margin-bottom: 0.5rem;
+      border: 1px solid var(--black);
+      transition: 0.3s ease;
+    }
+
+    figcaption {
+      font-style: italic;
+      font-size: 90%;
+    }
+
+    aside {
+      text-align: center;
+      padding: 3px 0;
+      border: solid var(--black);
+      border-width: 2px 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 1.5rem 0;
+    }
+
+    @media (min-width: 700px) {
+      aside {
+        margin: 0;
+      }
+    }
+
+    aside>div {
+      display: flex;
+      align-items: center;
+      border: solid var(--black);
+      border-width: 1px 0;
+    }
+
+    aside>div>div {
+      flex: 1;
+      padding: 8px;
+    }
+
+    @media (min-width: 700px) {
+      .multi-column {
+        column-count: 2;
+        column-gap: 1.3rem;
+        margin-top: 0.75rem;
+      }
+
+      .multi-column-3 {
+        column-count: 3;
+      }
+    }
+
+    .sidebar {
+      margin-top: 3rem;
+    }
+
+    @media (min-width: 700px) and (max-width: 1024px) {
+      .sidebar {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin: 0;
+      }
+
+      .sidebar h3 {
+        width: 100%;
+        text-align: center;
+      }
+
+      .sidebar>a {
+        flex: 0 1 48%;
+        margin: 1.5rem 0;
+        padding: 0;
+      }
+
+      .sidebar .slack-ui {
+        border-top: 0;
+      }
+
+      .sidebar .pie {
+        order: 3;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .sidebar {
+        display: block;
+        border-left: 1px solid;
+        padding-left: 1.2rem;
+        margin: 0;
+      }
+    }
+
+    .main-text.multi-column {
+      margin: 0;
+    }
+
+    .main-text.multi-column p {
+      margin-bottom: 0.8rem;
+    }
+
+    .hogwarts {
+      text-align: center;
+      height: 100%;
+      border: 2px solid transparent;
+      outline: 3px solid var(--black);
+      box-shadow: inset 0 0 0 1px var(--black);
+      width: calc(100% - 4px);
+      margin: 1.5rem auto;
+      overflow: hidden;
+    }
+
+    @media (min-width: 700px) {
+      .hogwarts {
+        margin: 0;
+      }
+    }
+
+    .hogwarts__title {
+      font: 800 24px/1 var(--font-sans-serif);
+      text-transform: uppercase;
+      background: var(--black);
+      color: var(--gray);
+      padding: 0.8rem 0.8rem 0.9rem;
+      transition: 0.2s ease;
+    }
+
+    @media (min-width: 700px) and (max-width: 1024px) {
+      .hogwarts__title {
+        font: 800 21px/1.2 var(--font-sans-serif);
+        padding: 1.5rem 0.5rem;
+      }
+    }
+
+    .hogwarts__image {
+      height: 100%;
+      position: relative;
+    }
+
+    .hogwarts__image img {
+      transform: rotate(60deg);
+      height: 150%;
+      position: absolute;
+      border: 0;
+      width: 250%;
+      left: -70%;
+      bottom: -35%;
+    }
+
+    @media (min-width: 700px) and (max-width: 1024px) {
+      .hogwarts__image img {
+        bottom: -20%;
+      }
+    }
+
+    .hogwarts__image span {
+      font-style: italic;
+      max-width: 110px;
+      position: absolute;
+      top: 7%;
+      left: 18%;
+      font-size: 22px;
+      line-height: 0.9;
+      transform: rotate(-5deg);
+    }
+
+    .terrarium {
+      margin: 1.5rem 0;
+    }
+
+    @media (min-width: 700px) {
+      .terrarium {
+        margin: 0 0 1.5rem;
+      }
+    }
+
+    .terrarium figure {
+      height: 100%;
+    }
+
+    .terrarium img {
+      height: 96%;
+      object-fit: cover;
+      object-position: right;
+    }
+
+    .pie {
+      line-height: 0;
+      color: var(--gray);
+      text-align: left;
+    }
+
+    .pie__image {
+      margin: 0;
+      border: 0;
+      max-height: 15rem;
+      object-fit: cover;
+    }
+
+    .pie__subtitle {
+      background: #999;
+      text-transform: uppercase;
+      line-height: 1;
+      padding: 0.4rem 1rem;
+      font: 14px var(--font-sans-serif);
+      color: var(--gray);
+    }
+
+    .pie__content {
+      background: #666;
+      padding: 1rem 1rem 1.2rem;
+      color: var(--gray);
+    }
+
+    .pie__content p {
+      margin-top: 0.5rem;
+    }
+
+    .sidebar-item {
+      margin: 2rem 0;
+      padding: 2rem 0 0;
+    }
+
+    .sidebar-item h5 {
+      text-align: center;
+      width: 100%;
+      padding: 0.5rem;
+      margin: auto;
+    }
+
+    .sidebar-item p {
+      margin-top: 1rem;
+    }
+
+    .sidebar-item:hover h5 {
+      transition: 0.3s ease;
+      background: var(--black);
+      color: #fff;
+    }
+
+    .item-with-image {
+      margin-top: 1.5rem;
+    }
+
+    .item-with-image h4 {
+      font-size: 24px;
+      text-align: left;
+      margin-bottom: 0.5rem;
+      transition: 0.2s ease;
+    }
+
+    @media (min-width: 700px) {
+      .item-with-image {
+        margin: 0;
+      }
+    }
+
+    .item-with-image:not(.cssgrid-collection):hover h4 {
+      color: white !important;
+      background: var(--black);
+    }
+
+    .magazine {
+      border: 1px solid;
+      border-width: 1px 0;
+      padding-bottom: 1rem;
+    }
+
+    .menu {
+      margin: 1.5rem 0;
+    }
+
+    @media (min-width: 1024px) {
+      .menu {
+        margin: 0;
+      }
+    }
+
+    .menu figure {
+      height: 100%;
+    }
+
+    .menu img {
+      height: 90%;
+      object-fit: cover;
+      object-position: left;
+    }
+
+    .cssgrid-collection {
+      display: flex;
+      align-content: stretch;
+      border-top: 1px solid;
+      padding-top: 1rem;
+    }
+
+    .cssgrid-collection h4 {
+      margin: 0 0 0.8rem;
+    }
+
+    .cssgrid-collection__image {
+      flex: 0 0 32%;
+      margin-right: 1.5rem;
+    }
+
+    .cssgrid-collection img {
+      height: 100%;
+      object-fit: cover;
+      object-position: left;
+    }
+
+    .cssgrid-collection p a {
+      border-bottom: 1px dashed;
+    }
+
+    .cssgrid-collection p a:hover {
+      border-bottom: 1px solid;
+    }
+
+    @media (min-width: 1024px) {
+      .captcha {
+        margin-top: 0;
+      }
+    }
+
+    .workout {
+      border: 2px solid transparent;
+      outline: 3px solid var(--black);
+      box-shadow: inset 0 0 0 1px var(--black);
+      width: calc(100% - 4px);
+      margin: 3rem auto 0.2rem;
+    }
+
+    .workout__image {
+      padding: 2px;
+    }
+
+    .workout__image img {
+      height: 16rem;
+      object-fit: cover;
+      object-position: left;
+      border: none;
+    }
+
+    @media (min-width: 1024px) {
+      .workout__image img {
+        height: 25rem;
+      }
+    }
+
+    .workout__blurb {
+      font: 22px/1.1 var(--font-sans-serif);
+      text-align: center;
+      padding: 0.5rem;
+      color: var(--black);
+      margin: -1rem 0.5rem 0.3rem;
+    }
+
+    .workout__title {
+      font: 18px/1.1 var(--font-sans-serif);
+      text-transform: uppercase;
+      text-align: center;
+      padding: 1rem;
+      background: var(--black);
+      color: var(--gray);
+      transition: 0.2s ease;
+    }
+
+    .social {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      grid-template-rows: max-content auto;
+      color: var(--gray);
+      text-align: left;
+    }
+
+    .social__image {
+      margin: 0;
+      border: 0;
+      grid-row: span 2;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .social__subtitle {
+      background: #999;
+      text-transform: uppercase;
+      line-height: 1;
+      padding: 0.4rem 1rem;
+      color: var(--gray);
+      font: 14px var(--font-sans-serif);
+    }
+
+    .social__content {
+      background: #666;
+      padding: 1rem;
+      color: var(--gray);
+      grid-column: 2;
+    }
+
+    .plan {
+      padding-bottom: 1rem;
+    }
+
+    @media (min-width: 700px) and (max-width: 1024px) {
+      .plan {
+        grid-column: span 3;
+        margin: 0 0 1.5rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .plan {
+        border-bottom: 1px solid;
+      }
+    }
+
+    .pie:hover img,
+    .social:hover img,
+    .menu:hover img,
+    .terrarium:hover img,
+    .plan:hover img,
+    .toggles:hover img,
+    .workout:hover img,
+    .cssgrid-collection__image:hover img {
+      filter: grayscale(0);
+    }
+
+    .workout:hover .workout__title {
+      background: transparent;
+      color: var(--black);
+    }
+
+    .hogwarts:hover .hogwarts__title {
+      background: transparent;
+      color: var(--black);
+    }
+
+    #newspaper-end {
+      height: 40vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #newspaper-end button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font: italic 28px/1.2 var(--font-title);
+      color: var(--black);
+      padding: 0.5rem 1rem;
+      border-bottom: 2px solid var(--black);
+      transition: 0.3s ease;
+    }
+
+    #newspaper-end button:hover {
+      color: var(--black--acc);
+      letter-spacing: 1px;
+    }
+
+    /* ---------- CRT overlay ---------- */
+    #crt-overlay {
+      position: fixed;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.4s ease;
+      z-index: 50;
+      background: #000;
+    }
+
+    #crt-overlay.visible {
+      opacity: 1;
+    }
+
+    #crt-overlay canvas {
+      display: block;
+    }
+
+    /* ---------- Credits screen ---------- */
+    #credits-screen {
+      position: fixed;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 2s ease;
+      z-index: 60;
+      height: 100%;
+      background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+      overflow: hidden;
+    }
+
+    #credits-screen.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #stars,
+    #stars2,
+    #stars3 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1px;
+      height: 1px;
+      background: transparent;
+    }
+
+    #stars {
+      animation: animStar 50s linear infinite;
+    }
+
+    #stars2 {
+      width: 2px;
+      height: 2px;
+      animation: animStar 100s linear infinite;
+    }
+
+    #stars3 {
+      width: 3px;
+      height: 3px;
+      animation: animStar 150s linear infinite;
+    }
+
+    #stars::after,
+    #stars2::after,
+    #stars3::after {
+      content: " ";
+      position: absolute;
+      top: 2000px;
+      width: 1px;
+      height: 1px;
+      background: transparent;
+    }
+
+    #stars2::after {
+      width: 2px;
+      height: 2px;
+    }
+
+    #stars3::after {
+      width: 3px;
+      height: 3px;
+    }
+
+    #title {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      color: #FFF;
+      text-align: center;
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      padding: 0 10px;
+    }
+
+    #title.start-crawl {
+      animation: creditsCrawl 55s linear forwards;
+    }
+
+    #title .credit-name {
+      display: block;
+      font-size: 22px;
+      letter-spacing: 3px;
+      line-height: 2.4;
+      background: -webkit-linear-gradient(white, #38495a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    #title .credit-thanks {
+      display: block;
+      margin-top: 3rem;
+      font-size: 26px;
+      letter-spacing: 6px;
+    }
+
+    @keyframes creditsCrawl {
+      from {
+        top: 100%;
+      }
+
+      to {
+        top: -80%;
+      }
+    }
+
+    @keyframes animStar {
+      from {
+        transform: translateY(0px);
+      }
+
+      to {
+        transform: translateY(-2000px);
+      }
+    }
+
+    #social-links {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 12%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 3.5rem;
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+
+    #social-links.visible {
+      opacity: 1;
+    }
+
+    #social-links a {
+      display: block;
+      width: 42px;
+      height: 42px;
+      color: #fff;
+      opacity: 0.85;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    #social-links a:hover {
+      opacity: 1;
+      transform: translateY(-3px);
+    }
+
+    #social-links svg {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="main__wrapper" id="newspaper">
+    <main>
+      <h1>The Central Times</h1>
+
+      <aside>
+        <div>
+          <div class="issue">Issue #3</div>
+          <div class="date">Thursday, September 12, 2013</div>
+          <div class="edition">Two time edition</div>
+        </div>
+      </aside>
+
+      <h2 class="title--large main-title">Freshman College Student Dies by Suicide After Struggling With Isolation and drugs</h2>
+
+      <div class="main-text multi-column">
+        <p>A freshman at CMTR University died by suicide last month after what her family says was a police investigation that moved too fast and asked too little.</p>
+        <p>Sophia [surname], 18, of [hometown], was found dead on campus in [month]. The county medical examiner's office ruled the death a suicide within weeks, closing the case without further investigation.</p>
+        <p>Her mother, reached by phone, said she still doesn't understand what happened in the days before her daughter's death.</p>
+        <p>"She was doing okay. That's what everyone kept telling me — she was doing okay," her aunt said. "Nobody's told me anything since. It's like they decided what happened before they even looked."</p>
+        <p>Friends describe Sophia as bright, restless, and deeply loyal to a small circle of people close to her. She had recently attended a party on campus the weekend before her death — an event her family's attorney says investigators never fully accounted for in their initial report.</p>
+        <p>"There were witnesses at that party who were interviewed once, briefly, and never followed up with," said attorney [name], who is representing the family. "That's not an investigation. That's a formality."</p>
+        <p>The university, in a statement, said it could not comment on an individual student but pointed to its existing mental health resources.</p>
+        <p>"The wellbeing of our students is our highest priority, and a loss like this affects our entire community," the statement read. "We offer 24/7 crisis support, individual and group counseling, and are committed to supporting students however we can."</p>
+        <p>Youth suicide rates have risen nationally in recent years, according to CDC data, with mental health professionals citing isolation, academic pressure, and untreated substance use as contributing factors.</p>
+        <p>"These cases are almost never simple," said Dr clark , a licensed clinical psychologist not connected to the case. "When an investigation closes quickly, it's usually because of resources, not because there's nothing left to find."</p>
+        <p>The family says they've asked the District Attorney's office to formally reopen the case. As of this week, no decision has been made public.</p>
+        <p>If you or someone you know is struggling, the 988 Suicide & Crisis Lifeline is available 24/7 by calling or texting 988.</p>
+      </div>
+
+      <div class="hogwarts">
+        <div class="hogwarts__title">Emergency Landing at Regional Airport</div>
+        <div class="hogwarts__image">
+          <span>Breaking News</span>
+          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/567707/showcase-hogwarts.svg" />
+        </div>
+      </div>
+
+      <div class="item-with-image pasta with-border">
+        <h4>Planes Forced to Land at Regional Airport</h4>
+        <p>Three commercial flights were forced to make emergency landings at the local regional airport late Thursday evening after sudden weather anomalies disrupted navigation systems. Officials confirmed all passengers landed safely.</p>
+      </div>
+
+      <div class="item-with-image magazine with-border">
+        <h4>Man Ate 40,000 Pizzas Over 30 Years</h4>
+        <p>A local resident has set a world record after consuming his 40,000th pizza over a 30-year span. Doctors remain baffled by his routine medical checkups, which show remarkable health despite the daily cheese intake.</p>
+      </div>
+
+      <div class="item-with-image style">
+        <h4>Three Youths Run with Weed at Night</h4>
+        <p>Police officers responded to a midnight call regarding three teenagers fleeing through an alleyway carrying contraband. Authorities recovered several packages of weed abandoned near the park perimeter.</p>
+      </div>
+
+      <div class="item-with-image toggles">
+        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/567707/showcase-toggle.gif" />
+        <h4>Late Night Alley Chase</h4>
+        <p>Officers patrolling the downtown district observed three youths sprinting past the alley carrying suspicious bundles. A search revealed bags of cannabis dropped near the fence line.</p>
+      </div>
+
+      <div class="menu">
+        <figure>
+          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/567707/showcase-menu.jpg" />
+          <figcaption>Local pizzeria celebrates 40,000th milestone order</figcaption>
+        </figure>
+      </div>
+
+      <div class="social">
+        <img class="social__image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/567707/showcase-social.gif" />
+        <div class="social__subtitle">World News</div>
+        <div class="social__content">Flight controllers divert multiple regional flights due to sudden radar interference across the state border.</div>
+      </div>
+
+      <div class="item-with-image cssgrid-collection">
+        <div class="cssgrid-collection__image">
+          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/567707/showcase-co-grid.jpg" />
+        </div>
+        <div class="cssgrid-collection__content">
+          <h4>Planes forced to land on airport as storm hits region</h4>
+          <div class="multi-column-3">
+            <p>Air traffic control reported unusual atmospheric conditions causing instruments to malfunction across several commercial airliners. Pilot quick thinking enabled safe emergency landings at the nearest regional runway without any casualties reported.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar">
+        <h3 class="title--big">Hot this month</h3>
+
+        <div class="pie">
+          <img class="pie__image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/567707/showcase-pie.jpg" />
+          <div class="pie__subtitle">Food Record</div>
+          <div class="pie__content">
+            <h4>Man Ate 40,000 Pizzas</h4>
+            <p>Thirty years of daily pizza consumption reached a historic milestone this week.</p>
+          </div>
+        </div>
+
+        <div class="sidebar-item captcha">
+          <h5>Three youths flee police with weed at night</h5>
+          <p>K-9 units searched the surrounding neighborhood after three unidentified teens fled officers at 2:00 AM, leaving behind packages of marijuana along the running trail.</p>
+        </div>
+
+        <div class="sidebar-item slack-ui with-border">
+          <h5>Planes forced to land at airport</h5>
+          <p>Unexpected turbulence and instrument blackout forced regional flights to touch down safely under emergency protocol.</p>
+        </div>
+
+        <div class="workout">
+          <div class="workout__image">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/567707/showcase-workout.jpg" alt="Local News" />
+          </div>
+          <div class="workout__blurb">40,000 Pizzas Consumed by Local Resident</div>
+          <div class="workout__title">Read Full Feature</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="newspaper-end">
+    <button id="crt-trigger" type="button">that's where we go now.</button>
+  </div>
+
+  <!-- CRT / glitch overlay -->
+  <div id="crt-overlay"></div>
+
+  <!-- Credits screen -->
+  <div id="credits-screen">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
+    <div id="title">
+      <span class="credit-name">Opening Animation — og video by Christina Belluscio, rotoscoped — Raptzar</span>
+      <span class="credit-name">Script — Chinderella, Doomsake</span>
+      <span class="credit-name">Script, CSS, Animations — Codepen &amp; Raptzar</span>
+      <span class="credit-name">Research — Svlpher , brokencrayon</span>
+      <span class="credit-name">Blood Animation — Orbi &amp; Gaston, edit by Raptzar</span>
+      <span class="credit-name">Edit — Kxnahoodirony</span>
+      <span class="credit-name">A Raptzar Project</span>
+      <span class="credit-thanks">Thanks to all :D</span>
+    </div>
+
+    <div id="social-links">
+      <!-- TODO: swap href="#" for the real Instagram / Spotify links -->
+      <a href="#" target="_blank" aria-label="Instagram">
+        <svg role="img" viewBox="0 0 169 169">
+          <circle cx="129" cy="39" r="10" fill="currentColor" />
+          <g stroke="currentColor" fill="none" stroke-width="15">
+            <circle cx="84.5" cy="84.5" r="35.5" />
+            <path d="M59 8C22 8 8 22 8 59v51c0 37 14 51 51 51h51c37 0 51-14 51-51V59c0-37-14-51-51-51H59z" />
+          </g>
+        </svg>
+      </a>
+      <a href="#" target="_blank" aria-label="Instagram">
+        <svg role="img" viewBox="0 0 169 169">
+          <circle cx="129" cy="39" r="10" fill="currentColor" />
+          <g stroke="currentColor" fill="none" stroke-width="15">
+            <circle cx="84.5" cy="84.5" r="35.5" />
+            <path d="M59 8C22 8 8 22 8 59v51c0 37 14 51 51 51h51c37 0 51-14 51-51V59c0-37-14-51-51-51H59z" />
+          </g>
+        </svg>
+      </a>
+      <a href="#" target="_blank" aria-label="Spotify playlist">
+        <svg role="img" viewBox="0 0 172 172">
+          <path fill="currentColor"
+            d="m87.996 1.277c-46.249 0-83.743 37.493-83.743 83.742 0 46.254 37.494 83.745 83.743 83.745 46.251 0 83.743-37.491 83.743-83.745 0-46.246-37.49-83.738-83.744-83.738zm38.404 120.78c-1.504 2.467-4.718 3.24-7.177 1.737-19.665-12.019-44.417-14.734-73.567-8.075-2.809 0.644-5.609-1.117-6.249-3.925-0.643-2.809 1.11-5.609 3.926-6.249 31.9-7.293 59.263-4.154 81.336 9.334 2.46 1.51 3.24 4.72 1.73 7.18zm10.25-22.799c-1.894 3.073-5.912 4.037-8.981 2.15-22.505-13.834-56.822-17.841-83.447-9.759-3.453 1.043-7.1-0.903-8.148-4.35-1.04-3.453 0.907-7.093 4.354-8.143 30.413-9.228 68.221-4.758 94.071 11.127 3.07 1.89 4.04 5.91 2.15 8.976zm0.88-23.744c-26.994-16.031-71.52-17.505-97.289-9.684-4.138 1.255-8.514-1.081-9.768-5.219-1.254-4.14 1.08-8.513 5.221-9.771 29.581-8.98 78.756-7.245 109.83 11.202 3.722 2.209 4.943 7.016 2.737 10.733-2.2 3.722-7.02 4.949-10.73 2.739z" />
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // Generate randomized box-shadow star fields (replaces the Sass random() function)
+    function multipleBoxShadow(n) {
+      const shadows = [];
+      for (let i = 0; i < n; i++) {
+        const x = Math.floor(Math.random() * 2000);
+        const y = Math.floor(Math.random() * 2000);
+        shadows.push(`${x}px ${y}px #FFF`);
+      }
+      return shadows.join(', ');
+    }
+    const starsEl = document.getElementById('stars');
+    const stars2El = document.getElementById('stars2');
+    const stars3El = document.getElementById('stars3');
+    starsEl.style.boxShadow = multipleBoxShadow(700);
+    stars2El.style.boxShadow = multipleBoxShadow(200);
+    stars3El.style.boxShadow = multipleBoxShadow(100);
+  </script>
+
+  <script type="module">
+    import * as THREE from "https://esm.sh/three";
+    import { EffectComposer } from "https://esm.sh/three/addons/postprocessing/EffectComposer.js";
+    import { RenderPass } from "https://esm.sh/three/addons/postprocessing/RenderPass.js";
+    import { GlitchPass } from "https://esm.sh/three/addons/postprocessing/GlitchPass.js";
+    import { UnrealBloomPass } from "https://esm.sh/three/addons/postprocessing/UnrealBloomPass.js";
+
+    const crtOverlay = document.getElementById('crt-overlay');
+    const creditsScreen = document.getElementById('credits-screen');
+    const newspaperEnd = document.getElementById('newspaper-end');
+    const newspaper = document.getElementById('newspaper');
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    crtOverlay.appendChild(renderer.domElement);
+
+    const geometry = new THREE.BoxGeometry(1.2, 1.5, 1.5);
+    const vertexShader = `
+   varying vec2 vUv;
+   void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+   }
+`;
+    const fragmentShader = `
+   uniform float time;
+   varying vec2 vUv;
+   void main() {
+       vec2 uv = vUv;
+       float offset = sin(time + uv.y * 10.0) * 0.02;
+       vec3 color;
+       color.r = sin(uv.x + offset + time) * 0.5 + 0.5;
+       color.g = sin(uv.x + time) * 0.5 + 0.5;
+       color.b = sin(uv.x - offset + time) * 0.5 + 0.5;
+       gl_FragColor = vec4(color, 1.0);
+   }
+`;
+    const material = new THREE.ShaderMaterial({
+      uniforms: { time: { value: 0 } },
+      vertexShader,
+      fragmentShader
+    });
+    const cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+
+    const particleCount = 200;
+    const particles = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount * 3; i++) {
+      positions[i] = (Math.random() - 0.5) * 10;
+    }
+    particles.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    const particleMaterial = new THREE.PointsMaterial({ color: 0xff00ff, size: 0.1 });
+    const particleSystem = new THREE.Points(particles, particleMaterial);
+    scene.add(particleSystem);
+
+    camera.position.z = 5;
+
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.5, 0.4, 0.85);
+    composer.addPass(bloomPass);
+    const glitchPass = new GlitchPass();
+    glitchPass.goWild = true;
+    composer.addPass(glitchPass);
+
+    let animId = null;
+    function animate() {
+      animId = requestAnimationFrame(animate);
+      cube.rotation.x += 0.01;
+      cube.rotation.y += 0.01;
+      cube.material.uniforms.time.value += 0.05;
+      particleSystem.rotation.y += 0.005;
+      composer.render();
+    }
+    animate();
+
+    window.addEventListener("resize", () => {
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      composer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+    });
+
+    // ---- Sequence control ----
+    let sequenceStarted = false;
+
+    function runSequence() {
+      if (sequenceStarted) return;
+      sequenceStarted = true;
+
+      // lock scroll on the newspaper so the transition feels intentional
+      document.body.style.overflow = 'hidden';
+
+      // fade in the CRT glitch
+      crtOverlay.classList.add('visible');
+
+      // after the CRT plays for a while, cut to credits permanently
+      setTimeout(() => {
+        creditsScreen.classList.add('visible');
+        creditsTitle.classList.add('start-crawl');
+
+        // fade the CRT back out underneath the credits, then stop rendering it
+        crtOverlay.classList.remove('visible');
+        setTimeout(() => {
+          cancelAnimationFrame(animId);
+          renderer.dispose();
+          crtOverlay.remove();
+          newspaper.style.display = 'none';
+          newspaperEnd.style.display = 'none';
+        }, 1500);
+      }, 4500);
+    }
+
+    const crtTrigger = document.getElementById('crt-trigger');
+    crtTrigger.addEventListener('click', () => {
+      crtTrigger.disabled = true;
+      runSequence();
+    });
+
+    const creditsTitle = document.getElementById('title');
+    const socialLinks = document.getElementById('social-links');
+    creditsTitle.addEventListener('animationend', () => {
+      socialLinks.classList.add('visible');
+    });
+  </script>
+
+</body>
+
+</html>

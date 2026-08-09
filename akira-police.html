@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Police Transcript — The Case of Akira Takahashi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --surface-2: #1a1a1a;
+      --border: #2a2a2a;
+      --yellow: #f0c808;
+      --yellow-dim: #b8960a;
+      --yellow-ghost: rgba(240, 200, 8, 0.08);
+      --yellow-line: rgba(240, 200, 8, 0.15);
+      --white: #e8e8e8;
+      --white-dim: #999999;
+      --white-ghost: #555555;
+      --red: #e63946;
+      --red-dim: rgba(230, 57, 70, 0.15);
+      --font-mono: 'Courier Prime', 'JetBrains Mono', monospace;
+      --font-sans: 'Space Grotesk', sans-serif;
+      --font-stamp: 'Special Elite', cursive;
+    }
+
+    html, body {
+      background: var(--bg) !important;
+      color: var(--white);
+      font-family: var(--font-mono);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      background: var(--surface);
+      border-bottom: 2px solid var(--yellow);
+      padding: 14px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .top-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .top-bar-badge {
+      background: var(--yellow);
+      color: #000;
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      padding: 4px 12px;
+      border-radius: 2px;
+      text-transform: uppercase;
+    }
+    .top-bar-case {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--white-dim);
+      letter-spacing: 0.12em;
+    }
+    .top-bar-back {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--white-ghost);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+    .top-bar-back:hover { color: var(--yellow); }
+
+    /* ── HEADER BLOCK ── */
+    .transcript-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 60px 40px;
+    }
+    .header-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.35em;
+      color: var(--yellow);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .header-title {
+      font-family: var(--font-sans);
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      margin-bottom: 8px;
+    }
+    .header-sub {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--white-dim);
+      letter-spacing: 0.08em;
+      margin-bottom: 24px;
+    }
+    .header-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .meta-label {
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: var(--yellow-dim);
+      text-transform: uppercase;
+    }
+    .meta-value {
+      font-size: 12px;
+      color: var(--white);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── AUDIO PLAYER ── */
+    .audio-section {
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 60px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .audio-label {
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: var(--yellow);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .audio-player {
+      flex: 1;
+      max-width: 500px;
+    }
+    .audio-player audio {
+      width: 100%;
+      height: 36px;
+      filter: invert(1) hue-rotate(180deg) brightness(0.85);
+    }
+    .audio-hint {
+      font-size: 10px;
+      color: var(--white-ghost);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── TRANSCRIPT BODY ── */
+    .transcript-body {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 60px 80px;
+    }
+
+    /* Timestamp markers */
+    .timestamp {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--yellow-dim);
+      text-transform: uppercase;
+      padding: 20px 0 12px;
+      border-bottom: 1px solid var(--yellow-line);
+      margin-bottom: 20px;
+      margin-top: 28px;
+    }
+    .timestamp:first-child { margin-top: 0; }
+
+    /* Dialogue lines */
+    .t-line {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 20px;
+      margin-bottom: 18px;
+      align-items: baseline;
+      padding: 6px 0;
+    }
+    .t-speaker {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-align: right;
+      padding-right: 16px;
+      border-right: 2px solid;
+      padding-top: 2px;
+      white-space: nowrap;
+    }
+    .t-speaker.sp-aines   { color: var(--yellow); border-color: var(--yellow); }
+    .t-speaker.sp-diaz    { color: #6cb4ee; border-color: #6cb4ee; }
+    .t-speaker.sp-akira   { color: #e8e8e8; border-color: #666; }
+    .t-speaker.sp-suspect { color: #e8e8e8; border-color: #666; }
+
+    .t-text {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--white);
+    }
+
+    /* Stage directions / narration */
+    .t-direction {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-style: italic;
+      color: var(--white-ghost);
+      letter-spacing: 0.06em;
+      padding: 12px 0 12px 176px;
+      border-left: none;
+    }
+
+    /* Section dividers */
+    .t-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 32px 0;
+      padding: 0;
+    }
+    .t-divider::before, .t-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .t-divider span {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      color: var(--white-ghost);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* Redacted blocks */
+    .t-redacted {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--red);
+      background: var(--red-dim);
+      padding: 3px 10px;
+      border-radius: 2px;
+      letter-spacing: 0.08em;
+    }
+
+    /* Tape cut block */
+    .tape-cut {
+      background: var(--red-dim);
+      border: 1px solid rgba(230, 57, 70, 0.3);
+      border-radius: 3px;
+      padding: 20px 28px;
+      margin: 32px 0;
+      text-align: center;
+    }
+    .tape-cut-label {
+      font-family: var(--font-stamp);
+      font-size: 18px;
+      letter-spacing: 0.25em;
+      color: var(--red);
+      text-transform: uppercase;
+    }
+    .tape-cut-sub {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--white-ghost);
+      letter-spacing: 0.15em;
+      margin-top: 6px;
+    }
+
+    /* Observation note */
+    .t-note {
+      background: var(--yellow-ghost);
+      border-left: 3px solid var(--yellow);
+      padding: 14px 20px;
+      margin: 24px 0;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--yellow-dim);
+      letter-spacing: 0.06em;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    /* Footer */
+    .transcript-footer {
+      background: var(--surface);
+      border-top: 2px solid var(--yellow);
+      padding: 28px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-left {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--white-ghost);
+      letter-spacing: 0.12em;
+      line-height: 1.8;
+    }
+    .footer-stamp {
+      font-family: var(--font-stamp);
+      font-size: 14px;
+      color: var(--yellow);
+      border: 2px solid var(--yellow);
+      padding: 5px 16px;
+      border-radius: 3px;
+      transform: rotate(-2deg);
+      display: inline-block;
+      letter-spacing: 0.15em;
+    }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      .transcript-header { padding: 32px 24px 28px; }
+      .audio-section { padding: 16px 24px; flex-direction: column; align-items: flex-start; }
+      .transcript-body { padding: 24px 20px 60px; }
+      .t-line { grid-template-columns: 100px 1fr; gap: 12px; }
+      .t-direction { padding-left: 132px; }
+      .transcript-footer { padding: 20px 24px; flex-direction: column; gap: 16px; }
+      .header-meta { gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── TOP BAR ── -->
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <span class="top-bar-badge">Police</span>
+      <span class="top-bar-case">Case #DG-2024-0216 &nbsp;·&nbsp; Akira Takahashi</span>
+    </div>
+    <a href="chapter1-akira.html" class="top-bar-back">← Back to Files</a>
+  </div>
+
+  <!-- ── HEADER ── -->
+  <div class="transcript-header">
+    <p class="header-eyebrow">Official Audio Transcript &mdash; Police Interview</p>
+    <h1 class="header-title">The Meet with Akira</h1>
+    <p class="header-sub">Police Interview &mdash; Dollar General Incident &mdash; Grand Avenue Precinct</p>
+
+    <div class="header-meta">
+      <div class="meta-item">
+        <span class="meta-label">Suspect</span>
+        <span class="meta-value">Akira Takahashi, 19</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Lead Detective</span>
+        <span class="meta-value">Det. Sean Aines</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Juvenile Officer</span>
+        <span class="meta-value">Officer Diaz</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Date</span>
+        <span class="meta-value">February 16, 2024</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Location</span>
+        <span class="meta-value">Grand Avenue Precinct &mdash; Interview Room 3</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Recording</span>
+        <span class="meta-value">Audio Tape &mdash; CASE-DG-2024-0216</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── AUDIO ── -->
+  <div class="audio-section">
+    <span class="audio-label">▶ Recording</span>
+    <div class="audio-player">
+      <audio id="bgMusic" controls preload="auto">
+        <source src="Angel's Stardust/Bones.mp3" type="audio/mpeg">
+        <source src="Angel%27s%20Stardust/Bones.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+    <span class="audio-hint">Audio recording of interview</span>
+  </div>
+
+  <!-- ── TRANSCRIPT ── -->
+  <div class="transcript-body">
+
+    <div class="timestamp">12:29 PM &mdash; Interview begins &mdash; Room 3</div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-aines">DET. AINES</span>
+      <span class="t-text">Listen, man, I can tell you're a little bit nervous, a bit angry, you seem punk about why you're here, which is normal. Being in a police station, I know, isn't like, it's probably not the first place you want to be. I understand that. Here's what I can tell you. I'm going to be straight with you. And I'm not here to, like, lie to you, play games. It's illegal for me to lie. I can't go around lying to a punk ass kid or anyone. Things like that, I could go to jail for that. So I'm just going to be straight with you. I'm going to show you respect. As long as you show me respect, we're going to be good, OK? Don't be rude.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-akira">AKIRA</span>
+      <span class="t-text">[nods]</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-diaz">DET. DIAZ</span>
+      <span class="t-text">Don't worry, it's all gonna be OK.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-aines">DET. AINES</span>
+      <span class="t-text">Do you understand what I'm trying to say? So what I can tell you is, what, are you, you're 19? You're 19?</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-akira">AKIRA</span>
+      <span class="t-text">You read my files, didn't you?</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-aines">DET. AINES</span>
+      <span class="t-text">No need to be a dick about it. Are you 19?</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-akira">AKIRA</span>
+      <span class="t-text">Yes.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-aines">DET. AINES</span>
+      <span class="t-text">You got your whole life ahead of you, OK? The decisions that you make as a teenager, young adult before you're an actual adult, thankfully, like the way the law is structured — and I agree with how they're structured — decisions, you make, maybe mistakes you make, bad decisions you make as a teenager, as a kid, they typically don't follow you into adulthood, OK? But part of, you know, growing up, being a teenager, is learning from your mistakes, maybe making things right that you did wrong, OK? Do you understand what I'm saying, trying to say?</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-akira">AKIRA</span>
+      <span class="t-text">Mm-hmm. [nodding]</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-aines">DET. AINES</span>
+      <span class="t-text">So, again, I need you to take a deep breath. I can tell you're on edge. Don't make a scene, you will be in trouble for no reason. It's gonna be a small trip, you will be free.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-akira">AKIRA</span>
+      <span class="t-text">Man, I just wanna see my family tonight. You know it just happened, I need some time.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-aines">DET. AINES</span>
+      <span class="t-text">And we will make it quick so it is easier on you, son.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-akira">AKIRA</span>
+      <span class="t-text">I ain't your son...</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-aines">DET. AINES</span>
+      <span class="t-text">Focus on the big picture, OK? What's best for you, long term, what decisions are, what decisions am I going to make going forward that are better, are going to better my life. Do you understand what I'm saying? And we will make it quick.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-diaz">DET. DIAZ</span>
+      <span class="t-text">Before he does, real quick, just know, again, like I told you in the car, I really don't know much about this case, OK? I'm here as what we call a juvenile officer, a juvenile advocate. So, if you need something, you need water, you go to the bathroom, you need something or you don't understand something he's talking about, just ask me, OK? I'm here on behalf of you, not him.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-akira">AKIRA</span>
+      <span class="t-text">OK.</span>
+    </div>
+
+    <div class="t-divider"><span>General Information &mdash; Personal Details</span></div>
+
+    <div class="t-direction">They ask his general info.</div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-aines">DET. AINES</span>
+      <span class="t-text">Can I ask you a question? I'm not going to be offended, so don't worry about that, OK. I'm going to read this kind of slow for you. <span class="t-redacted">[REDACTED]</span>, what's your birthday, by the way?</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-suspect">TEEN SUSPECT</span>
+      <span class="t-text"><span class="t-redacted">[REDACTED: birth date]</span></span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-aines">DET. AINES</span>
+      <span class="t-text">And you're still living at <span class="t-redacted">[REDACTED: address]</span>?</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-akira">AKIRA</span>
+      <span class="t-text">Yep.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-aines">DET. AINES</span>
+      <span class="t-text">It's <span class="t-redacted">[REDACTED: address]</span>. What's the date?</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-diaz">DET. DIAZ</span>
+      <span class="t-text">Today is the 16th. It's 12:29. Do you agree?</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-akira">AKIRA</span>
+      <span class="t-text">Yeah.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-diaz">DET. DIAZ</span>
+      <span class="t-text">12:29, right?</span>
+    </div>
+
+    <div class="t-direction">They make him sign documents.</div>
+
+    <div class="t-divider"><span>2:00 PM &mdash; Questioning Begins</span></div>
+
+    <div class="timestamp">~2:00 PM &mdash; Formal questioning</div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-suspect">TEEN SUSPECT</span>
+      <span class="t-text">Can you tell me what it was I was involved in again?</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-aines">DET. AINES</span>
+      <span class="t-text">It was at Dollar General.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-akira">AKIRA</span>
+      <span class="t-text">Where?</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-aines">DET. AINES</span>
+      <span class="t-text">Two Fridays ago on Grand Avenue.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-akira">AKIRA</span>
+      <span class="t-text">And what was supposed to happen?</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-aines">DET. AINES</span>
+      <span class="t-text">Did you understand what I was saying before?</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-suspect">TEEN SUSPECT</span>
+      <span class="t-text">Yeah, but I don't go to Dollar General. I go to Fart Dollar by my house. To be honest, to tell you the honest truth to God, you could see it in my eyes. I'm scared. I wouldn't lie to you, as you say you wouldn't lie to me. So, I'm giving you the truth. I honestly don't know what altercation you're talking about, honestly.</span>
+    </div>
+
+    <div class="t-direction">[He made a smirk face]</div>
+
+    <div class="t-note">The Dollar General on Grand Avenue is infamous for drug rackets in the area.</div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-aines">DET. AINES</span>
+      <span class="t-text">Were you purchasing drugs?</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-akira">AKIRA</span>
+      <span class="t-text">No. My mum will beat me if I do.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-aines">DET. AINES</span>
+      <span class="t-text">OK. And you had an interaction with this guy before?</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-akira">AKIRA</span>
+      <span class="t-text">I'd never seen him before. Maybe in my dreams but not really.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-aines">DET. AINES</span>
+      <span class="t-text">But this was on, like, a Friday, February 4, right?</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-diaz">DET. DIAZ</span>
+      <span class="t-text">Don't make jokes.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-akira">AKIRA</span>
+      <span class="t-text">Mm-hmm. [nodding]</span>
+    </div>
+
+    <div class="t-divider"><span>Altercation</span></div>
+
+    <div class="t-direction">Diaz hits Akira's hand on table.</div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-akira">AKIRA</span>
+      <span class="t-text">Hey, why you hitting me? Be decent. I'll show you.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-diaz">DET. DIAZ</span>
+      <span class="t-text">I am not hitting you. I am telling you to calm your pace and be serious.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-akira">AKIRA</span>
+      <span class="t-text">My friend died and you guys won't even let me grieve.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-diaz">DET. DIAZ</span>
+      <span class="t-text">Do you wanna go home or not? Don't be aggressive, animal.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-aines">DET. AINES</span>
+      <span class="t-text">Calm down, Diaz. We don't wanna make a scene.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-akira">AKIRA</span>
+      <span class="t-text">Don't call me that. I am not.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-diaz">DET. DIAZ</span>
+      <span class="t-text">Yes you are.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-diaz">DET. DIAZ</span>
+      <span class="t-text">Listen you son of a bitch, we know all your stories. You do drugs, end up dead across your street and we have to work our days for it. Like your slut.</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-aines">DET. AINES</span>
+      <span class="t-text">Shut up, Diaz...</span>
+    </div>
+
+    <div class="t-line">
+      <span class="t-speaker sp-akira">AKIRA</span>
+      <span class="t-text">Fuck you, motherfucker.</span>
+    </div>
+
+    <div class="t-direction">Akira tries to stand up.</div>
+    <div class="t-direction">Diaz tries to corner him.</div>
+    <div class="t-direction">Aines brings other officers in.</div>
+
+    <!-- ── TAPE CUT ── -->
+    <a href="akira-session2.html" style="text-decoration:none;">
+      <div class="tape-cut" style="cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;" onmouseenter="this.style.transform='scale(1.02)';this.style.boxShadow='0 0 20px rgba(230,57,70,0.3)';" onmouseleave="this.style.transform='scale(1)';this.style.boxShadow='none';">
+        <div class="tape-cut-label">⊘ &nbsp;Tape Is Cut&nbsp; ⊘</div>
+        <div class="tape-cut-sub">Recording terminated &mdash; physical altercation &mdash; additional officers called</div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <div class="transcript-footer">
+    <div class="footer-left">
+      CASE #DG-2024-0216 &nbsp;·&nbsp; GRAND AVENUE PRECINCT<br>
+      AUDIO RECORDING TRANSCRIPT &nbsp;·&nbsp; FEBRUARY 16, 2024<br>
+      SUSPECT: AKIRA TAKAHASHI &nbsp;·&nbsp; AGE 19
+    </div>
+    <div class="footer-stamp">EVIDENCE</div>
+  </div>
+
+</body>
+</html>

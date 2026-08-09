@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E LIT — Main Archive Menu</title>
+  <meta name="description" content="A restricted clinical archive. Authorized personnel only. Patient files from the Eastbrook Therapeutic Institute." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=IM+Fell+English:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700;800&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Fira+Mono:400" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:    #000000;
+      --paper:    #f0ece0;
+      --paper-cream: #f8f4e8;
+      --ink:      #1a1a1a;
+      --ink-ghost:#7a6f5e;
+      --blue:     #1a2fc2;
+      --red:      #b01c1c;
+      --green:    #1e6e3a;
+      --gold:     #b8860b;
+      --font-sans:  'Space Grotesk', sans-serif;
+      --font-mono:  'Courier Prime', monospace;
+      --font-stamp: 'Special Elite', cursive;
+      --font-serif: 'IM Fell English', serif;
+    }
+
+    html, body {
+      min-height: 100%;
+      background: var(--black);
+      color: #fff;
+      font-family: var(--font-sans);
+      overflow-x: hidden;
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 3px; }
+
+    /* HEADER */
+    .site-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      background: rgba(0,0,0,.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 2px solid var(--blue);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 48px;
+    }
+
+    .header-logo { display: flex; align-items: baseline; gap: 14px; }
+    .logo-acronym { font-family: var(--font-sans); font-size: 20px; font-weight: 800; color: #fff; letter-spacing: 0.1em; }
+    .logo-full { font-family: var(--font-mono); font-size: 10px; color: #333; letter-spacing: 0.1em; text-transform: uppercase; }
+
+    .header-nav { display: flex; align-items: center; gap: 28px; }
+    .nav-tag { font-family: var(--font-mono); font-size: 10px; color: var(--red); letter-spacing: 0.2em; border: 1px solid var(--red); padding: 3px 9px; border-radius: 2px; }
+    .nav-link { font-family: var(--font-mono); font-size: 11px; color: #444; text-decoration: none; letter-spacing: 0.1em; transition: color 0.2s; }
+    .nav-link:hover { color: #fff; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      background: var(--black);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 40px 60px;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono); font-size: 10px;
+      letter-spacing: 0.35em; color: var(--blue);
+      text-transform: uppercase; margin-bottom: 40px;
+      text-align: center;
+    }
+
+    /* GLITCH TITLE */
+    .glitch-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 48px;
+    }
+
+    .glitch-title {
+      font-family: 'Fira Mono', monospace;
+      font-size: clamp(28px, 5vw, 64px);
+      color: #fff;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      text-align: center;
+      animation: glitch 1s linear infinite;
+      position: relative;
+    }
+
+    .glitch-title::before,
+    .glitch-title::after {
+      content: attr(data-title);
+      position: absolute;
+      left: 0; top: 0;
+      width: 100%;
+    }
+
+    .glitch-title::before {
+      animation: glitchTop 1s linear infinite;
+      clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+      -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+      color: #fff;
+    }
+
+    .glitch-title::after {
+      animation: glitchBottom 1.5s linear infinite;
+      clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+      -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+      color: #fff;
+    }
+
+    @keyframes glitch {
+      2%,64%  { transform: translate(2px,0) skew(0deg); }
+      4%,60%  { transform: translate(-2px,0) skew(0deg); }
+      62%     { transform: translate(0,0) skew(5deg); }
+    }
+    @keyframes glitchTop {
+      2%,64%  { transform: translate(2px,-2px); }
+      4%,60%  { transform: translate(-2px,2px); }
+      62%     { transform: translate(13px,-1px) skew(-13deg); }
+    }
+    @keyframes glitchBottom {
+      2%,64%  { transform: translate(-2px,0); }
+      4%,60%  { transform: translate(-2px,0); }
+      62%     { transform: translate(-22px,5px) skew(21deg); }
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-serif);
+      font-size: clamp(13px, 1.4vw, 18px);
+      font-style: italic; color: #3a3a3a;
+      max-width: 420px; line-height: 1.65;
+      text-align: center;
+      margin-bottom: 52px;
+    }
+
+    /* OPEN ARCHIVE BUTTON */
+    .open-archive-btn {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #fff;
+      background: transparent;
+      border: 1px solid rgba(26,47,194,.6);
+      padding: 14px 40px;
+      border-radius: 2px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, color 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .open-archive-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--blue);
+      transform: translateX(-100%);
+      transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+      z-index: 0;
+    }
+    .open-archive-btn:hover::before { transform: translateX(0); }
+    .open-archive-btn:hover { border-color: var(--blue); }
+    .open-archive-btn span { position: relative; z-index: 1; }
+
+    /* scroll indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      opacity: .25;
+      animation: bounceDown 1.8s ease-in-out infinite;
+    }
+    .scroll-hint span {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: #fff;
+    }
+    .scroll-hint svg { width: 16px; height: 16px; fill: none; stroke: #fff; stroke-width: 2; }
+    @keyframes bounceDown {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%     { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* STACK SECTION */
+    .stack-section {
+      background: var(--black);
+      padding: 20px 0 100px;
+      position: relative;
+    }
+
+    .stack-section::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 100px;
+      background: var(--blue);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .stack-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: #333;
+      text-transform: uppercase;
+      padding: 0 72px 24px;
+    }
+
+    .stack-container {
+      position: relative;
+      width: 100%;
+      height: 560px;
+      overflow: hidden;
+    }
+
+    .file-band {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+    }
+
+    .file-band.open:hover {
+      transform: translateY(-14px);
+    }
+
+    .file-tab-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 0;
+      padding-left: 72px;
+    }
+
+    .file-tab {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 10px 28px 9px;
+      border-radius: 8px 8px 0 0;
+      white-space: nowrap;
+      box-shadow: 0 -4px 12px rgba(0,0,0,.4);
+    }
+
+    .file-body {
+      width: 100%;
+      padding: 32px 72px 36px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex: 1;
+      position: relative;
+      box-shadow: 0 -6px 24px rgba(0,0,0,0.6);
+    }
+
+    /* FILE 1: ALEX BROWN — Blue */
+    .file-1 { height: 180px; z-index: 40; }
+    .file-1 .file-tab { background: var(--blue); color: #fff; }
+    .file-1 .file-body { background: var(--blue); min-height: 145px; }
+
+    /* FILE 2: AKIRA TAKAHASHI — Dark Green */
+    .file-2 { height: 290px; z-index: 30; }
+    .file-2 .file-tab { background: #142619; color: #43825a; margin-left: 200px; }
+    .file-2 .file-body { background: #142619; min-height: 255px; }
+
+    /* FILE 3: SEALED — Dark Charcoal */
+    .file-3 { height: 400px; z-index: 20; }
+    .file-3 .file-tab { background: #181818; color: #383838; margin-left: 420px; }
+    .file-3 .file-body { background: #181818; min-height: 365px; }
+
+    /* FILE 4: CLASSIFIED — Dark Red */
+    .file-4 { height: 510px; z-index: 10; }
+    .file-4 .file-tab { background: #160606; color: #2e1010; margin-left: 640px; }
+    .file-4 .file-body { background: #160606; min-height: 475px; }
+
+    .band-left { flex: 1; }
+    .band-right { flex-shrink: 0; text-align: right; }
+
+    .band-patient-name {
+      font-family: var(--font-sans);
+      font-size: clamp(32px, 4.5vw, 62px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .file-1 .band-patient-name { color: #fff; }
+    .file-2 .band-patient-name { color: #306947; }
+    .file-3 .band-patient-name { color: #262626; }
+    .file-4 .band-patient-name { color: #220808; }
+
+    .band-id {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .file-1 .band-id { color: rgba(255,255,255,.5); }
+    .file-2 .band-id { color: #20422d; }
+    .file-3 .band-id { color: #222; }
+    .file-4 .band-id { color: #1c0606; }
+
+    .band-stamp {
+      font-family: var(--font-stamp);
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      padding: 4px 14px;
+      border: 2px solid;
+      border-radius: 3px;
+      transform: rotate(-2.5deg);
+      display: inline-block;
+      margin-top: 6px;
+    }
+
+    .stamp-open       { color: #a0ffb8; border-color: rgba(160,255,184,.6); }
+    .stamp-sealed     { color: #303030; border-color: #262626; }
+    .stamp-restricted { color: #2a573b; border-color: #20422d; }
+    .stamp-denied     { color: #280909; border-color: #1e0606; }
+
+    .band-arrow {
+      font-size: 28px;
+      margin-top: 4px;
+      transition: transform 0.25s;
+      color: rgba(255,255,255,.65);
+    }
+
+    .file-1:hover .band-arrow { transform: translateX(8px); }
+    .file-2:hover .band-arrow { transform: translateX(8px); }
+
+    .file-band.locked { cursor: not-allowed; }
+
+    /* FOLDER OPEN TRANSITION OVERLAY */
+    .folder-open-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    .folder-open-panel {
+      position: fixed;
+      left: 0; right: 0;
+      bottom: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(100%);
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    .folder-open-tab {
+      align-self: flex-start;
+      margin-left: 72px;
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 12px 32px 11px;
+      border-radius: 10px 10px 0 0;
+      white-space: nowrap;
+      box-shadow: 0 -4px 16px rgba(0,0,0,.5);
+    }
+
+    .folder-open-body {
+      flex: 1;
+      box-shadow: 0 -12px 60px rgba(0,0,0,.7);
+    }
+
+    .folder-open-overlay.is-open .folder-open-panel {
+      transform: translateY(0);
+    }
+
+    .folder-open-backdrop {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+    .folder-open-overlay.is-open .folder-open-backdrop {
+      opacity: 1;
+    }
+
+    .redact-bar { display: inline-block; border-radius: 3px; }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%     { transform: translateX(-8px); }
+      40%     { transform: translateX(7px); }
+      60%     { transform: translateX(-5px); }
+      80%     { transform: translateX(4px); }
+    }
+    .shake { animation: shake 0.38s ease; }
+
+    /* ABOUT OVERLAY */
+    .overlay {
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(0,0,0,.92);
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .overlay.active { opacity: 1; pointer-events: all; }
+
+    .overlay-inner {
+      background: var(--paper-cream);
+      border-radius: 4px;
+      padding: 60px; max-width: 660px; width: 90%;
+      position: relative;
+      max-height: 85vh; overflow-y: auto;
+      box-shadow: 0 40px 100px rgba(0,0,0,.85);
+      border: 1px solid rgba(160,140,100,.3);
+    }
+
+    .overlay-close {
+      position: absolute; top: 20px; right: 24px;
+      background: none; border: none; font-size: 18px;
+      color: #7a6f5e; cursor: pointer;
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .overlay-close:hover { background: rgba(0,0,0,.07); }
+
+    .overlay-eyebrow {
+      font-family: var(--font-mono); font-size: 10px;
+      letter-spacing: 0.3em; color: #7a6f5e;
+      text-transform: uppercase; margin-bottom: 12px;
+    }
+
+    .overlay-title {
+      font-family: var(--font-sans); font-size: 36px; font-weight: 700;
+      color: #1a1a1a; margin-bottom: 28px; letter-spacing: -0.02em;
+    }
+
+    .overlay-body p {
+      font-family: var(--font-serif); font-size: 15px; line-height: 1.85;
+      color: #3d3730; margin-bottom: 15px;
+    }
+
+    .overlay-meta {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em;
+      color: #7a6f5e; margin-top: 28px; padding-top: 20px;
+      border-top: 1px solid rgba(160,140,100,.2);
+      display: flex; gap: 12px; flex-wrap: wrap;
+    }
+    .divider { color: rgba(160,140,100,.3); }
+
+    /* FOOTER */
+    .site-footer {
+      background: #000;
+      border-top: 1px solid #0d0d0d;
+      padding: 22px 72px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: #1c1c1c;
+      letter-spacing: 0.12em;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .stack-label { padding: 0 28px 20px; }
+      .file-tab-row { padding-left: 28px; }
+      .file-2 .file-tab { margin-left: 60px; }
+      .file-3 .file-tab { margin-left: 120px; }
+      .file-4 .file-tab { margin-left: 180px; }
+      .file-body { padding: 20px 28px 24px; }
+      .site-header { padding: 14px 24px; }
+      .logo-full { display: none; }
+      .site-footer { padding: 18px 28px; flex-direction: column; gap: 6px; }
+      .stack-container { height: 480px; }
+      .file-1 { height: 140px; }
+      .file-2 { height: 240px; }
+      .file-3 { height: 340px; }
+      .file-4 { height: 440px; }
+      .band-patient-name { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-logo">
+      <span class="logo-acronym">E.T.I.</span>
+      <span class="logo-full">Eastbrook Therapeutic Institute</span>
+    </div>
+    <nav class="header-nav">
+      <span class="nav-tag">CONFIDENTIAL</span>
+      <a href="#" class="nav-link" id="about-btn">About</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <p class="hero-eyebrow">CLINICAL RECORDS ARCHIVE — ETI-2024</p>
+
+    <div class="glitch-wrap">
+      <h1 class="glitch-title" data-title="Dr. MARY CLARK DOCUMENTS">Dr. MARY CLARK DOCUMENTS</h1>
+    </div>
+
+    <p class="hero-subtitle">A story told through the files they tried to bury.</p>
+
+    <a href="#files" class="open-archive-btn" id="open-archive-btn">
+      <span>OPEN ARCHIVE</span>
+    </a>
+
+    <div class="scroll-hint" aria-hidden="true">
+      <span>SCROLL</span>
+      <svg viewBox="0 0 16 16"><polyline points="2 5 8 11 14 5"/></svg>
+    </div>
+  </section>
+
+  <!-- OVERLAPPED STACKED FILES -->
+  <section class="stack-section" id="files">
+    <p class="stack-label">ARCHIVE STRUCTURE — SELECT FILE</p>
+
+    <div class="stack-container">
+
+      <!-- FILE 1: ALEX BROWN (front / top layer, blue, accessible) -->
+      <div class="file-band file-1 open" id="file-1" role="link" tabindex="0">
+        <div class="file-tab-row">
+          <div class="file-tab">Alex Brown</div>
+        </div>
+        <div class="file-body">
+          <div class="band-left">
+            <div class="band-patient-name">Alex Brown</div>
+            <div class="band-id">ID: ETI-2024-001 &nbsp;&middot;&nbsp; WARD 3 &nbsp;&middot;&nbsp; INTAKE: 09.04.2024 &nbsp;&middot;&nbsp; OPEN</div>
+          </div>
+          <div class="band-right">
+            <div class="band-stamp stamp-open">OPEN</div>
+            <div class="band-arrow">&#8594;</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILE 2: AKIRA TAKAHASHI (2nd layer, dark green, accessible) -->
+      <div class="file-band file-2 open" id="file-2" role="link" tabindex="0">
+        <div class="file-tab-row">
+          <div class="file-tab">Akira Takahashi</div>
+        </div>
+        <div class="file-body">
+          <div class="band-left">
+            <div class="band-patient-name">Akira Takahashi</div>
+            <div class="band-id">ID: ETI-2024-003 &nbsp;&middot;&nbsp; WARD 3 &nbsp;&middot;&nbsp; 09.04.2024 &nbsp;&middot;&nbsp; OPEN</div>
+          </div>
+          <div class="band-right">
+            <div class="band-stamp stamp-restricted" style="color:#a0ffb8;border-color:rgba(160,255,184,.6);">OPEN</div>
+            <div class="band-arrow">&#8594;</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILE 3: SEALED (XYZ) — Dark Charcoal -->
+      <div class="file-band file-3 locked" id="file-3">
+        <div class="file-tab-row">
+          <div class="file-tab">&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588; &mdash; SEALED</div>
+        </div>
+        <div class="file-body">
+          <div class="band-left">
+            <div class="band-patient-name">
+              <span class="redact-bar" style="width:260px; height:1em; background:#262626; display:inline-block;"></span>
+            </div>
+            <div class="band-id" style="margin-top:10px;">ID: ETI-&#x2588;&#x2588;&#x2588;&#x2588;-&#x2588;&#x2588;&#x2588; &nbsp;&middot;&nbsp; WARD &#x2588;&#x2588;</div>
+          </div>
+          <div class="band-right">
+            <div class="band-stamp stamp-sealed">SEALED</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILE 4 (back / bottom layer, dark red classified) -->
+      <div class="file-band file-4 locked" id="file-4">
+        <div class="file-tab-row">
+          <div class="file-tab">&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588; &mdash; CLASSIFIED</div>
+        </div>
+        <div class="file-body">
+          <div class="band-left">
+            <div class="band-patient-name">
+              <span class="redact-bar" style="width:220px; height:1.1em; background:#220808; display:inline-block;"></span>
+            </div>
+            <div class="band-id" style="margin-top:10px;">ID: ETI-&#x2588;&#x2588;&#x2588;&#x2588;-&#x2588;&#x2588;&#x2588; &nbsp;&middot;&nbsp; WARD &#x2588;&#x2588; &nbsp;&middot;&nbsp; &#x2588;&#x2588;.&#x2588;&#x2588;.&#x2588;&#x2588;&#x2588;&#x2588;</div>
+          </div>
+          <div class="band-right">
+            <div class="band-stamp stamp-denied">ACCESS DENIED</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /stack-container -->
+  </section>
+
+  <!-- ALEX FOLDER OPEN TRANSITION OVERLAY -->
+  <div class="folder-open-overlay" id="alex-folder-overlay" aria-hidden="true">
+    <div class="folder-open-backdrop"></div>
+    <div class="folder-open-panel" id="alex-folder-panel">
+      <div class="folder-open-tab" style="background:var(--blue);">Alex Brown</div>
+      <div class="folder-open-body" style="background:var(--blue);"></div>
+    </div>
+  </div>
+
+  <!-- AKIRA FOLDER OPEN TRANSITION OVERLAY (green) -->
+  <div class="folder-open-overlay" id="akira-folder-overlay" aria-hidden="true">
+    <div class="folder-open-backdrop"></div>
+    <div class="folder-open-panel" id="akira-folder-panel">
+      <div class="folder-open-tab" style="background:#1e6e3a;">Akira Takahashi</div>
+      <div class="folder-open-body" style="background:#142619;"></div>
+    </div>
+  </div>
+
+  <!-- ABOUT OVERLAY -->
+  <div class="overlay" id="about-overlay">
+    <div class="overlay-inner">
+      <button class="overlay-close" id="close-about">&#x2715;</button>
+      <p class="overlay-eyebrow">ABOUT THIS ARCHIVE</p>
+      <h2 class="overlay-title">What is E Lit?</h2>
+      <div class="overlay-body">
+        <p><em>E Lit</em> is an interactive story told through the lens of a therapist's clinical archive. Each chapter unlocks a new set of patient files &mdash; session transcripts, intake forms, biodata, and notes that slowly reveal something much larger than any single case.</p>
+        <p>The archive belongs to the <strong>Eastbrook Therapeutic Institute</strong>. Not everything here is what it seems. Some files have been redacted. Others have gone missing entirely. Read carefully.</p>
+        <p>Navigate the folders. Read the sessions. Find what they tried to hide.</p>
+        <div class="overlay-meta">
+          <span>STORY: E LIT</span>
+          <span class="divider">|</span>
+          <span>FORMAT: INTERACTIVE ARCHIVE</span>
+          <span class="divider">|</span>
+          <span>CHAPTER 1: ACTIVE</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <span>&copy; 2024 E LIT &mdash; A Work of Fiction</span>
+    <span>REF: ETI-ARCH-2024</span>
+  </footer>
+
+  <script>
+    // GATE: redirect if user hasn't read alex session 4
+    if (!localStorage.getItem('alex_session4_read')) {
+      window.location.href = 'alex-session4.html';
+    }
+
+    // About overlay
+    const aboutBtn   = document.getElementById('about-btn');
+    const overlay    = document.getElementById('about-overlay');
+    const closeAbout = document.getElementById('close-about');
+
+    if (aboutBtn) {
+      aboutBtn.addEventListener('click', function(e) { e.preventDefault(); overlay.classList.add('active'); });
+    }
+    closeAbout.addEventListener('click', function() { overlay.classList.remove('active'); });
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.classList.remove('active'); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') overlay.classList.remove('active'); });
+
+    // Open Archive button smooth scroll
+    var archiveBtn = document.getElementById('open-archive-btn');
+    if (archiveBtn) {
+      archiveBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('files').scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+
+    // ALEX FOLDER slide-up transition
+    var file1 = document.getElementById('file-1');
+    var alexOverlay = document.getElementById('alex-folder-overlay');
+
+    function triggerAlexFolderOpen() {
+      alexOverlay.style.pointerEvents = 'all';
+      alexOverlay.classList.add('is-open');
+      setTimeout(function() {
+        window.location.href = 'chapter1.html';
+      }, 750);
+    }
+
+    if (file1) {
+      file1.addEventListener('click', triggerAlexFolderOpen);
+      file1.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); triggerAlexFolderOpen(); }
+      });
+    }
+
+    // AKIRA FOLDER slide-up transition (green)
+    var file2 = document.getElementById('file-2');
+    var akiraOverlay = document.getElementById('akira-folder-overlay');
+
+    function triggerAkiraFolderOpen() {
+      akiraOverlay.style.pointerEvents = 'all';
+      akiraOverlay.classList.add('is-open');
+      // Unlock Akira's files
+      localStorage.setItem('akira_unlocked', 'true');
+      setTimeout(function() {
+        window.location.href = 'akira-menu.html';
+      }, 750);
+    }
+
+    if (file2) {
+      file2.addEventListener('click', triggerAkiraFolderOpen);
+      file2.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); triggerAkiraFolderOpen(); }
+      });
+    }
+
+    // Shake feedback on locked files
+    document.querySelectorAll('.file-band.locked').forEach(function(band) {
+      band.addEventListener('click', function() {
+        band.classList.remove('shake');
+        void band.offsetWidth;
+        band.classList.add('shake');
+        setTimeout(function() { band.classList.remove('shake'); }, 400);
+      });
+    });
+
+    console.log('%cDR. MARY CLARK — EASTBROOK THERAPEUTIC INSTITUTE', 'color:#1a2fc2;font-weight:bold;font-family:monospace;font-size:13px;');
+    console.log('%cCONFIDENTIAL ARCHIVE — AUTHORIZED ACCESS ONLY', 'color:#b01c1c;font-family:monospace;');
+  </script>
+</body>
+</html>
