@@ -1,18 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>E LIT — Sophia in Alex's Eyes</title>
-  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700;800&family=Courier+Prime:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
+    html,
     body {
-      background: #fff;
+      background: #ffffff !important;
       color: #1a1a1a;
-      font-family: 'IM Fell English', serif;
+      font-family: 'Courier New', Courier, monospace;
       overflow-x: hidden;
     }
 
@@ -25,15 +37,18 @@
       font-family: 'Courier Prime', monospace;
       font-size: 10px;
       letter-spacing: 0.2em;
-      color: rgba(0,0,0,0.3);
+      color: rgba(0, 0, 0, 0.3);
       text-decoration: none;
-      background: rgba(255,255,255,0.9);
+      background: rgba(255, 255, 255, 0.9);
       padding: 8px 14px;
       border-radius: 3px;
       backdrop-filter: blur(4px);
       transition: color 0.2s;
     }
-    .back-float:hover { color: rgba(0,0,0,0.8); }
+
+    .back-float:hover {
+      color: rgba(0, 0, 0, 0.8);
+    }
 
     /* ── TITLE CARD ── */
     .title-card {
@@ -46,14 +61,16 @@
       background: #fff;
       text-align: center;
     }
+
     .title-eyebrow {
       font-family: 'Courier Prime', monospace;
       font-size: 10px;
       letter-spacing: 0.35em;
-      color: rgba(0,0,0,0.25);
+      color: rgba(0, 0, 0, 0.25);
       text-transform: uppercase;
       margin-bottom: 20px;
     }
+
     .title-main {
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 800;
@@ -62,69 +79,32 @@
       line-height: 1.05;
       color: #111;
     }
+
     .title-sub {
       font-style: italic;
       font-size: clamp(16px, 2vw, 22px);
-      color: rgba(0,0,0,0.35);
+      color: rgba(0, 0, 0, 0.35);
       margin-top: 20px;
       line-height: 1.7;
     }
 
-    /* ── AUDIO PLAYER ── */
-    #audioplayer {
-      width: min(480px, 90vw);
-      height: 60px;
-      margin: 24px auto 0;
-      border: 1px solid rgba(0,0,0,0.2);
-      border-radius: 8px;
-      background: rgba(0,0,0,0.04);
-      box-sizing: border-box;
-      display: flex;
-      align-items: center;
-      padding: 0 12px;
-    }
 
-    #pButton {
-      height: 40px; 
-      width: 40px;
-      border: none;
-      background-size: 50% 50%;
-      background-repeat: no-repeat;
-      background-position: center;
-      float: left;
-      outline: none;
-      cursor: pointer;
-      flex-shrink: 0;
-      border-radius: 50%;
-      background-color: #111;
-    }
 
-    .play {
-      background-image: url('http://www.alexkatz.me/codepen/img/play.png'), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E");
-    }
-
-    .pause {
-      background-image: url('http://www.alexkatz.me/codepen/img/pause.png'), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M6 19h4V5H6v14zm8-14v14h4V5h-4z'/%3E%3C/svg%3E");
-    }
-
-    #timeline {
-      flex: 1;
-      height: 16px;
-      margin-left: 15px;
-      border-radius: 15px;
-      background: rgba(0,0,0,0.15);
-      position: relative;
-      cursor: pointer;
-    }
-
-    #playhead {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: #c0392b;
-      position: absolute;
-      top: 0;
-      left: 0;
+    /* ── AUDIO HINT ── */
+    .audio-hint {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 200;
+      font-family: 'Courier Prime', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: rgba(0, 0, 0, 0.3);
+      background: rgba(255, 255, 255, 0.9);
+      padding: 8px 14px;
+      border-radius: 3px;
+      backdrop-filter: blur(4px);
+      transition: color 0.2s;
     }
 
     /* ── PROSE SECTION ── */
@@ -133,18 +113,24 @@
       margin: 0 auto;
       padding: 60px 40px;
     }
+
     .prose-section p {
       font-size: clamp(16px, 1.8vw, 20px);
       line-height: 2;
       color: #2a2a2a;
       margin-bottom: 24px;
     }
-    .prose-section p em { color: rgba(0,0,0,0.45); font-style: italic; }
+
+    .prose-section p em {
+      color: rgba(0, 0, 0, 0.45);
+      font-style: italic;
+    }
+
     .prose-section .beat {
       font-family: 'Courier Prime', monospace;
       font-size: 11px;
       letter-spacing: 0.3em;
-      color: rgba(0,0,0,0.15);
+      color: rgba(0, 0, 0, 0.15);
       text-transform: uppercase;
       display: block;
       text-align: center;
@@ -160,37 +146,74 @@
       max-width: 700px;
       margin: 0 auto 40px;
     }
-    .section-break::before, .section-break::after {
+
+    .section-break::before,
+    .section-break::after {
       content: '';
       flex: 1;
       height: 1px;
-      background: rgba(0,0,0,0.1);
+      background: rgba(0, 0, 0, 0.1);
     }
+
     .section-break span {
       font-family: 'Courier Prime', monospace;
       font-size: 10px;
       letter-spacing: 0.2em;
-      color: rgba(0,0,0,0.2);
+      color: rgba(0, 0, 0, 0.2);
     }
 
     /* ── OBSERVATORY DIALOGUE ── */
     .observatory-section {
-      background: #f5f5f5;
-      padding: 80px 40px;
+      background: linear-gradient(180deg,
+          #f5f5f5 0%,
+          #f9dcea 35%,
+          #fb9dc9 65%,
+          #F9329D 90%,
+          #F9329D 100%);
+      padding: 80px 40px 0;
     }
+
     .obs-inner {
       max-width: 660px;
       margin: 0 auto;
+      padding-bottom: 100px;
     }
+
     .obs-header {
       font-family: 'Courier Prime', monospace;
       font-size: 10px;
       letter-spacing: 0.3em;
-      color: rgba(0,0,0,0.3);
       text-transform: uppercase;
       text-align: center;
       margin-bottom: 48px;
+      background: linear-gradient(90deg,
+          rgba(0, 0, 0, 0.3),
+          #F9329D,
+          #E270FE,
+          #BA70FE,
+          rgba(0, 0, 0, 0.3));
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: rgba(0, 0, 0, 0.3);
+      animation: obsHeaderWash 8s ease-in-out infinite;
     }
+
+    @keyframes obsHeaderWash {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
     .obs-line {
       display: grid;
       grid-template-columns: 100px 1fr;
@@ -198,6 +221,7 @@
       margin-bottom: 24px;
       align-items: baseline;
     }
+
     .obs-speaker {
       font-family: 'Courier Prime', monospace;
       font-size: 10px;
@@ -207,36 +231,22 @@
       padding-right: 16px;
       padding-top: 4px;
     }
-    .obs-speaker.sophia-sp { color: #c0392b; border-color: #c0392b; }
-    .obs-speaker.alex-sp   { color: #1a2fc2; border-color: #1a2fc2; }
+
+    .obs-speaker.sophia-sp {
+      color: #c0392b;
+      border-color: #c0392b;
+    }
+
+    .obs-speaker.alex-sp {
+      color: #1a2fc2;
+      border-color: #1a2fc2;
+    }
+
     .obs-text {
       font-family: 'IM Fell English', serif;
       font-size: 18px;
       line-height: 1.75;
       color: #2a2a2a;
-    }
-
-    /* Transition text before sky */
-    .fade-into {
-      min-height: 50vh;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 80px 40px;
-      position: relative;
-      overflow: hidden;
-    }
-    .fade-into p {
-      font-family: 'IM Fell English', serif;
-      font-style: italic;
-      font-size: clamp(20px, 3vw, 32px);
-      color: rgba(255,255,255,0.5);
-      text-align: center;
-      max-width: 500px;
-      line-height: 1.9;
-      position: relative;
-      z-index: 2;
     }
 
     /* ══════════════════════════════════════
@@ -253,9 +263,11 @@
     .sky-level {
       box-sizing: content-box;
       position: absolute;
-      top: 0; left: 0;
+      top: 0;
+      left: 0;
       width: 100%;
     }
+
     .sky-level div {
       float: left;
       height: 4px;
@@ -263,52 +275,149 @@
     }
 
     /* Level colors (6 layers, top=1 down to 6) */
-    .sky-level:nth-child(1) { padding-top: 16.66vh; height: 0; color: #F9329D; background: currentColor; z-index: 6; }
-    .sky-level:nth-child(2) { padding-top: 33.33vh; height: 0; color: #FE5EB4; background: currentColor; z-index: 5; }
-    .sky-level:nth-child(3) { padding-top: 50.00vh; height: 0; color: #FE6FBB; background: currentColor; z-index: 4; }
-    .sky-level:nth-child(4) { padding-top: 66.66vh; height: 0; color: #FE70EE; background: currentColor; z-index: 3; }
-    .sky-level:nth-child(5) { padding-top: 83.33vh; height: 0; color: #E270FE; background: currentColor; z-index: 2; }
-    .sky-level:nth-child(6) { height: 100vh; color: #BA70FE; background: currentColor; z-index: 1; }
+    .sky-level:nth-child(1) {
+      padding-top: 16.66vh;
+      height: 0;
+      color: #F9329D;
+      background: currentColor;
+      z-index: 6;
+    }
+
+    .sky-level:nth-child(2) {
+      padding-top: 33.33vh;
+      height: 0;
+      color: #FE5EB4;
+      background: currentColor;
+      z-index: 5;
+    }
+
+    .sky-level:nth-child(3) {
+      padding-top: 50.00vh;
+      height: 0;
+      color: #FE6FBB;
+      background: currentColor;
+      z-index: 4;
+    }
+
+    .sky-level:nth-child(4) {
+      padding-top: 66.66vh;
+      height: 0;
+      color: #FE70EE;
+      background: currentColor;
+      z-index: 3;
+    }
+
+    .sky-level:nth-child(5) {
+      padding-top: 83.33vh;
+      height: 0;
+      color: #E270FE;
+      background: currentColor;
+      z-index: 2;
+    }
+
+    .sky-level:nth-child(6) {
+      height: 100vh;
+      color: #BA70FE;
+      background: currentColor;
+      z-index: 1;
+    }
 
     /* Stars layer */
     .sky-stars {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       z-index: 10;
       pointer-events: none;
     }
 
     .dot {
       position: absolute;
-      width: 4px; height: 4px;
+      width: 4px;
+      height: 4px;
       background: #FEC8C9;
       border-radius: 50%;
     }
-    .dot--blinking { animation: blink .6s linear infinite; }
+
+    .dot--blinking {
+      animation: blink .6s linear infinite;
+    }
 
     .star {
       position: absolute;
       color: #FEC8C9;
       animation: starScale .8s linear infinite;
     }
+
     .star__part {
       position: absolute;
       background: currentColor;
     }
-    .star__part:nth-child(1) { left:0; top:50%; transform:translateY(-50%); width:100%; height:20%; }
-    .star__part:nth-child(2) { left:50%; top:0; transform:translateX(-50%); width:20%; height:100%; }
-    .star--sm { width: 22px; height: 22px; }
-    .star--lg { width: 44px; height: 44px; }
+
+    .star__part:nth-child(1) {
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+      height: 20%;
+    }
+
+    .star__part:nth-child(2) {
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      width: 20%;
+      height: 100%;
+    }
+
+    .star--sm {
+      width: 22px;
+      height: 22px;
+    }
+
+    .star--lg {
+      width: 44px;
+      height: 44px;
+    }
 
     @keyframes blink {
-      0%,32%,67%,100% { opacity:1; }
-      33%,66%          { opacity:0; }
+
+      0%,
+      32%,
+      67%,
+      100% {
+        opacity: 1;
+      }
+
+      33%,
+      66% {
+        opacity: 0;
+      }
     }
+
     @keyframes starScale {
-      0%,16%,84%,100% { transform: scale(.75); }
-      17%,33%,67%,83% { transform: scale(1); }
-      34%,50%,66%     { transform: scale(1.15); }
+
+      0%,
+      16%,
+      84%,
+      100% {
+        transform: scale(.75);
+      }
+
+      17%,
+      33%,
+      67%,
+      83% {
+        transform: scale(1);
+      }
+
+      34%,
+      50%,
+      66% {
+        transform: scale(1.15);
+      }
     }
 
     /* Sky caption */
@@ -320,11 +429,12 @@
       z-index: 20;
       text-align: center;
     }
+
     .sky-caption p {
       font-family: 'IM Fell English', serif;
       font-style: italic;
       font-size: clamp(18px, 2.5vw, 26px);
-      color: rgba(255,255,255,0.7);
+      color: rgba(255, 255, 255, 0.7);
       line-height: 1.8;
       max-width: 500px;
     }
@@ -337,23 +447,30 @@
       transform: translateX(-50%);
       z-index: 20;
     }
+
     .sky-end a {
       font-family: 'Courier Prime', monospace;
       font-size: 10px;
       letter-spacing: 0.3em;
-      color: rgba(255,255,255,0.25);
+      color: rgba(255, 255, 255, 0.25);
       text-decoration: none;
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       padding: 10px 24px;
       border-radius: 2px;
       transition: all 0.3s;
     }
-    .sky-end a:hover { color: #fff; border-color: rgba(255,255,255,0.5); }
+
+    .sky-end a:hover {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.5);
+    }
   </style>
 </head>
+
 <body>
 
   <a href="alex-session5b.html" class="back-float">← Session 5</a>
+  <div class="audio-hint" id="audioHint">Press [SPACE] to Mute</div>
 
   <!-- ── TITLE ── -->
   <div class="title-card">
@@ -361,33 +478,40 @@
     <h1 class="title-main">Sophia<br>in Alex's Eyes</h1>
     <p class="title-sub">as told in Session 5</p>
 
-    <!-- ── AUDIO PLAYER: D_E_A_T_H_M_E_T_A_L (Auto-plays) ── -->
-    <div id="audioplayer">
-      <button id="pButton" class="play" aria-label="Play"></button>
-      <div id="timeline">
-        <div id="playhead"></div>
-      </div>
-    </div>
-    <audio id="music" src="Angel's Stardust/17. D_E_A_T_H_M_E_T_A_L.mp3" autoplay preload="metadata"></audio>
+    <audio id="music" autoplay preload="auto">
+      <source src="Angel's Stardust/17. D_E_A_T_H_M_E_T_A_L.mp3" type="audio/mpeg">
+      <source src="Angel%27s%20Stardust/17.%20D_E_A_T_H_M_E_T_A_L.mp3" type="audio/mpeg">
+    </audio>
   </div>
 
   <!-- ── PROSE ── -->
   <div class="prose-section">
     <p>They didn't like her.</p>
-    <p>She was special — <em>different</em> — and they hated that. She would forget her stuff always. Her keys, her books. She couldn't walk well or coordinate herself. During the party she said she forgot to bring the cake for Akira, but unlike others Akira knew her. He was angry the way he usually is, but he was fine with it. Others hated her. Harpy. Limbo. That's what she was to them.</p>
-    <p>They used to tell stories about her being a slut. She sneaked money out of her mom's wallet to afford meds — she was not on them, she said. She had researched enough and it was okay. It helped her breathe.</p>
-    <p>Her boyfriend was a jerk. I always thought she was with him for the sake of loneliness. I was jealous — but I also felt bad for her. He would always scream at her. She couldn't control her emotions. It was not in her hands. I was also similar — very difficult to work with, I guess.</p>
+    <p>She was special — <em>different</em> — and they hated that. She would forget her stuff always. Her keys, her
+      books. She couldn't walk well or coordinate herself. During the party she said she forgot to bring the cake for
+      Akira, but unlike others Akira knew her. He was angry the way he usually is, but he was fine with it. Others hated
+      her. Harpy. Limbo. That's what she was to them.</p>
+    <p>They used to tell stories about her being a slut. She sneaked money out of her mom's wallet to afford meds — she
+      was not on them, she said. She had researched enough and it was okay. It helped her breathe.For me she was special
+      , i thought she was an antisocial extrovert</p>
+    <p>Her boyfriend was a jerk. I always thought she was with him for the sake of loneliness. I was jealous — but I
+      also felt bad for her. He would always scream at her. She couldn't control her emotions. It was not in her hands.
+      I was also similar — very difficult to work with, I guess.</p>
 
     <span class="beat">· · ·</span>
 
     <p>We all were pretending to be someone else. Underneath it was still us — and that's what we hated the most.</p>
-    <p>We became good friends. Our dorm was the same — she was a floor above. We used to hang out every Saturday. I used to wish I could see her more, but it was fine.</p>
-    <p>Her boyfriend Sid hated it — that I spent time with her. But I couldn't care. He was a skinhead, not the Nazi kind, just angry. He knew Akira was with me so he didn't bother me.</p>
-    <p>Deep down I felt she liked me as well. She was with him to not make him feel bad. But that's just me, I guess.</p>
+    <p>We became good friends. Our dorm was the same — she was a floor above. We used to hang out every Saturday. I used
+      to wish I could see her more, but it was fine.</p>
+    <p>Her boyfriend Sid hated it — that I spent time with her. But I couldn't care. He was a skinhead, not the Nazi
+      kind, just angry. He knew Akira was with me so he didn't bother me.</p>
+    <p>Deep down I felt she liked me as well. She was with him to not make him feel bad. But that's just me, I guess.
+    </p>
 
     <span class="beat">· · ·</span>
 
-    <p>One night she was alone. It was a Friday — no one is alone that night. She felt numb. I asked her if she was okay and she said —</p>
+    <p>One night she was alone. It was a Friday — no one is alone that night. She felt numb. I asked her if she was okay
+      and she said —</p>
     <p><em>"wanna go to the mountain?"</em></p>
     <p>At night? This time? Are you crazy?</p>
     <p><em>Yes, maybe. I don't know.</em></p>
@@ -405,25 +529,57 @@
 
       <div class="obs-line">
         <span class="obs-speaker sophia-sp">SOPHIA</span>
-        <span class="obs-text">You know — the guy working here — he saw Mars and thought they were a big civilization, due to those weird lines you see on the map.</span>
+        <span class="obs-text">You know — the guy working here — he saw Mars and thought they were a big civilization,
+          due to those weird lines you see on the map.</span>
       </div>
 
       <div class="obs-line">
         <span class="obs-speaker alex-sp">ALEX</span>
-        <span class="obs-text">Well, that's a lot of assumption.</span>
+        <span class="obs-text">These lines?</span>
       </div>
 
       <div class="obs-line">
         <span class="obs-speaker sophia-sp">SOPHIA</span>
-        <span class="obs-text">We do that all the time, don't we?</span>
+        <span class="obs-text">Yeah they looked like some igloos to him.</span>
+      </div>
+
+      <!-- ── PLACEHOLDER LINES — replace text below with real dialogue ── -->
+      <div class="obs-line">
+        <span class="obs-speaker alex-sp">ALEX</span>
+        <span class="obs-text">They look like if you are high enough</span>
+      </div>
+
+      <div class="obs-line">
+        <span class="obs-speaker sophia-sp">SOPHIA</span>
+        <span class="obs-text">well for him , these lines were some proof of alien life planning to attack us</span>
+      </div>
+
+      <div class="obs-line">
+        <span class="obs-speaker alex-sp">ALEX</span>
+        <span class="obs-text">what if they did and you are speaking to one right now??</span>
+      </div>
+
+      <div class="obs-line">
+        <span class="obs-speaker sophia-sp">SOPHIA</span>
+        <span class="obs-text">you are an alien not gonna lie</span>
+      </div>
+
+      <div class="obs-line">
+        <span class="obs-speaker alex-sp">ALEX</span>
+        <span class="obs-text">oh no , you discovered our hideouts</span>
+      </div>
+
+      <div class="obs-line">
+        <span class="obs-speaker sophia-sp">SOPHIA</span>
+        <span class="obs-text">but i believe it shows how many assumptions we took before coming to the reality</span>
+      </div>
+
+      <div class="obs-line">
+        <span class="obs-speaker alex-sp">ALEX</span>
+        <span class="obs-text"> we all do that in some way</span>
       </div>
 
     </div>
-  </div>
-
-  <!-- ── TRANSITION INTO SKY ── -->
-  <div class="fade-into">
-    <p>and it fades into the sky</p>
   </div>
 
   <!-- ══════════ SKY EFFECT ══════════ -->
@@ -453,7 +609,7 @@
 
   <script>
     // ── SKY PIXEL TRANSITION LAYERS ──
-    (function() {
+    (function () {
       const TRANSITION = 40;
       const skyLevels = document.querySelectorAll('.sky-level:not(:last-child)');
 
@@ -471,7 +627,7 @@
     })();
 
     // ── STARS & DOTS ──
-    (function() {
+    (function () {
       const DOTS = 14;
       const SM_STARS = 4;
       const LG_STARS = 2;
@@ -480,7 +636,7 @@
 
       // Random dots
       for (let i = 0; i < DOTS; i++) {
-        const top  = Math.random() * 90;
+        const top = Math.random() * 90;
         const left = Math.random() * 100;
         const blink = Math.random() < 0.33 ? ' dot--blinking' : '';
         html += `<span class="dot${blink}" style="top:${top}%;left:${left}%;"></span>`;
@@ -488,16 +644,16 @@
 
       // Small stars
       for (let i = 0; i < SM_STARS; i++) {
-        const top  = Math.random() * 80;
+        const top = Math.random() * 80;
         const left = Math.random() * 90;
-        html += `<span class="star star--sm" style="top:${top}%;left:${left}%;animation-delay:${Math.random()*0.8}s;"><span class="star__part"></span><span class="star__part"></span></span>`;
+        html += `<span class="star star--sm" style="top:${top}%;left:${left}%;animation-delay:${Math.random() * 0.8}s;"><span class="star__part"></span><span class="star__part"></span></span>`;
       }
 
       // Large stars
       for (let i = 0; i < LG_STARS; i++) {
-        const top  = Math.random() * 60;
+        const top = Math.random() * 60;
         const left = Math.random() * 80;
-        html += `<span class="star star--lg" style="top:${top}%;left:${left}%;animation-delay:${Math.random()*0.8}s;"><span class="star__part"></span><span class="star__part"></span></span>`;
+        html += `<span class="star star--lg" style="top:${top}%;left:${left}%;animation-delay:${Math.random() * 0.8}s;"><span class="star__part"></span><span class="star__part"></span></span>`;
       }
 
       starsEl.innerHTML = html;
@@ -523,112 +679,74 @@
 
     proseParas.forEach(p => obs.observe(p));
 
-    /* ── AUDIO PLAYER: D_E_A_T_H_M_E_T_A_L (AUTOPLAY) ── */
-    (function() {
+    /* ── DIRECT AUDIO & SPACEBAR TOGGLE ── */
+    (function () {
       var music = document.getElementById('music');
-      var duration = music ? music.duration : 0;
-      var pButton = document.getElementById('pButton');
-      var playhead = document.getElementById('playhead');
-      var timeline = document.getElementById('timeline');
-      if (!music || !pButton || !playhead || !timeline) return;
+      var hint = document.getElementById('audioHint');
+      if (!music) return;
 
-      var timelineWidth = timeline.offsetWidth - playhead.offsetWidth;
-
-      pButton.addEventListener("click", play);
-      music.addEventListener("timeupdate", timeUpdate, false);
-
-      timeline.addEventListener("click", function(event) {
-        moveplayhead(event);
-        if (duration) music.currentTime = duration * clickPercent(event);
-      }, false);
-
-      function clickPercent(event) {
-        return (event.clientX - getPosition(timeline)) / timelineWidth;
-      }
-
-      playhead.addEventListener('mousedown', mouseDown, false);
-      window.addEventListener('mouseup', mouseUp, false);
-
-      var onplayhead = false;
-
-      function mouseDown() {
-        onplayhead = true;
-        window.addEventListener('mousemove', moveplayhead, true);
-        music.removeEventListener('timeupdate', timeUpdate, false);
-      }
-
-      function mouseUp(event) {
-        if (onplayhead == true) {
-          moveplayhead(event);
-          window.removeEventListener('mousemove', moveplayhead, true);
-          if (duration) music.currentTime = duration * clickPercent(event);
-          music.addEventListener('timeupdate', timeUpdate, false);
-        }
-        onplayhead = false;
-      }
-
-      function moveplayhead(event) {
-        var newMargLeft = event.clientX - getPosition(timeline);
-        if (newMargLeft >= 0 && newMargLeft <= timelineWidth) {
-          playhead.style.marginLeft = newMargLeft + "px";
-        }
-        if (newMargLeft < 0) {
-          playhead.style.marginLeft = "0px";
-        }
-        if (newMargLeft > timelineWidth) {
-          playhead.style.marginLeft = timelineWidth + "px";
+      function updateHint() {
+        if (hint) {
+          hint.textContent = music.paused ? 'Press [SPACE] to Play' : 'Press [SPACE] to Mute';
         }
       }
 
-      function timeUpdate() {
-        if (!duration && music.duration) duration = music.duration;
-        if (duration) {
-          var playPercent = timelineWidth * (music.currentTime / duration);
-          playhead.style.marginLeft = playPercent + "px";
-        }
-        if (music.currentTime == duration) {
-          pButton.className = "play";
-        }
-      }
-
-      function play() {
+      function playAudio() {
         if (music.paused) {
-          music.play().then(() => {
-            pButton.className = "pause";
-          }).catch(e => console.log(e));
-        } else {
-          music.pause();
-          pButton.className = "play";
+          music.play().then(function () {
+            updateHint();
+          }).catch(function (e) {
+            console.log("Autoplay wait for interaction", e);
+          });
         }
       }
 
-      // Autoplay attempt with interaction fallback
-      function attemptAutoplay() {
-        music.play().then(() => {
-          pButton.className = "pause";
-        }).catch(() => {
-          const autoPlayOnUserAction = () => {
-            music.play().then(() => {
-              pButton.className = "pause";
-            });
-            document.removeEventListener('click', autoPlayOnUserAction);
-            document.removeEventListener('scroll', autoPlayOnUserAction);
-          };
-          document.addEventListener('click', autoPlayOnUserAction);
-          document.addEventListener('scroll', autoPlayOnUserAction);
+      function pauseAudio() {
+        if (!music.paused) {
+          music.pause();
+          updateHint();
+        }
+      }
+
+      function toggleAudio() {
+        if (music.paused) {
+          playAudio();
+        } else {
+          pauseAudio();
+        }
+      }
+
+      // Autoplay attempt
+      music.muted = false;
+      playAudio();
+
+      // Fallback: start on first user interaction if browser blocks unmuted initial autoplay
+      function unlockAudio() {
+        if (music.paused) {
+          playAudio();
+        }
+        ['click', 'keydown', 'touchstart', 'scroll'].forEach(function (evt) {
+          document.removeEventListener(evt, unlockAudio);
         });
       }
+      ['click', 'keydown', 'touchstart', 'scroll'].forEach(function (evt) {
+        document.addEventListener(evt, unlockAudio);
+      });
 
-      music.addEventListener("canplaythrough", function() {
-        duration = music.duration;
-      }, false);
+      // Spacebar event listener to switch off / toggle music
+      window.addEventListener('keydown', function (e) {
+        if (e.code === 'Space' || e.key === ' ' || e.keyCode === 32) {
+          var tag = e.target.tagName ? e.target.tagName.toLowerCase() : '';
+          if (tag === 'input' || tag === 'textarea') return;
+          e.preventDefault();
+          toggleAudio();
+        }
+      });
 
-      attemptAutoplay();
-
-      function getPosition(el) {
-        return el.getBoundingClientRect().left;
-      }
+      music.addEventListener('play', updateHint);
+      music.addEventListener('pause', updateHint);
     })();
   </script>
 </body>
+
 </html>

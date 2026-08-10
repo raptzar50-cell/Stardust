@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E.T.I. — RESTRICTED ACCESS</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <style>
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes descend {
+      from { top: 45%; }
+      to   { top: 50%; }
+    }
+    @keyframes shake {
+      0%,100% { transform: translateX(0) translateY(-50%); }
+      20%     { transform: translateX(-10px) translateY(-50%); }
+      40%     { transform: translateX(10px) translateY(-50%); }
+      60%     { transform: translateX(-7px) translateY(-50%); }
+      80%     { transform: translateX(7px) translateY(-50%); }
+    }
+
+    body { margin: 0; padding: 0; background: #111; overflow-x: hidden; }
+
+    /* ── WRAPPER ── */
+    .wrapper {
+      margin: 0 auto;
+      width: 100%;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* ── LOGIN PAGE ── */
+    .login-page,
+    .home-page {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    .login-page {
+      background-image: url("http://res.cloudinary.com/mmdirir94/image/upload/v1519167949/architecture-3121009_960_720_lix21u.jpg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: black;
+      background-size: cover;
+      font-size: 16px;
+      z-index: 3;
+    }
+
+    /* dark tint over the photo */
+    .login-page::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+    }
+
+    /* scanlines */
+    .login-page::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0,0,0,0.07) 3px,
+        rgba(0,0,0,0.07) 4px
+      );
+      pointer-events: none;
+    }
+
+    /* ── LOGIN INNER ── */
+    .login-page-inner {
+      width: 400px;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      margin: 0 auto;
+      animation: fadeIn 1s ease-in-out, descend 0.5s ease-in-out;
+      z-index: 2;
+    }
+
+    /* shake state applied via JS */
+    .login-page-inner.is-shaking {
+      animation: shake 0.45s ease forwards;
+    }
+
+    /* ── USER ICON ── */
+    #user-icon-container,
+    #username-container,
+    #input-container {
+      text-align: center;
+    }
+
+    #user-icon-container {
+      margin: 0 auto;
+      width: 140px;
+      height: 140px;
+      font-size: 110%;
+      position: relative;
+    }
+
+    .user-icon-bg {
+      margin: 0 auto;
+      width: 140px;
+      height: 140px;
+      border-radius: 100%;
+      background-color: white;
+      opacity: 0.3;
+      position: relative;
+      z-index: -1;
+    }
+
+    .fa-user-o {
+      position: relative;
+      top: -115px;
+      z-index: 2;
+      color: white;
+      font-size: 72px;
+    }
+
+    /* ── USERNAME ── */
+    #username-container {
+      margin-bottom: 40px;
+      margin-top: 20px;
+      font-family: "Roboto", sans-serif;
+      font-size: 105%;
+      color: white;
+      letter-spacing: 0.1em;
+    }
+    #username-container small {
+      display: block;
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      color: rgba(255,255,255,0.3);
+      margin-top: 5px;
+      text-transform: uppercase;
+    }
+
+    /* ── INPUT CONTAINER ── */
+    #input-container {
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #password {
+      margin: 0;
+      height: 31px;
+      width: 260px;
+      padding-left: 10px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-right: none;
+      color: #fff;
+      font-family: monospace;
+      font-size: 13px;
+      outline: none;
+    }
+    #password::placeholder { color: rgba(255,255,255,0.3); }
+
+    #submit {
+      height: 31px;
+      padding: 0 14px;
+      position: relative;
+      right: 0;
+      background-color: #bdbdbd;
+      border: none;
+      border-radius: 0 2px 2px 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s;
+    }
+    #submit .fa-arrow-right {
+      line-height: 28px;
+      color: white;
+    }
+    #submit:hover { background-color: #9e9e9e; }
+    #submit.success { background-color: #2e7d32 !important; }
+
+    /* ── ERROR MSG ── */
+    #error-msg {
+      text-align: center;
+      margin-top: 16px;
+      font-family: 'Roboto', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #ef5350;
+      height: 16px;
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+    #error-msg.visible { opacity: 1; }
+
+    /* ── CLASSIFICATION STRIP ── */
+    .login-classification {
+      position: absolute;
+      bottom: 16px;
+      left: 0; right: 0;
+      text-align: center;
+      font-family: monospace;
+      font-size: 9px;
+      letter-spacing: 0.28em;
+      color: rgba(255,255,255,0.15);
+      text-transform: uppercase;
+      z-index: 2;
+    }
+
+    /* ── SUCCESS GLITCH PAGE ── */
+    .home-page {
+      display: none;
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 10;
+      background: #111;
+      overflow: hidden;
+    }
+    .home-page.visible {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    /* ── GLITCH STYLES (from provided SCSS) ── */
+    #root {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateY(-50%) translateX(-50%);
+      z-index: 100;
+      width: 90%;
+      text-align: center;
+    }
+
+    #text {
+      top: 0;
+      left: -6px;
+      color: red;
+      mix-blend-mode: screen;
+      position: relative;
+      white-space: normal;
+      filter: blur(1px);
+      animation: skew 2s infinite, flash 0.04s infinite;
+      font-family: 'Bungee', cursive, monospace;
+      text-transform: uppercase;
+      font-size: clamp(20px, 3.5vw, 54px);
+      font-weight: bold;
+      line-height: 1.3;
+      margin: 0;
+    }
+
+    #text::after,
+    #text::before {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      mix-blend-mode: screen;
+    }
+
+    #text::after {
+      top: 0;
+      left: 6px;
+      color: blue;
+      animation: move 1.5s infinite;
+    }
+
+    #text::before {
+      top: -2.4px;
+      left: 3.6px;
+      color: limegreen;
+    }
+
+    .line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 1px;
+      background: blue;
+      mix-blend-mode: screen;
+      filter: blur(1px);
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    .line::after,
+    .line::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      mix-blend-mode: screen;
+    }
+
+    .line::after {
+      top: 2px;
+      background: red;
+    }
+
+    .line::before {
+      top: -2px;
+      background: limegreen;
+    }
+
+    @keyframes skew {
+      0%    { transform: none; }
+      30%   { transform: none; }
+      30.2% { transform: skewX(50deg); }
+      30.4% { transform: skewX(-50deg); }
+      31%   { transform: none; }
+    }
+
+    @keyframes move {
+      0%   { transform: none; }
+      30%  { transform: none; }
+      31%  { transform: translateX(-6px); }
+      33%  { transform: none; }
+      98%  { transform: none; }
+      100% { transform: translateX(6px); }
+    }
+
+    @keyframes flash {
+      0%   { opacity: 1; }
+      50%  { opacity: 0.5; }
+    }
+
+    @keyframes lines {
+      0%   { opacity: 0.1; }
+      50%  { opacity: 1; }
+    }
+
+    /* Back link on success page */
+    .back-home-link {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: monospace;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      text-transform: uppercase;
+      z-index: 150;
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 8px 20px;
+      border-radius: 3px;
+      transition: all 0.2s ease;
+    }
+    .back-home-link:hover {
+      color: #fff;
+      border-color: rgba(255,255,255,0.5);
+    }
+
+    /* ── MOBILE ── */
+    @media (min-width: 340px) and (max-width: 529px) {
+      .login-page-inner { width: 280px !important; }
+
+      #user-icon-container {
+        width: 120px !important;
+        height: 120px !important;
+      }
+      .user-icon-bg { width: 120px !important; height: 120px !important; }
+      .fa-user-o    { top: -100px !important; }
+
+      #password { width: 180px !important; }
+      #submit    { height: 31px !important; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- ── LOGIN PAGE ── -->
+  <div class="login-page" id="login-page">
+
+    <div class="login-page-inner" id="login-inner">
+
+      <div id="user-icon-container">
+        <div class="user-icon-bg"></div>
+        <i class="fa fa-user-o" aria-hidden="true"></i>
+      </div>
+
+      <div id="username-container">
+        Dr. Mary Clark
+        <small>E.T.I. — Restricted Access</small>
+      </div>
+
+      <div id="input-container">
+        <input
+          type="password"
+          id="password"
+          placeholder="Access code…"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <button id="submit" onclick="submitPassword()" aria-label="Submit">
+          <i class="fa fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <div id="error-msg">ACCESS DENIED — INVALID CREDENTIALS</div>
+
+    </div>
+
+    <div class="login-classification">
+      Eastbrook Therapeutic Institute &nbsp;·&nbsp; ETI-ARCH-2024 &nbsp;·&nbsp; Restricted
+    </div>
+
+  </div><!-- /login-page -->
+
+  <!-- ── SUCCESS / GLITCH PAGE ── -->
+  <div class="home-page" id="home-page">
+    <div id="root">
+      <div id="text" data-text="my perfect father had flaws my mother felt powerless">
+        my perfect father had flaws my mother felt powerless
+      </div>
+    </div>
+    <a href="chapter1.html" class="back-home-link">← Return to Chapter One</a>
+  </div>
+
+</div><!-- /wrapper -->
+
+<script>
+  const CORRECT = 'RealYou.EXE';
+
+  function getHeight() {
+    return window.innerHeight
+      || document.documentElement.clientHeight
+      || document.body.clientHeight;
+  }
+
+  function drawLines() {
+    const lines = document.getElementsByClassName('line');
+    while (lines.length > 0) {
+      lines[0].parentNode.removeChild(lines[0]);
+    }
+    
+    const numLines = Math.floor(getHeight() / 10);
+    for (let i = 0; i < numLines; i++) {
+      const line = document.createElement("div");  
+      line.className = `line line-${i}`;
+      line.style.top = `${i * 10}px`;
+      const time = Math.random() * 5 + 0.5;
+      line.style.animation = `lines ${time}s infinite`;
+      document.body.appendChild(line);
+    }
+  }
+
+  window.onresize = function() {
+    if (document.getElementById('home-page').classList.contains('visible')) {
+      drawLines();
+    }
+  };
+
+  function submitPassword() {
+    var pw         = document.getElementById('password').value;
+    var loginPage  = document.getElementById('login-page');
+    var homePage   = document.getElementById('home-page');
+    var submitBtn  = document.getElementById('submit');
+    var errorMsg   = document.getElementById('error-msg');
+    var loginInner = document.getElementById('login-inner');
+
+    if (pw === CORRECT) {
+      // correct — green button → fade out login → show glitch message & lines
+      errorMsg.classList.remove('visible');
+
+      setTimeout(function () {
+        submitBtn.classList.add('success');
+      }, 300);
+
+      setTimeout(function () {
+        loginPage.style.transition = 'opacity 0.6s ease';
+        loginPage.style.opacity = '0';
+      }, 800);
+
+      setTimeout(function () {
+        loginPage.style.display = 'none';
+        homePage.classList.add('visible');
+        drawLines();
+      }, 1400);
+
+    } else {
+      // wrong — shake + error message
+      errorMsg.classList.add('visible');
+
+      loginInner.classList.remove('is-shaking');
+      void loginInner.offsetWidth; // reflow
+      loginInner.classList.add('is-shaking');
+      loginInner.addEventListener('animationend', function () {
+        loginInner.classList.remove('is-shaking');
+      }, { once: true });
+
+      document.getElementById('password').value = '';
+
+      setTimeout(function () {
+        errorMsg.classList.remove('visible');
+      }, 2200);
+    }
+  }
+
+  /* ── keydown listener ── */
+  document.addEventListener('keydown', formValidation);
+
+  function formValidation(e) {
+    if (13 === e.keyCode) {
+      submitPassword();
+    }
+    // ESC → back to chapter 1
+    if (27 === e.keyCode) {
+      window.location.href = 'chapter1.html';
+    }
+  }
+
+  // Auto-focus password on load
+  window.addEventListener('load', function () {
+    document.getElementById('password').focus();
+  });
+</script>
+
+</body>
+</html>

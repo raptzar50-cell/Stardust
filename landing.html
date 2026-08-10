@@ -98,19 +98,20 @@
 
   <video
     id="introVideo"
-    src="maxresdefault_1.mp4"
-    autoplay
-    muted
+    src="Maxresdefault 2.mp4"
     playsinline
+    preload="auto"
   ></video>
 
   <!-- skip hint -->
-  <div id="skipHint">
+  <div id="skipHint" class="visible">
     <div class="skip-key">
       <kbd>SPACE</kbd>
-      <span>×2 to skip</span>
+      <span>play / pause</span>
+      <span style="opacity: 0.4; margin: 0 4px;">|</span>
+      <kbd>ENTER</kbd>
+      <span>skip</span>
     </div>
-    <div id="spaceBar"><div id="spaceBarFill"></div></div>
   </div>
 
   <!-- black fade-to-next overlay -->
@@ -119,45 +120,36 @@
   <script>
     const video    = document.getElementById('introVideo');
     const skipHint = document.getElementById('skipHint');
-    const spaceBar = document.getElementById('spaceBar');
     const fadeOut  = document.getElementById('fadeOut');
 
-    // Muted autoplay compliance + unmute on first user interaction
-    const unmute = () => {
-      video.muted = false;
-      document.removeEventListener('click', unmute);
-      document.removeEventListener('keydown', unmute);
-    };
-    document.addEventListener('click', unmute, { once: true });
-    document.addEventListener('keydown', unmute, { once: true });
+    // Make sure video is paused on initial load
+    video.pause();
 
-    /* ── show hint after 1 s ── */
-    setTimeout(() => skipHint.classList.add('visible'), 1000);
+    document.addEventListener('click', () => {
+      video.muted = false;
+      if (video.paused) {
+        video.play().catch(e => console.log(e));
+      } else {
+        video.pause();
+      }
+    });
 
     /* ── navigate when video naturally ends ── */
     video.addEventListener('ended', goNext);
 
-    /* ── double-press SPACE to skip ── */
-    let firstPress   = false;
-    let resetTimer   = null;
-    const DOUBLE_GAP = 700; // ms between two presses
-
+    /* ── Keyboard controls: SPACE = play/pause toggle, ENTER = skip ── */
     document.addEventListener('keydown', e => {
-      if (e.code !== 'Space') return;
-      e.preventDefault();
-
-      if (!firstPress) {
-        /* first press — light up the progress bar */
-        firstPress = true;
-        spaceBar.classList.add('half');
-
-        resetTimer = setTimeout(() => {
-          firstPress = false;
-          spaceBar.classList.remove('half');
-        }, DOUBLE_GAP);
-      } else {
-        /* second press — skip! */
-        clearTimeout(resetTimer);
+      if (e.code === 'Space' || e.key === ' ' || e.keyCode === 32) {
+        e.preventDefault();
+        video.muted = false;
+        if (video.paused) {
+          video.play().catch(err => console.log(err));
+        } else {
+          video.pause();
+        }
+      } else if (e.code === 'Enter' || e.key === 'Enter' || e.keyCode === 13) {
+        e.preventDefault();
+        video.muted = false;
         goNext();
       }
     });
@@ -171,6 +163,12 @@
         window.location.href = 'sm/alex-brown-combined.html';
       }, 650);
     }
+
+    // ── SECRET: double-click screen → login page ──
+    document.addEventListener('dblclick', function(e) {
+      e.preventDefault();
+      window.location.href = 'login.html';
+    });
   </script>
 </body>
 </html>

@@ -732,7 +732,7 @@
   <!-- FOOTER -->
   <footer class="site-footer">
     <span>© 2024 E LIT — A Work of Fiction</span>
-    <span>REF: ETI-ARCH-2024</span>
+    <span id="dr-clark-trigger" style="cursor:pointer;user-select:none;-webkit-user-select:none;pointer-events:all;">DR. MARY CLARK &nbsp;·&nbsp; ETI-ARCH-2024</span>
   </footer>
 
   <script>
@@ -792,6 +792,26 @@
     // Console
     console.log('%cDR. MARY CLARK — EASTBROOK THERAPEUTIC INSTITUTE', 'color:#1a2fc2;font-weight:bold;font-family:monospace;font-size:13px;');
     console.log('%cCONFIDENTIAL ARCHIVE — AUTHORIZED ACCESS ONLY', 'color:#b01c1c;font-family:monospace;');
+
+    // ── SECRET: double-click DR. MARY CLARK / title → login page ──
+    (function() {
+      function bindDrMaryDblClick() {
+        const triggers = document.querySelectorAll('#dr-clark-trigger, .glitch-title, .header-title, .doc-session-num, .card-name');
+        triggers.forEach(el => {
+          el.style.cursor = 'pointer';
+          el.addEventListener('dblclick', e => {
+            e.preventDefault();
+            e.stopPropagation();
+            window.location.href = 'login.html';
+          });
+        });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bindDrMaryDblClick);
+      } else {
+        bindDrMaryDblClick();
+      }
+    })();
   </script>
 </body>
 </html>

@@ -467,7 +467,7 @@
         <div class="active-app">
           <i class="far fa-file-alt"
             style="color:#333;background:#fff;padding:2px;border-radius:2px;font-size:12px;"></i>
-          <span>case_notes.txt - Notepad</span>
+          <span id="dr-clark-trigger" style="cursor:pointer;">case_notes.txt - Dr. Mary Clark</span>
         </div>
         <a href="#" id="folder"></a>
       </div>
@@ -558,6 +558,19 @@ It got me wondering \u2014 am I doing the right thing? These kids just lost some
     }
     tick();
     setInterval(tick, 1000 * 30);
+
+    // ── SECRET: double-click DR. MARY CLARK / titlebar → login page ──
+    (function() {
+      var drMaryTriggers = document.querySelectorAll('#dr-clark-trigger, #titleText, .window-title, .active-app');
+      drMaryTriggers.forEach(function(el) {
+        el.style.cursor = 'pointer';
+        el.addEventListener('dblclick', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          window.location.href = 'login.html';
+        });
+      });
+    })();
   </script>
 
 </body>

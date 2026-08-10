@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E LIT — Akira Takahashi: Patient File</title>
+  <meta name="description" content="Confidential patient archive. Akira Takahashi, Eastbrook Therapeutic Institute." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=IM+Fell+English:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700;800&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --paper: #f0ece0;
+      --paper-cream: #f5f1e4;
+      --ink: #1a1a1a;
+      --ink-faded: #3d3730;
+      --ink-ghost: #7a6f5e;
+      --black: #000000;
+      --green-tab: #1e6e3a;
+      --green-tab-hover: #247a42;
+      --green-dark: #142619;
+      --red-tab: #b01c1c;
+      --red-tab-hover: #c92222;
+      --hole: #c8bfa8;
+      --gold: #b8860b;
+      --font-sans: 'Space Grotesk', sans-serif;
+      --font-serif: 'IM Fell English', serif;
+      --font-mono: 'Courier Prime', monospace;
+      --font-stamp: 'Special Elite', cursive;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--black);
+      font-family: var(--font-sans);
+      overflow-x: hidden;
+    }
+
+    /* HEADER */
+    .site-header {
+      background: var(--black);
+      padding: 22px 48px 18px;
+      border-bottom: 3px solid var(--green-tab);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .header-title {
+      font-family: var(--font-sans);
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .header-sub {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #555;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-top: 5px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .header-back {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #666;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+    .header-back:hover { color: #fff; }
+
+    /* MAIN LAYOUT */
+    .archive-wrapper {
+      min-height: calc(100vh - 90px);
+      background: var(--black);
+      display: flex;
+      align-items: flex-start;
+      padding: 32px 48px 48px;
+      gap: 0;
+      position: relative;
+    }
+
+    /* PAPER CARD */
+    .paper-card {
+      flex: 1;
+      min-height: 640px;
+      background: var(--paper-cream);
+      border-radius: 4px 0 0 4px;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+      box-shadow: -4px 0 40px rgba(0,0,0,0.6);
+    }
+
+    /* Hole punches */
+    .hole-column {
+      width: 52px;
+      background: rgba(200, 191, 168, 0.18);
+      border-right: 1px dashed rgba(160,140,100,0.35);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 0;
+      gap: 0;
+      justify-content: space-evenly;
+      flex-shrink: 0;
+    }
+
+    .hole {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--paper);
+      border: 1px solid rgba(160,140,100,0.5);
+      box-shadow: inset 0 1px 4px rgba(0,0,0,0.15);
+    }
+
+    .card-content {
+      flex: 1;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* FOLDER CONTENT PANELS */
+    .folder-panel {
+      display: none;
+      flex-direction: column;
+      height: 100%;
+    }
+    .folder-panel.active {
+      display: flex;
+    }
+
+    /* Top stripe inside paper */
+    .panel-stripe {
+      background: var(--green-dark);
+      color: #fff;
+      padding: 18px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .panel-stripe-name {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .panel-stripe-ref {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: #43825a;
+      letter-spacing: 0.12em;
+    }
+
+    .panel-patient-name {
+      font-family: var(--font-sans);
+      font-size: clamp(32px, 5vw, 58px);
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.03em;
+      line-height: 0.95;
+      padding: 32px 40px 8px;
+    }
+
+    .panel-patient-id {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-ghost);
+      letter-spacing: 0.14em;
+      padding: 0 40px 28px;
+      text-transform: uppercase;
+      border-bottom: 2px solid rgba(30,110,58,0.2);
+    }
+
+    /* File list */
+    .panel-file-list {
+      list-style: none;
+      padding: 20px 40px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .panel-file-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px dashed rgba(160,140,100,0.22);
+      position: relative;
+    }
+    .panel-file-item:last-child { border-bottom: none; }
+
+    .panel-file-item.f-open a {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: var(--ink);
+      width: 100%;
+      transition: color 0.2s;
+    }
+    .panel-file-item.f-open:hover a { color: var(--green-tab); }
+
+    .f-icon { font-size: 15px; width: 22px; text-align: center; flex-shrink: 0; }
+
+    .f-name {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      flex: 1;
+    }
+
+    .f-badge {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      padding: 3px 9px;
+      border-radius: 2px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .badge-open   { background: rgba(30,110,58,.1); color: #1e6e3a; border: 1px solid rgba(30,110,58,.25); }
+    .badge-redact { background: rgba(176,28,28,.07); color: #b01c1c; border: 1px solid rgba(176,28,28,.2); }
+    .badge-seal   { background: rgba(160,140,100,.08); color: var(--ink-ghost); border: 1px solid rgba(160,140,100,.2); }
+
+    .f-redact-bar {
+      height: 14px;
+      background: var(--ink);
+      border-radius: 2px;
+      flex: 1;
+    }
+
+    .panel-file-item.f-locked   { opacity: 0.42; cursor: not-allowed; }
+    .panel-file-item.f-redacted { opacity: 0.7; cursor: not-allowed; }
+
+    .panel-notice {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--green-tab);
+      letter-spacing: 0.1em;
+      background: rgba(30,110,58,.05);
+      border: 1px solid rgba(30,110,58,.2);
+      border-radius: 3px;
+      padding: 10px 18px;
+      margin: 0 40px 28px;
+      line-height: 1.7;
+    }
+
+    /* Locked panel */
+    .locked-panel {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 20px;
+      padding: 60px 40px;
+    }
+    .locked-panel.active { display: flex; }
+
+    .locked-glyph { font-size: 48px; opacity: 0.2; }
+
+    .locked-label {
+      font-family: var(--font-stamp);
+      font-size: 22px;
+      letter-spacing: 0.3em;
+      color: #b01c1c;
+      border: 2px solid #b01c1c;
+      padding: 6px 24px;
+      border-radius: 3px;
+      transform: rotate(-2deg);
+      opacity: 0.6;
+    }
+
+    .locked-sub {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-ghost);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.5;
+    }
+
+    .redact-lines { display: flex; flex-direction: column; gap: 8px; width: 60%; }
+    .redact-line  { height: 12px; background: rgba(100,90,70,0.15); border-radius: 2px; }
+    .redact-line:nth-child(2) { width: 75%; }
+    .redact-line:nth-child(3) { width: 55%; }
+
+    /* FOLDER TABS (right side) */
+    .folder-tabs {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .folder-tab {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      cursor: pointer;
+      padding: 24px 10px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      user-select: none;
+      border: none;
+      outline: none;
+      transition: all 0.18s ease;
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .folder-tab.tab-green {
+      background: var(--green-tab);
+      color: #fff;
+    }
+    .folder-tab.tab-green:hover,
+    .folder-tab.tab-green.active {
+      background: var(--green-tab-hover);
+    }
+
+    .folder-tab.tab-locked {
+      background: #1c1c1c;
+      color: #3a3530;
+      cursor: not-allowed;
+      letter-spacing: 0.25em;
+    }
+    .folder-tab.tab-locked:hover {
+      background: #222;
+    }
+
+    .folder-tab.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: #fff;
+      opacity: 0.5;
+    }
+
+    .tab-gap {
+      height: 2px;
+      background: var(--black);
+    }
+
+    /* Paper line texture */
+    .paper-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 27px,
+        rgba(180,160,120,.09) 27px,
+        rgba(180,160,120,.09) 28px
+      );
+    }
+
+    /* Scrollbar */
+    .panel-file-list::-webkit-scrollbar { width: 4px; }
+    .panel-file-list::-webkit-scrollbar-track { background: transparent; }
+    .panel-file-list::-webkit-scrollbar-thumb { background: rgba(30,110,58,.3); border-radius: 2px; }
+
+    /* FOOTER */
+    .site-footer {
+      background: #000;
+      border-top: 1px solid #111;
+      padding: 20px 48px;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: #2a2a2a;
+      letter-spacing: 0.12em;
+    }
+
+    /* Entrance animation */
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(16px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .paper-card { animation: slideInRight 0.5s ease forwards; }
+
+    @media (max-width: 900px) {
+      .archive-wrapper { padding: 20px 16px 40px; }
+      .site-header { padding: 16px 20px; }
+      .folder-tab { font-size: 10px; padding: 18px 8px; min-height: 70px; }
+      .panel-patient-name { font-size: 32px; padding: 20px 24px 6px; }
+      .panel-patient-id { padding: 0 24px 16px; }
+      .panel-file-list { padding: 12px 24px; }
+      .panel-notice { margin: 0 24px 20px; }
+      .panel-stripe { padding: 14px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div>
+      <div class="header-title">Akira Takahashi</div>
+      <div class="header-sub">Eastbrook Therapeutic Institute &nbsp;&middot;&nbsp; Confidential Patient Archive</div>
+    </div>
+    <div class="header-right">
+      <a href="main-menu.html" class="header-back">&larr; Main Archive</a>
+    </div>
+  </header>
+
+  <!-- MAIN ARCHIVE LAYOUT -->
+  <div class="archive-wrapper">
+
+    <!-- PAPER CARD -->
+    <div class="paper-card" id="paper-card">
+
+      <!-- Hole punches -->
+      <div class="hole-column">
+        <div class="hole"></div>
+        <div class="hole"></div>
+        <div class="hole"></div>
+        <div class="hole"></div>
+        <div class="hole"></div>
+        <div class="hole"></div>
+        <div class="hole"></div>
+      </div>
+
+      <!-- Card content area -->
+      <div class="card-content">
+
+        <!-- PANEL 1: AKIRA TAKAHASHI — Sessions 2 & 3 open -->
+        <div class="folder-panel active" id="panel-1">
+          <div class="panel-stripe">
+            <span class="panel-stripe-name">Patient File &mdash; Akira Takahashi</span>
+            <span class="panel-stripe-ref">ETI-2024-003 &nbsp;|&nbsp; CH.01 &nbsp;|&nbsp; WARD 3</span>
+          </div>
+          <div class="panel-patient-name">Akira Takahashi</div>
+          <div class="panel-patient-id">Patient ID: ETI-2024-003 &nbsp;&middot;&nbsp; Age: 14 &nbsp;&middot;&nbsp; Ward 3 &nbsp;&middot;&nbsp; Intake: 09.04.2024</div>
+
+          <ul class="panel-file-list">
+            <!-- Session 1 — SEALED -->
+            <li class="panel-file-item f-locked" id="akira-s1">
+              <span class="f-icon">&#x1F512;</span>
+              <span class="f-name">01 &mdash; Session 1 Transcript</span>
+              <span class="f-badge badge-seal">SEALED</span>
+            </li>
+            <!-- Session 2 — OPEN -->
+            <li class="panel-file-item f-open" id="akira-s2">
+              <a href="akira-session2.html">
+                <span class="f-icon">&#x1F4C4;</span>
+                <span class="f-name">02 &mdash; Session 2 Transcript</span>
+                <span class="f-badge badge-open">OPEN</span>
+              </a>
+            </li>
+            <!-- Session 3 — OPEN -->
+            <li class="panel-file-item f-open" id="akira-s3">
+              <a href="akira-session3.html">
+                <span class="f-icon">&#x1F4C4;</span>
+                <span class="f-name">03 &mdash; Session 3 Transcript</span>
+                <span class="f-badge badge-open">OPEN</span>
+              </a>
+            </li>
+            <!-- Session 4 — SEALED -->
+            <li class="panel-file-item f-locked" id="akira-s4">
+              <span class="f-icon">&#x1F512;</span>
+              <span class="f-name">04 &mdash; Session 4 Transcript</span>
+              <span class="f-badge badge-seal">SEALED</span>
+            </li>
+            <!-- Session 5 — SEALED -->
+            <li class="panel-file-item f-locked" id="akira-s5">
+              <span class="f-icon">&#x1F512;</span>
+              <span class="f-name">05 &mdash; Session 5 Transcript</span>
+              <span class="f-badge badge-seal">SEALED</span>
+            </li>
+          </ul>
+
+          <div class="panel-notice">
+            &#x26A0; &nbsp;Vrns qmxt ████ lkpz. Pklm xqrd 1, 4 &amp; 5 ████████ ████████ ████████████████. Xqmz &amp; 3 ████████ ████ ████████.
+          </div>
+        </div>
+
+        <!-- PANELS 2–5: REDACTED/LOCKED -->
+        <div class="locked-panel" id="panel-2">
+          <div class="locked-glyph">&#x2298;</div>
+          <div class="redact-lines">
+            <div class="redact-line"></div>
+            <div class="redact-line"></div>
+            <div class="redact-line"></div>
+          </div>
+          <div class="locked-label">ACCESS DENIED</div>
+          <div class="locked-sub">Authorization required &nbsp;&middot;&nbsp; ETI-&#x2588;&#x2588;&#x2588;&#x2588;-&#x2588;&#x2588;&#x2588;</div>
+        </div>
+
+        <div class="locked-panel" id="panel-3">
+          <div class="locked-glyph">&#x2298;</div>
+          <div class="redact-lines">
+            <div class="redact-line"></div>
+            <div class="redact-line"></div>
+            <div class="redact-line"></div>
+          </div>
+          <div class="locked-label">ACCESS DENIED</div>
+          <div class="locked-sub">Authorization required &nbsp;&middot;&nbsp; ETI-&#x2588;&#x2588;&#x2588;&#x2588;-&#x2588;&#x2588;&#x2588;</div>
+        </div>
+
+        <div class="locked-panel" id="panel-4">
+          <div class="locked-glyph">&#x2298;</div>
+          <div class="redact-lines">
+            <div class="redact-line"></div>
+            <div class="redact-line"></div>
+            <div class="redact-line"></div>
+          </div>
+          <div class="locked-label">ACCESS DENIED</div>
+          <div class="locked-sub">Authorization required &nbsp;&middot;&nbsp; ETI-&#x2588;&#x2588;&#x2588;&#x2588;-&#x2588;&#x2588;&#x2588;</div>
+        </div>
+
+        <div class="locked-panel" id="panel-5">
+          <div class="locked-glyph">&#x2298;</div>
+          <div class="redact-lines">
+            <div class="redact-line"></div>
+            <div class="redact-line"></div>
+            <div class="redact-line"></div>
+          </div>
+          <div class="locked-label">ACCESS DENIED</div>
+          <div class="locked-sub">Authorization required &nbsp;&middot;&nbsp; ETI-&#x2588;&#x2588;&#x2588;&#x2588;-&#x2588;&#x2588;&#x2588;</div>
+        </div>
+
+      </div><!-- /card-content -->
+    </div><!-- /paper-card -->
+
+    <!-- FOLDER TABS (right side) -->
+    <div class="folder-tabs" id="folder-tabs">
+
+      <!-- Tab 1: Akira — green, active -->
+      <button class="folder-tab tab-green active" data-panel="1" id="tab-1">Akira Takahashi</button>
+      <div class="tab-gap"></div>
+
+      <!-- Tabs 2–5: REDACTED / locked -->
+      <button class="folder-tab tab-locked" data-panel="2" id="tab-2">&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;</button>
+      <div class="tab-gap"></div>
+      <button class="folder-tab tab-locked" data-panel="3" id="tab-3">&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;</button>
+      <div class="tab-gap"></div>
+      <button class="folder-tab tab-locked" data-panel="4" id="tab-4">&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;</button>
+      <div class="tab-gap"></div>
+      <button class="folder-tab tab-locked" data-panel="5" id="tab-5">&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;</button>
+
+    </div><!-- /folder-tabs -->
+
+  </div><!-- /archive-wrapper -->
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <span>&copy; 2024 E LIT &mdash; A WORK OF FICTION</span>
+    <span>DR. MARY CLARK &nbsp;&middot;&nbsp; ETI-ARCH-2024-CH01 &nbsp;&middot;&nbsp; RESTRICTED</span>
+  </footer>
+
+  <!-- FOLDER ENTRY COVER — slides down to reveal the page -->
+  <style>
+    #folder-entry-cover {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      pointer-events: none;
+      transform: translateY(0);
+      transition: transform 0.72s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #folder-entry-cover.reveal {
+      transform: translateY(100%);
+    }
+    #folder-entry-tab {
+      align-self: flex-start;
+      margin-left: 72px;
+      background: #1e6e3a;
+      color: #fff;
+      font-family: 'Courier Prime', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 12px 32px 11px;
+      border-radius: 10px 10px 0 0;
+      white-space: nowrap;
+    }
+    #folder-entry-body {
+      flex: 1;
+      background: #142619;
+    }
+  </style>
+  <div id="folder-entry-cover" aria-hidden="true">
+    <div id="folder-entry-tab">Akira Takahashi</div>
+    <div id="folder-entry-body"></div>
+  </div>
+
+  <script>
+    // GATE: redirect if akira not unlocked
+    if (!localStorage.getItem('akira_unlocked')) {
+      window.location.href = 'main-menu.html';
+    }
+
+    // Slide folder cover down to reveal page
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        document.getElementById('folder-entry-cover').classList.add('reveal');
+      });
+    });
+
+    (function () {
+      var tabs   = document.querySelectorAll('.folder-tab');
+      var panels = document.querySelectorAll('.folder-panel, .locked-panel');
+
+      tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          var target   = tab.dataset.panel;
+          var isLocked = tab.classList.contains('tab-locked');
+
+          if (isLocked) {
+            tab.style.transform = 'rotate(180deg) translateX(4px)';
+            setTimeout(function() { tab.style.transform = 'rotate(180deg) translateX(0)'; }, 180);
+            return;
+          }
+
+          tabs.forEach(function(t) { t.classList.remove('active'); });
+          panels.forEach(function(p) { p.classList.remove('active'); });
+
+          tab.classList.add('active');
+          var panel = document.getElementById('panel-' + target);
+          if (panel) panel.classList.add('active');
+        });
+      });
+
+      // Locked file click flash
+      document.querySelectorAll('.panel-file-item.f-locked, .panel-file-item.f-redacted').forEach(function(item) {
+        item.addEventListener('click', function() {
+          item.style.background = 'rgba(176,28,28,0.06)';
+          setTimeout(function() { item.style.background = ''; }, 350);
+        });
+      });
+
+      console.log('%cAKIRA TAKAHASHI — EASTBROOK THERAPEUTIC INSTITUTE', 'color:#1e6e3a;font-weight:bold;font-family:monospace;');
+      console.log('%cCONFIDENTIAL ARCHIVE — ETI-2024-CH01', 'color:#b01c1c;font-family:monospace;');
+    })();
+  </script>
+
+</body>
+</html>

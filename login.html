@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>E.T.I. — RESTRICTED ACCESS</title>
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
   <style>
@@ -251,42 +251,92 @@
       text-align: center;
     }
 
-    #text {
-      top: 0;
-      left: -6px;
-      color: red;
-      mix-blend-mode: screen;
+    /* ── GLITCH TEXT STACK ── */
+    .text-stack {
       position: relative;
-      white-space: normal;
-      filter: blur(1px);
-      animation: skew 2s infinite, flash 0.04s infinite;
-      font-family: 'Bungee', cursive, monospace;
-      text-transform: uppercase;
-      font-size: clamp(20px, 3.5vw, 54px);
-      font-weight: bold;
-      line-height: 1.3;
-      margin: 0;
+      width: 100%;
+      transition: opacity 0.4s ease;
+    }
+    .text-stack.slide-break {
+      opacity: 0;
     }
 
-    #text::after,
-    #text::before {
-      content: attr(data-text);
+    .text-main,
+    .text-ghost {
+      font-family: 'VT323', monospace;
+      text-transform: uppercase;
+      font-size: clamp(17px, 2.3vw, 32px);
+      font-weight: normal;
+      line-height: 1.45;
+      margin: 0;
+      letter-spacing: 0.01em;
+    }
+
+    .text-main {
+      position: relative;
+      color: red;
+      mix-blend-mode: screen;
+      filter: blur(1.6px);
+      text-shadow: 0 0 3px rgba(255,0,0,0.5);
+      animation: skew 2s infinite, flash 0.04s infinite;
+      z-index: 2;
+    }
+
+    .text-ghost {
       position: absolute;
       inset: 0;
       mix-blend-mode: screen;
+      pointer-events: none;
+      filter: blur(0.8px);
+      z-index: 1;
     }
+    /* force ghosts to a single flat tint, regardless of colored spans inside */
+    .text-ghost.blue,
+    .text-ghost.blue *  { color: blue; }
+    .text-ghost.green,
+    .text-ghost.green * { color: limegreen; }
 
-    #text::after {
+    .text-ghost.blue {
       top: 0;
       left: 6px;
-      color: blue;
       animation: move 1.5s infinite;
     }
-
-    #text::before {
+    .text-ghost.green {
       top: -2.4px;
       left: 3.6px;
-      color: limegreen;
+    }
+
+    /* multi-line slides: force real block spacing so lines can't overlap */
+    .slide-line {
+      display: block;
+    }
+    .slide-line + .slide-line {
+      margin-top: 0.55em;
+    }
+
+    /* highlighted words / lines within a slide */
+    .hl-blue   { color: #4fa8ff; }
+    .hl-red    { color: #ff1744; }
+
+    /* ERROR slide */
+    .text-stack.error-slide .text-main {
+      color: #ff1744;
+      font-size: clamp(22px, 3vw, 42px);
+      letter-spacing: 0.08em;
+      animation: skew 2s infinite, flash 0.04s infinite, errorPulse 0.6s infinite;
+    }
+    .text-stack.error-slide .text-ghost {
+      font-size: clamp(22px, 3vw, 42px);
+      letter-spacing: 0.08em;
+    }
+    .text-stack.error-slide .text-ghost.blue,
+    .text-stack.error-slide .text-ghost.blue *  { color: #ff8a80; }
+    .text-stack.error-slide .text-ghost.green,
+    .text-stack.error-slide .text-ghost.green * { color: #ff1744; }
+
+    @keyframes errorPulse {
+      0%, 100% { text-shadow: 0 0 6px rgba(255,23,68,0.8); }
+      50%      { text-shadow: 0 0 18px rgba(255,23,68,1); }
     }
 
     .line {
@@ -347,29 +397,6 @@
     @keyframes lines {
       0%   { opacity: 0.1; }
       50%  { opacity: 1; }
-    }
-
-    /* Back link on success page */
-    .back-home-link {
-      position: absolute;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: monospace;
-      font-size: 11px;
-      letter-spacing: 0.25em;
-      color: rgba(255,255,255,0.4);
-      text-decoration: none;
-      text-transform: uppercase;
-      z-index: 150;
-      border: 1px solid rgba(255,255,255,0.15);
-      padding: 8px 20px;
-      border-radius: 3px;
-      transition: all 0.2s ease;
-    }
-    .back-home-link:hover {
-      color: #fff;
-      border-color: rgba(255,255,255,0.5);
     }
 
     /* ── MOBILE ── */
@@ -433,14 +460,17 @@
   <!-- ── SUCCESS / GLITCH PAGE ── -->
   <div class="home-page" id="home-page">
     <div id="root">
-      <div id="text" data-text="my perfect father had flaws my mother felt powerless">
-        my perfect father had flaws my mother felt powerless
+      <div class="text-stack" id="text-stack">
+        <div class="text-main" id="text"></div>
+        <div class="text-ghost blue" id="text-ghost-blue" aria-hidden="true"></div>
+        <div class="text-ghost green" id="text-ghost-green" aria-hidden="true"></div>
       </div>
     </div>
-    <a href="chapter1.html" class="back-home-link">← Return to Chapter One</a>
   </div>
 
 </div><!-- /wrapper -->
+
+<audio id="bgm" src="rei.mp3" preload="auto" loop></audio>
 
 <script>
   const CORRECT = 'RealYou.EXE';
@@ -474,6 +504,88 @@
     }
   };
 
+  /* ── SLIDESHOW ── */
+  const slides = [
+    {
+      html: '<span class="slide-line">Why do you <span class="hl-blue">&ldquo;help&rdquo;</span> them?</span><span class="slide-line hl-red">cause i like to help</span>',
+      text: 'Why do you "help" them? cause i like to help',
+      duration: 8000
+    },
+    {
+      html: '<span class="slide-line">then what about your life?</span><span class="slide-line hl-red">what about it?</span>',
+      text: 'then what about your life? what about it?',
+      duration: 8000
+    },
+    {
+      html: "Don't you chase the ghost?",
+      text: "Don't you chase the ghost?",
+      duration: 8000
+    },
+    {
+      html: 'Ghost of your father',
+      text: 'Ghost of your father',
+      duration: 8000
+    },
+    {
+      html: '',
+      text: '',
+      duration: 2200,
+      isBreak: true
+    },
+    {
+      html: 'she felt powerless',
+      text: 'she felt powerless',
+      duration: 8000
+    },
+    {
+      html: 'your perfect father was flawed',
+      text: 'your perfect father was flawed',
+      duration: 8000
+    },
+    {
+      html: '&#9888; ERROR',
+      text: '! ERROR',
+      duration: null,
+      isError: true
+    }
+  ];
+
+  function playSlides(index) {
+    const stack      = document.getElementById('text-stack');
+    const textEl     = document.getElementById('text');
+    const ghostBlue  = document.getElementById('text-ghost-blue');
+    const ghostGreen = document.getElementById('text-ghost-green');
+    if (index >= slides.length) return;
+
+    const slide = slides[index];
+
+    // brief fade-out before swapping content
+    stack.classList.add('slide-break');
+
+    setTimeout(function () {
+      stack.classList.remove('slide-break', 'error-slide');
+
+      if (slide.isError) {
+        stack.classList.add('error-slide');
+      }
+      if (slide.isBreak) {
+        stack.classList.add('slide-break');
+      }
+
+      // identical markup on all three layers so wrapping always matches exactly
+      textEl.innerHTML     = slide.html;
+      ghostBlue.innerHTML  = slide.html;
+      ghostGreen.innerHTML = slide.html;
+
+      if (slide.duration !== null) {
+        setTimeout(function () {
+          playSlides(index + 1);
+        }, slide.duration);
+      }
+      // isError slide has no duration → it stays as the final state
+    }, 350);
+  }
+
   function submitPassword() {
     var pw         = document.getElementById('password').value;
     var loginPage  = document.getElementById('login-page');
@@ -499,6 +611,19 @@
         loginPage.style.display = 'none';
         homePage.classList.add('visible');
         drawLines();
+
+        var bgm = document.getElementById('bgm');
+        bgm.volume = 0.85;
+        bgm.currentTime = 0;
+        bgm.play().catch(function () {
+          // autoplay blocked — will resume on next user interaction
+          document.addEventListener('click', function resumeAudio() {
+            bgm.play();
+            document.removeEventListener('click', resumeAudio);
+          }, { once: true });
+        });
+
+        playSlides(0);
       }, 1400);
 
     } else {

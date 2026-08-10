@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>E LIT — Alex Brown: Session 5 — The Party (Part 2)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=IM+Fell+English:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Special+Elite&family=IM+Fell+English:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <style>
     .obs-note {
@@ -14,266 +17,38 @@
       font-style: italic;
       font-size: 13px;
       color: #7a6f5e;
-      background: rgba(180,160,120,0.07);
-      border-left: 2px solid rgba(180,160,120,0.4);
+      background: rgba(180, 160, 120, 0.07);
+      border-left: 2px solid rgba(180, 160, 120, 0.4);
       padding: 8px 16px;
-      margin: 12px 0 12px 96px;
+      margin: 12px 0 12px 130px;
       border-radius: 0 3px 3px 0;
     }
 
-    /* ── FORMAT SHIFT: SOPHIA ↔ ALEX ── */
-    .format-shift-banner {
-      background: #000;
-      margin: 40px -40px 0;
-      padding: 40px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .format-shift-banner::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(
-        90deg,
-        transparent 0, transparent 40px,
-        rgba(255,255,255,0.03) 40px, rgba(255,255,255,0.03) 41px
-      );
-    }
-    .shift-label {
+    /* Glitch / gibberish lines — dissociative static before the memory surfaces */
+    .dialogue-text.glitch-text {
       font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: 0.35em;
-      color: rgba(255,255,255,0.25);
-      text-transform: uppercase;
-      display: block;
-      margin-bottom: 12px;
-    }
-    .shift-title {
-      font-family: var(--font-sans);
-      font-size: clamp(20px, 3vw, 32px);
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: -0.02em;
-      position: relative;
-    }
-    .shift-sub {
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-size: 14px;
-      color: rgba(255,255,255,0.35);
-      margin-top: 10px;
+      letter-spacing: 0.12em;
+      color: rgba(0, 0, 0, 0.32);
+      filter: blur(0.2px);
     }
 
-    /* ── SOPHIA DIALOGUE SECTION ── */
-    .sophia-dialogue {
-      background: #fff;
-      padding: 60px 80px;
-      max-width: 100%;
+    #alexRevealTrigger {
+      transition: background-color 0.25s ease;
+      border-radius: 4px;
     }
 
-    .sophia-line {
-      display: grid;
-      grid-template-columns: 120px 1fr;
-      gap: 20px;
-      margin-bottom: 20px;
-      align-items: baseline;
+    #alexRevealTrigger:hover {
+      background-color: rgba(255, 46, 196, 0.08);
     }
 
-    .sophia-speaker {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      padding-top: 3px;
-      text-align: right;
-      border-right: 2px solid;
-      padding-right: 16px;
-    }
-    .sophia-speaker.sophia { color: #c0392b; border-color: #c0392b; }
-    .sophia-speaker.alex   { color: #1a2fc2; border-color: #1a2fc2; }
-
-    .sophia-text {
-      font-family: var(--font-serif);
-      font-size: 16px;
-      line-height: 1.75;
-      color: #1a1a1a;
-    }
-
-    /* Awkward silence block */
-    .silence-block {
-      margin: 36px 0;
-      padding: 28px;
-      border-top: 1px dashed rgba(0,0,0,0.12);
-      border-bottom: 1px dashed rgba(0,0,0,0.12);
-      text-align: center;
-    }
-    .silence-block span {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: 0.4em;
-      color: rgba(0,0,0,0.2);
-      text-transform: uppercase;
-    }
-    .silence-dots {
-      display: block;
-      font-size: 24px;
-      color: rgba(0,0,0,0.08);
-      letter-spacing: 1em;
-      margin-top: 8px;
-    }
-
-    /* Song moment */
-    .song-moment {
-      background: rgba(26,47,194,0.04);
-      border: 1px solid rgba(26,47,194,0.12);
-      border-radius: 6px;
-      padding: 24px 28px;
-      margin: 28px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .song-label {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: 0.25em;
-      color: rgba(26,47,194,0.5);
-      text-transform: uppercase;
-    }
-    .song-note {
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-size: 14px;
-      color: #3a3a3a;
-      line-height: 1.7;
-    }
-
-    /* Bunny pull quote */
-    .bunny-quote {
-      background: #000;
-      color: #fff;
-      margin: 0 -80px;
-      padding: 60px 80px;
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-size: clamp(18px, 2.5vw, 26px);
-      line-height: 1.8;
-      text-align: center;
-    }
-    .bunny-quote em { color: rgba(255,255,255,0.5); }
-
-    /* Shouting end */
-    .shout-end {
-      background: #fff;
-      padding: 60px 80px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .shout-line {
-      font-family: var(--font-sans);
-      font-size: clamp(32px, 5vw, 64px);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      color: #c0392b;
-      text-align: center;
-      animation: shoutPulse 1.2s ease-in-out infinite;
-    }
-    @keyframes shoutPulse {
-      0%,100% { transform: scale(1); }
-      50%      { transform: scale(1.03); }
-    }
-    .shout-sub {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: 0.3em;
-      color: rgba(0,0,0,0.25);
-      text-align: center;
-      text-transform: uppercase;
-    }
-
-    /* Continue link */
-    .part2-continue {
-      display: flex;
-      justify-content: center;
-      padding: 60px;
-      background: #fff;
-      border-top: 1px solid rgba(0,0,0,0.06);
-    }
-    .part2-continue a {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      letter-spacing: 0.2em;
-      color: #1a1a1a;
-      text-decoration: none;
-      border: 1px solid rgba(0,0,0,0.2);
-      padding: 14px 32px;
-      border-radius: 2px;
-      transition: all 0.3s;
-      text-transform: uppercase;
-    }
-    .part2-continue a:hover { background: #000; color: #fff; border-color: #000; }
-
-    /* ── AUDIO PLAYER ── */
-    #audioplayer {
-      width: min(480px, 90vw);
-      height: 60px;
-      margin: 20px auto;
-      border: 1px solid rgba(26,47,194,0.3);
-      border-radius: 8px;
-      background: rgba(26,47,194,0.06);
-      box-sizing: border-box;
-      display: flex;
-      align-items: center;
-      padding: 0 12px;
-    }
-
-    #pButton {
-      height: 40px; 
-      width: 40px;
-      border: none;
-      background-size: 50% 50%;
-      background-repeat: no-repeat;
-      background-position: center;
-      float: left;
-      outline: none;
-      cursor: pointer;
-      flex-shrink: 0;
-      border-radius: 50%;
-      background-color: var(--blue-tab);
-    }
-
-    .play {
-      background-image: url('http://www.alexkatz.me/codepen/img/play.png'), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E");
-    }
-
-    .pause {
-      background-image: url('http://www.alexkatz.me/codepen/img/pause.png'), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M6 19h4V5H6v14zm8-14v14h4V5h-4z'/%3E%3C/svg%3E");
-    }
-
-    #timeline {
-      flex: 1;
-      height: 16px;
-      margin-left: 15px;
-      border-radius: 15px;
-      background: rgba(26,47,194,0.15);
-      position: relative;
-      cursor: pointer;
-    }
-
-    #playhead {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: var(--blue-tab);
-      position: absolute;
-      top: 0;
-      left: 0;
+    #alexRevealTrigger:hover .dialogue-text {
+      color: #c2149a;
     }
   </style>
 </head>
+
 <body>
+
 
   <header class="site-header">
     <div class="header-inner">
@@ -295,6 +70,7 @@
     </div>
   </header>
 
+
   <div class="doc-page" style="padding-top:90px;">
     <div style="background:var(--navy);padding:40px 80px 60px;">
       <a href="alex-session5.html" class="back-btn">← Return to Part 1</a>
@@ -303,8 +79,12 @@
     <div class="doc-page-bg">
       <div class="document-sheet">
         <div class="doc-hole-column">
-          <div class="punch-hole"></div><div class="punch-hole"></div><div class="punch-hole"></div>
-          <div class="punch-hole"></div><div class="punch-hole"></div><div class="punch-hole"></div>
+          <div class="punch-hole"></div>
+          <div class="punch-hole"></div>
+          <div class="punch-hole"></div>
+          <div class="punch-hole"></div>
+          <div class="punch-hole"></div>
+          <div class="punch-hole"></div>
           <div class="punch-hole"></div>
         </div>
 
@@ -323,354 +103,138 @@
 
             <div class="dialogue-line">
               <span class="dialogue-speaker therapist">DR. CLARK</span>
-              <span class="dialogue-text">Take your time. You were on the sofa.</span>
+              <span class="dialogue-text">Take your time. drink some water , You were on the sofa.</span>
             </div>
 
             <div class="dialogue-line">
               <span class="dialogue-speaker">ALEX</span>
-              <span class="dialogue-text">I was on the sofa alone and wondering about things. Not sure what — I don't remember much. I did not consume any form of alcohol. I panicked. Then I saw her.</span>
+              <span class="dialogue-text">I was on the sofa alone and wondering about things. Not sure what — I don't
+                remember much. I did not consume any form of alcohol .</span>
             </div>
 
-            <p class="obs-note">a pause. something shifted in him when he said "I saw her."</p>
 
             <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">I tried calling Akira, he would not pick.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">You feeling better now?</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">Sort of.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">It's all ok, pace yourself.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">So I was calling him and a senior next to me tried some small talk.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">I felt very weird, I did not respond.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">I remember trying to breathe, then she sat beside...</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">I remember her face...</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text glitch-text">A— S— SOPH— S O P H I A—</span>
+            </div>
+
+            <div class="dialogue-line" id="alexRevealTrigger" style="cursor:pointer;">
               <span class="dialogue-speaker">ALEX</span>
               <span class="dialogue-text">I remember you — you used to come with Akira in our hideout. Yes. You are Sophia.</span>
             </div>
 
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:25px;margin-bottom:25px;">
+            <div>
+              <p style="font-family:var(--font-mono);font-size:10px;color:var(--ink-ghost);letter-spacing:0.12em;line-height:25px;margin:0;">SESSION CLOSED: 08.05.2024 &nbsp;·&nbsp; TRANSCRIPT RECORDING PART 2</p>
+              <p style="font-family:var(--font-mono);font-size:10px;color:var(--ink-ghost);letter-spacing:0.12em;line-height:25px;margin:0;">AUDIO TAPE 5B ARCHIVED &nbsp;·&nbsp; DISSOCIATIVE MEMORY RECOVERED</p>
+            </div>
+            <div style="font-family:var(--font-stamp);font-size:14px;color:var(--red-stamp);border:2px solid var(--red-stamp);padding:4px 12px;border-radius:3px;transform:rotate(-2deg);">RECOVERED</div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ── FORMAT SHIFT ── -->
-  <div class="format-shift-banner">
-    <span class="shift-label">— transcript shifts —</span>
-    <div class="shift-title">Sophia &amp; Alex</div>
-    <div class="shift-sub">the party, continued — as he remembers it</div>
-  </div>
 
-  <!-- ── SOPHIA / ALEX DIALOGUE ── -->
-  <div class="sophia-dialogue">
-
-    <div class="sophia-line">
-      <span class="sophia-speaker sophia">SOPHIA</span>
-      <span class="sophia-text">Alex? Alex!</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker alex">ALEX</span>
-      <span class="sophia-text">Yes — it's been a while!</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker sophia">SOPHIA</span>
-      <span class="sophia-text">Oh my god, it is you. How has it been? Wait — are you joining CMTR?</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker alex">ALEX</span>
-      <span class="sophia-text">Yes!</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker sophia">SOPHIA</span>
-      <span class="sophia-text">Me as well! What major?</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker alex">ALEX</span>
-      <span class="sophia-text">Maths. You?</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker sophia">SOPHIA</span>
-      <span class="sophia-text">Probably something.</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker alex">ALEX</span>
-      <span class="sophia-text">What do you mean???</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker sophia">SOPHIA</span>
-      <span class="sophia-text">I'll figure it out — prob something in science. Did you meet others?</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker alex">ALEX</span>
-      <span class="sophia-text">That was the plan but I'm not good at parties.</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker sophia">SOPHIA</span>
-      <span class="sophia-text">Me as well.</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker alex">ALEX</span>
-      <span class="sophia-text">Where the hell is Akira?</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker sophia">SOPHIA</span>
-      <span class="sophia-text">For real — I think he's late.</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker alex">ALEX</span>
-      <span class="sophia-text">He is always late.</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker sophia">SOPHIA</span>
-      <span class="sophia-text">For real. He always keeps me waiting.</span>
-    </div>
-
-    <div class="silence-block">
-      <span>awkward silence</span>
-      <span class="silence-dots">·&nbsp;&nbsp;·&nbsp;&nbsp;·</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker sophia">SOPHIA</span>
-      <span class="sophia-text">Well — what about his "other" gang members? Where are they? Did you meet them?</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker alex">ALEX</span>
-      <span class="sophia-text">I did not meet much except Aster and Ryan.</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker sophia">SOPHIA</span>
-      <span class="sophia-text">Oh I remember them — they were very awkward.</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker alex">ALEX</span>
-      <span class="sophia-text">I agree. They had no concept of social — social? WHAT WAS THE WORD AGAIN—</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker sophia">SOPHIA</span>
-      <span class="sophia-text">You mean social anxiety?</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker alex">ALEX</span>
-      <span class="sophia-text">Yes.</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker sophia">SOPHIA</span>
-      <span class="sophia-text">I agree — they broke the statue of the founder the day they moved in. LIKE, man.</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker alex">ALEX</span>
-      <span class="sophia-text">It was insane.</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker sophia">SOPHIA</span>
-      <span class="sophia-text">There will be some crazy people in this uni. Oh — btw I didn't mean to ask but why are you sitting alone?</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker alex">ALEX</span>
-      <span class="sophia-text">I got very nervous here.</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker sophia">SOPHIA</span>
-      <span class="sophia-text">Don't worry — it is a huge place after all.</span>
-    </div>
-
-    <!-- Song moment -->
-    <div class="song-moment">
-      <span class="song-label">— earphones —</span>
-      <div id="audioplayer">
-        <button id="pButton" class="play" aria-label="Play"></button>
-        <div id="timeline">
-          <div id="playhead"></div>
-        </div>
-      </div>
-      <audio id="music" src="Angel's Stardust/10. Cherry-coloured Funk.mp3" preload="metadata"></audio>
-      <div class="sophia-line" style="margin:0;">
-        <span class="sophia-speaker alex">ALEX</span>
-        <span class="sophia-text">You wanna listen to this song? It would be super weird to play earphones in a party.</span>
-      </div>
-      <div class="sophia-line" style="margin:0 0 8px;">
-        <span class="sophia-speaker alex" style="visibility:hidden;">ALEX</span>
-        <span class="sophia-text">— no no, thank you. I would love to.</span>
-      </div>
-    </div>
-
-    <div class="bunny-quote">
-      I could only see her. She had the smile of a bunny — that's what her nickname was.<br>
-      <em>I couldn't deny that I liked her.</em>
-    </div>
-
-    <div class="sophia-line" style="padding-top:32px;">
-      <span class="sophia-speaker sophia">SOPHIA</span>
-      <span class="sophia-text">This is my favourite band.</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker alex">ALEX</span>
-      <span class="sophia-text">This is a cool song.</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker sophia">SOPHIA</span>
-      <span class="sophia-text">Thanks. Do you like indie stuff?</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker alex">ALEX</span>
-      <span class="sophia-text">A bit.</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker sophia">SOPHIA</span>
-      <span class="sophia-text">I like this a lot. It feels like life to me.</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker alex">ALEX</span>
-      <span class="sophia-text">Life?</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker sophia">SOPHIA</span>
-      <span class="sophia-text">You know — like evenings? Or like the LED lights at night.</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker alex">ALEX</span>
-      <span class="sophia-text">I guess? It does sound nice. Like — the world is moving just fine. No rush.</span>
-    </div>
-
-    <div class="sophia-line">
-      <span class="sophia-speaker sophia">SOPHIA</span>
-      <span class="sophia-text">Exactly. Wait — is that Akira?</span>
-    </div>
-
-    <!-- Shout end -->
-    <div class="shout-end">
-      <div class="shout-line">AKIRA!</div>
-      <div class="shout-line" style="font-size:clamp(24px,3.5vw,44px);color:#e74c3c;animation-delay:0.2s;">AKIRA!</div>
-      <div class="shout-sub" style="margin-top:8px;">she shouted</div>
-    </div>
-
-  </div><!-- /sophia-dialogue -->
-
-  <div class="part2-continue">
-    <a href="alex-sophia.html">SOPHIA IN ALEX'S EYES →</a>
-  </div>
-
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <span class="footer-logo">E.T.I.</span>
-      <p class="footer-text">This document is the property of Eastbrook Therapeutic Institute. Unauthorized access is a criminal offense under the Mental Health Records Protection Act (2019).</p>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2024 E LIT — A Work of Fiction</span>
-      <span>ETI-2024-001-S05-B</span>
-    </div>
-  </footer>
+  <!-- Background Ambient Audio — carries through into alexsophiaeye.html -->
+  <audio id="bgMusic" autoplay preload="auto">
+    <source src="Angel%27s%20Stardust/9.%20Promise%20%28Reprise%29.mp3" type="audio/mpeg">
+    <source src="Angel's Stardust/9. Promise (Reprise).mp3" type="audio/mpeg">
+  </audio>
 
   <script src="script.js"></script>
   <script>
-    (function() {
-      var music = document.getElementById('music');
-      var duration = music ? music.duration : 0;
-      var pButton = document.getElementById('pButton');
-      var playhead = document.getElementById('playhead');
-      var timeline = document.getElementById('timeline');
-      if (!music || !pButton || !playhead || !timeline) return;
+    (function () {
+      var bgMusic = document.getElementById('bgMusic');
 
-      var timelineWidth = timeline.offsetWidth - playhead.offsetWidth;
+      // ── BACKGROUND AUDIO: autoplays the moment the page loads ──
+      if (bgMusic) {
+        bgMusic.muted = false;
 
-      pButton.addEventListener("click", play);
-      music.addEventListener("timeupdate", timeUpdate, false);
+        function tryAutoplay() {
+          var p = bgMusic.play();
+          if (p !== undefined) {
+            return p.then(function () {
+              return true;
+            }).catch(function (e) {
+              console.log("Autoplay blocked, will start on first interaction:", e);
+              return false;
+            });
+          }
+          return Promise.resolve(false);
+        }
 
-      timeline.addEventListener("click", function(event) {
-        moveplayhead(event);
-        if (duration) music.currentTime = duration * clickPercent(event);
-      }, false);
-
-      function clickPercent(event) {
-        return (event.clientX - getPosition(timeline)) / timelineWidth;
+        tryAutoplay().then(function (started) {
+          if (started) return;
+          var startOnInteraction = function () {
+            bgMusic.play().catch(function (e) {
+              console.log("Autoplay retry failed:", e);
+            });
+            document.removeEventListener('click', startOnInteraction);
+            document.removeEventListener('keydown', startOnInteraction);
+            document.removeEventListener('touchstart', startOnInteraction);
+          };
+          document.addEventListener('click', startOnInteraction, { once: true });
+          document.addEventListener('keydown', startOnInteraction, { once: true });
+          document.addEventListener('touchstart', startOnInteraction, { once: true });
+        });
       }
 
-      playhead.addEventListener('mousedown', mouseDown, false);
-      window.addEventListener('mouseup', mouseUp, false);
-
-      var onplayhead = false;
-
-      function mouseDown() {
-        onplayhead = true;
-        window.addEventListener('mousemove', moveplayhead, true);
-        music.removeEventListener('timeupdate', timeUpdate, false);
-      }
-
-      function mouseUp(event) {
-        if (onplayhead == true) {
-          moveplayhead(event);
-          window.removeEventListener('mousemove', moveplayhead, true);
-          if (duration) music.currentTime = duration * clickPercent(event);
-          music.addEventListener('timeupdate', timeUpdate, false);
-        }
-        onplayhead = false;
-      }
-
-      function moveplayhead(event) {
-        var newMargLeft = event.clientX - getPosition(timeline);
-        if (newMargLeft >= 0 && newMargLeft <= timelineWidth) {
-          playhead.style.marginLeft = newMargLeft + "px";
-        }
-        if (newMargLeft < 0) {
-          playhead.style.marginLeft = "0px";
-        }
-        if (newMargLeft > timelineWidth) {
-          playhead.style.marginLeft = timelineWidth + "px";
-        }
-      }
-
-      function timeUpdate() {
-        if (!duration && music.duration) duration = music.duration;
-        if (duration) {
-          var playPercent = timelineWidth * (music.currentTime / duration);
-          playhead.style.marginLeft = playPercent + "px";
-        }
-        if (music.currentTime == duration) {
-          pButton.className = "play";
-        }
-      }
-
-      function play() {
-        if (music.paused) {
-          music.play().then(() => {
-            pButton.className = "pause";
-          }).catch(e => console.log(e));
-        } else {
-          music.pause();
-          pButton.className = "play";
-        }
-      }
-
-      music.addEventListener("canplaythrough", function() {
-        duration = music.duration;
-      }, false);
-
-      function getPosition(el) {
-        return el.getBoundingClientRect().left;
+      // ── click the reveal line → hand off audio state, then go to alexsophiaeye.html ──
+      var pageTrigger = document.getElementById('alexRevealTrigger');
+      if (pageTrigger) {
+        pageTrigger.addEventListener('click', function () {
+          if (bgMusic) {
+            sessionStorage.setItem('bgMusicTime', bgMusic.currentTime);
+            sessionStorage.setItem('bgMusicPaused', bgMusic.paused ? '1' : '0');
+          }
+          window.location.href = 'alexsophiaeye.html';
+        });
       }
     })();
   </script>
 </body>
+
 </html>

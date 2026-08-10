@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>case_notes.txt - Notepad</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    :root {
+      --paper: #ffffff;
+      --ink: #1a1a1a;
+      --selection: #3390ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    }
+
+    /* ---------- Desktop ---------- */
+    .desktop {
+      height: 100vh;
+      width: 100vw;
+      background: #000;
+      position: relative;
+    }
+
+    .icons-dekstop {
+      padding-top: 6px;
+    }
+
+    .icon-desktop {
+      padding: 4px 8px;
+      border: 2px solid transparent;
+      text-align: center;
+      margin-bottom: 24px;
+      width: 74px;
+    }
+
+    .icon-desktop a {
+      display: block;
+      text-decoration: none;
+      cursor: default;
+    }
+
+    .icon-desktop img {
+      height: 44px;
+      width: 44px;
+    }
+
+    .icon-desktop i {
+      font-size: 34px;
+      color: #e8e8e8;
+    }
+
+    .icon-desktop span {
+      display: block;
+      color: #fff;
+      font-size: 11px;
+      text-align: center;
+      margin-top: 4px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    }
+
+    .icon-desktop:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* ---------- Taskbar (from provided template) ---------- */
+    .taskbar {
+      position: fixed;
+      bottom: 0;
+      height: 43px;
+      width: 100%;
+      background: #000;
+      border-top: 1px solid #1a1a1a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .taskbar .icons-left {
+      height: 43px;
+      display: flex;
+    }
+
+    .taskbar .icons-left a {
+      height: 43px;
+      width: 49px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .taskbar .icons-left a i {
+      font-size: 19px;
+    }
+
+    .taskbar .icons-left a:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .taskbar .icons-left #search {
+      background-image: url("https://raw.githubusercontent.com/gcazin/pure-css-windows-10-desktop/master/icons/search.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 20px 20px;
+    }
+
+    .taskbar .icons-left #folder {
+      background-image: url("http://www.iconarchive.com/download/i98291/dakirby309/simply-styled/File-Explorer.ico");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 22px 20px;
+    }
+
+    .taskbar .icons-left #tabs-windows {
+      background-image: url("https://raw.githubusercontent.com/gcazin/pure-css-windows-10-desktop/master/icons/switch-window.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 23px 23px;
+    }
+
+    .taskbar .active-app {
+      height: 43px;
+      padding: 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+      font-size: 12px;
+      border-bottom: 2px solid #3390ff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .taskbar .active-app img {
+      height: 16px;
+      width: 16px;
+    }
+
+    .taskbar .icons-right {
+      height: 43px;
+      display: flex;
+      align-items: center;
+    }
+
+    .taskbar .icons-right #wifi {
+      height: 43px;
+      width: 38px;
+      background-image: url("https://raw.githubusercontent.com/gcazin/pure-css-windows-10-desktop/master/icons/wifi.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 19px 19px;
+    }
+
+    .taskbar .icons-right #sound {
+      height: 43px;
+      width: 38px;
+      background-image: url("https://raw.githubusercontent.com/gcazin/pure-css-windows-10-desktop/master/icons/volume.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 19px 19px;
+    }
+
+    .taskbar .icons-right a:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .taskbar .icons-right .datetime {
+      padding: 0 12px;
+      cursor: default;
+    }
+
+    .taskbar .icons-right .datetime span {
+      display: block;
+      text-align: center;
+      font-size: 11px;
+      color: #fff;
+      line-height: 1.4;
+    }
+
+    .taskbar .icons-right .datetime:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* ---------- Notepad window ---------- */
+    .notepad {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(760px, 92vw);
+      height: min(560px, 76vh);
+      background: var(--paper);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #7a7a7a;
+      opacity: 0;
+      animation: winIn .4s ease forwards .15s;
+    }
+
+    @keyframes winIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    .titlebar {
+      height: 32px;
+      background: linear-gradient(#f4f4f4, #e8e8e8);
+      border-bottom: 1px solid #c8c8c8;
+      display: flex;
+      align-items: center;
+      padding-left: 8px;
+      flex: 0 0 auto;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .titlebar .icon {
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+      background: #fff;
+      border: 1px solid #999;
+      position: relative;
+    }
+
+    .titlebar .icon::after {
+      content: "";
+      position: absolute;
+      left: 2px;
+      top: 2px;
+      right: 2px;
+      height: 2px;
+      background: #bbb;
+      box-shadow: 0 4px 0 #bbb, 0 8px 0 #bbb;
+    }
+
+    .titlebar .title {
+      font-size: 12px;
+      color: #333;
+      flex: 1;
+    }
+
+    .titlebar .win-controls {
+      display: flex;
+      height: 100%;
+    }
+
+    .titlebar .win-controls span {
+      width: 44px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: #333;
+    }
+
+    .titlebar .win-controls span:hover {
+      background: #e2e2e2;
+    }
+
+    .titlebar .win-controls span.close:hover {
+      background: #e81123;
+      color: #fff;
+    }
+
+    .menubar {
+      height: 26px;
+      background: #f6f6f6;
+      border-bottom: 1px solid #e0e0e0;
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      color: #333;
+      padding-left: 6px;
+      flex: 0 0 auto;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .menubar span {
+      padding: 2px 8px;
+    }
+
+    .menubar span:hover {
+      background: #e2e2e2;
+    }
+
+    .editor-wrap {
+      flex: 1 1 auto;
+      position: relative;
+      overflow: hidden;
+      background: var(--paper);
+    }
+
+    #editor {
+      position: absolute;
+      inset: 0;
+      margin: 0;
+      padding: 14px 18px;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 14.5px;
+      line-height: 1.65;
+      color: var(--ink);
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-y: auto;
+    }
+
+    #editor .selected {
+      background: var(--selection);
+      color: #fff;
+    }
+
+    .statusbar {
+      height: 22px;
+      background: #f2f2f2;
+      border-top: 1px solid #e0e0e0;
+      font-size: 11px;
+      color: #555;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 12px;
+      flex: 0 0 auto;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .void-msg {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Consolas, monospace;
+      font-size: 13px;
+      color: #c9c9c9;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.2s ease;
+      text-align: center;
+      padding: 0 40px;
+      cursor: default;
+    }
+
+    .void-msg.show {
+      opacity: 1;
+      pointer-events: all;
+      cursor: pointer;
+    }
+
+    .void-msg.show:hover {
+      color: #e0e0e0;
+      text-decoration: underline;
+      text-decoration-color: rgba(255,255,255,0.25);
+      text-underline-offset: 3px;
+    }
+
+    #editor .link-trigger {
+      color: #0563c1;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    #editor .link-trigger:hover {
+      color: #1a73e8;
+    }
+
+    .replay {
+      position: fixed;
+      bottom: 56px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: "Segoe UI", sans-serif;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.75);
+      background: rgba(255, 255, 255, 0.08);
+      padding: 6px 14px;
+      border-radius: 14px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity .6s ease;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .replay.show {
+      opacity: 1;
+    }
+
+    .replay:hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="desktop">
+
+    <!-- Desktop icons -->
+    <div class="icons-dekstop">
+      <div class="icon-desktop">
+        <a href="#"><i class="far fa-file-alt"></i><span>case_notes.txt</span></a>
+      </div>
+      <div class="icon-desktop">
+        <a href="#"><img
+            src="https://raw.githubusercontent.com/gcazin/pure-css-windows-10-desktop/master/icons/file-explorer.png"
+            alt=""><span>File Explorer</span></a>
+      </div>
+      <div class="icon-desktop">
+        <a href="#"><img
+            src="https://raw.githubusercontent.com/gcazin/pure-css-windows-10-desktop/master/icons/chrome.png"
+            alt=""><span>Chrome</span></a>
+      </div>
+      <div class="icon-desktop">
+        <a href="#"><img
+            src="https://raw.githubusercontent.com/gcazin/pure-css-windows-10-desktop/master/icons/word.png"
+            alt=""><span>Recycle Bin</span></a>
+      </div>
+    </div>
+
+    <!-- Notepad window, always open, text preloaded -->
+    <div class="notepad">
+      <div class="titlebar">
+        <div class="icon"></div>
+        <div class="title" id="titleText">case_notes.txt - Notepad</div>
+        <div class="win-controls">
+          <span>&#8211;</span>
+          <span>&#9633;</span>
+          <span class="close">&times;</span>
+        </div>
+      </div>
+      <div class="menubar">
+        <span>File</span><span>Edit</span><span>Format</span><span>View</span><span>Help</span>
+      </div>
+      <div class="editor-wrap">
+        <div id="editor"></div>
+        <div class="void-msg" id="voidMsg">this file was never saved.</div>
+      </div>
+      <div class="statusbar" id="statusText">Ln 1, Col 1</div>
+    </div>
+
+    <div class="replay" id="replayBtn">restart &#8635;</div>
+
+    <!-- Taskbar -->
+    <div class="taskbar">
+      <div class="icons-left">
+        <a href="#"><i class="fab fa-windows"></i></a>
+        <a href="#" id="search"></a>
+        <div class="active-app">
+          <i class="far fa-file-alt"
+            style="color:#333;background:#fff;padding:2px;border-radius:2px;font-size:12px;"></i>
+          <span>case_notes.txt - Notepad</span>
+        </div>
+        <a href="#" id="folder"></a>
+      </div>
+      <div class="icons-right">
+        <a href="#" id="wifi"></a>
+        <a href="#" id="sound"></a>
+        <div class="datetime">
+          <span id="clockTime">17:44</span>
+          <span id="clockDate">25/11/2022</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const TEXT = `When the case first came to me, I won't deny I was a bit into it. It may sound wrong given the nature of the tragedy, but for my profession, this is a once-in-a-lifetime opportunity.
+
+Youth at risk? Suicide? The public pressure was so huge \u2014 I didn't consider it at first, but that's the challenge. I always assumed I was a magnet for the "special" cases. Did I join this world to help them? I always thought that. But then I chose the forensic path, which has a bad name thanks to all the CIA's use of my field's work. Though surely I'm not here to investigate the minds of the Bay prisoners \u2014 is that better or worse for me? I'm not so sure. And now, when the DA's office called me for this case, I wondered \u2014 am I helping those two kids, or am I also part of the world that makes their lives hell?
+
+When I went to the police department to get the files, the officer hated it. Hated the public response. Hated me, because he didn't believe it was that deep. For him it was just a bunch of at-risk youth influenced by the "ghetto," who took their "usual" route \u2014 the life of the "hood rats," as he'd put it. For him it was just fuck around and find out.
+
+It got me wondering \u2014 am I doing the right thing? These kids just lost someone so close, and here I am, giving them "false" therapy for an investigation \u2014 even though it isn't false. I gaslit myself the first week into believing I was helping. And oh boy, was it heavy. The first boy, Alex, is mentally numb. A single session with him is too dense, but I think I can help \u2014 with everything. I feel for him: a dysfunctional family, unresolved trauma, a hard background already, and now he has to carry this too. And the second, Akira, is a tough one to crack. He doesn't believe in this system \u2014 not me, not anyone, not so far. I'm trying to know him better, but his guard is strong. He understands I'm for the police before I'm for him. But I do believe I'm also helping them process. Or at least I wish I were. Well, whatever it may be \u2014 here I am on my desk , writing the first part of my summary, and I still don't know where I go from here.`;
+
+    const editor = document.getElementById('editor');
+    const statusText = document.getElementById('statusText');
+    const voidMsg = document.getElementById('voidMsg');
+    const replayBtn = document.getElementById('replayBtn');
+    const titleText = document.getElementById('titleText');
+
+    function escapeHtml(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    const TRIGGER_TEXT = 'i should get working.';
+
+    function showFullText() {
+      editor.innerHTML = escapeHtml(TEXT) + '\n\n<span class="link-trigger" id="triggerLink">' + TRIGGER_TEXT + '</span>';
+      const lines = TEXT.split('\n');
+      statusText.textContent = 'Ln ' + lines.length + ', Col ' + (lines[lines.length - 1].length + 1);
+      document.getElementById('triggerLink').addEventListener('click', selectAll);
+    }
+
+    function selectAll() {
+      editor.innerHTML = '<span class="selected">' + escapeHtml(TEXT) + '\n\n' + TRIGGER_TEXT + '</span>';
+      statusText.textContent = 'Selected: ' + (TEXT.length + TRIGGER_TEXT.length + 2) + ' characters';
+      setTimeout(deleteAll, 550);
+    }
+
+    function deleteAll() {
+      editor.innerHTML = '';
+      statusText.textContent = 'Ln 1, Col 1';
+      titleText.textContent = '*Untitled - Notepad';
+      setTimeout(() => {
+        voidMsg.classList.add('show');
+        replayBtn.classList.add('show');
+      }, 700);
+    }
+
+    /* Clicking the void message navigates to the archive */
+    voidMsg.addEventListener('click', () => {
+      if (!voidMsg.classList.contains('show')) return;
+      window.location.href = 'index.html';
+    });
+
+    function runSequence() {
+      showFullText();
+    }
+
+    replayBtn.addEventListener('click', () => {
+      voidMsg.classList.remove('show');
+      replayBtn.classList.remove('show');
+      titleText.textContent = 'case_notes.txt - Notepad';
+      runSequence();
+    });
+
+    runSequence();
+
+    /* live clock */
+    function tick() {
+      const d = new Date();
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mm = String(d.getMinutes()).padStart(2, '0');
+      document.getElementById('clockTime').textContent = hh + ':' + mm;
+      const dd = String(d.getDate()).padStart(2, '0');
+      const mo = String(d.getMonth() + 1).padStart(2, '0');
+      document.getElementById('clockDate').textContent = dd + '/' + mo + '/' + d.getFullYear();
+    }
+    tick();
+    setInterval(tick, 1000 * 30);
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E LIT — Alex Memory</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      min-height: 100vh;
+      background: #fff;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      font-family: Georgia, serif;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      overflow-x: hidden;
+    }
+
+    /* ── BIG CSS FADING TEXT (QUOTE) ── */
+    .quote-stage {
+      min-height: 90vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    blockquote {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      text-align: center;
+      max-width: 900px;
+    }
+    cite {
+      display: block;
+      text-align: right;
+      font-family: Verdana, Arial, sans-serif;
+      margin-top: 1rem;
+      font-size: .9rem;
+      color: #888;
+      font-style: normal;
+    }
+    blockquote q {
+      font-family: Georgia, serif;
+      font-style: italic;
+      letter-spacing: .1rem;
+    }
+    blockquote q span { 
+      will-change: opacity, filter;
+      opacity: 0;
+      filter: blur(0px);
+      display: inline-block;
+      margin: 0 4px;
+    }
+    q {
+      quotes: "“" "”" "‘" "’";
+    }
+    q:before {
+      content: open-quote;
+      margin-right: .8rem;
+    }
+    q:after {
+      content: close-quote;
+    }
+    q:before, q:after {
+      color: #aaa;
+      font-size: 3.5rem;
+    }
+
+    /* ── SCROLLING NARRATIVE SECTIONS ── */
+    .narrative-block {
+      max-width: 750px;
+      width: 90%;
+      margin: 80px auto;
+      font-size: 1.35rem;
+      line-height: 2.2;
+      text-align: center;
+      opacity: 0.9;
+    }
+
+    .room-blur-text {
+      filter: blur(0.3px);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── SPIRAL SECTION ── */
+    .spiral-container {
+      width: 100%;
+      max-width: 700px;
+      margin: 60px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    #spiralCanvas {
+      width: 450px;
+      height: 450px;
+      max-width: 90vw;
+      max-height: 90vw;
+    }
+
+    .spiral-caption {
+      font-family: monospace;
+      font-size: 1.1rem;
+      color: #ff5555;
+      text-align: center;
+      margin-top: 20px;
+      letter-spacing: 0.15em;
+      line-height: 1.8;
+      max-width: 500px;
+    }
+
+    .spiral-ends-label {
+      font-family: monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      margin: 60px 0 20px;
+    }
+
+    /* ── AFTERMATH SECTION ── */
+    .aftermath-block {
+      max-width: 750px;
+      width: 90%;
+      margin: 40px auto 100px;
+      font-size: 1.25rem;
+      line-height: 2.1;
+      text-align: center;
+    }
+
+    /* ── THERAPIST CALL ── */
+    .therapist-call {
+      min-height: 40vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 80px;
+    }
+    .therapist-call h2 {
+      font-family: sans-serif;
+      font-size: 2.5rem;
+      letter-spacing: -0.02em;
+    }
+    .continue-btn {
+      font-family: monospace;
+      font-size: 1rem;
+      letter-spacing: 0.2em;
+      color: #fff;
+      background: #1a2fc2;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: background 0.2s ease;
+    }
+    .continue-btn:hover {
+      background: #2540d4;
+    }
+
+    .back-nav {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 100;
+      font-family: monospace;
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      color: inherit;
+      text-decoration: none;
+      opacity: 0.6;
+    }
+    .back-nav:hover { opacity: 1; }
+  </style>
+</head>
+<body>
+
+  <a href="alex-session5.html" class="back-nav">← Back to Session 5</a>
+
+  <!-- ── 1. BIG FADING CSS TEXT ── -->
+  <div class="quote-stage">
+    <blockquote>
+      <q>what are you doing for the rest of your life</q>
+      <cite>— Gia</cite>
+    </blockquote>
+
+    <!-- Hidden audio element for autoplay -->
+    <audio id="music" src="Angel's Stardust/6. Rest Of Your Life.mp3" autoplay></audio>
+  </div>
+
+  <!-- ── 2. NARRATIVE BLUR ── -->
+  <div class="narrative-block room-blur-text">
+    <p>the room was blurry, a lot a lot of people all passing by me, i didn't like the touch, drinks spilling, i couldn't find akira akira? akira? akira? blurred lines, slow music, gina? where is she, i couldn't see her it felt foggy, a lot of fog, despite the colors of the show, it felt dark i dont wanna be here i wanna go home home my heart was pacing a lot of people, i was spiraling</p>
+  </div>
+
+  <!-- ── 3. SPIRAL SECTION ── -->
+  <div class="spiral-container">
+    <canvas id="spiralCanvas" width="500" height="500"></canvas>
+    <div class="spiral-caption">
+      why why why why who who who where where breath breath BREATH my hand i cant feel it dad? I AM sorry am i???
+    </div>
+  </div>
+
+  <div class="spiral-ends-label">— spiral ends —</div>
+
+  <!-- ── 4. AFTERMATH ── -->
+  <div class="aftermath-block">
+    <p>i was i was there the floor was wet, i slipped and people around me laughed it felt weird it felt difficult i stood up and started running into people tryin to find akira and i couldn't see even more girls with their boyfriends making out one girl flashing herself another on floor someone was mixing all drinks up i found a sofa and sat there...................</p>
+  </div>
+
+  <!-- ── 5. THERAPIST QUESTION & NEXT ── -->
+  <div class="therapist-call">
+    <p style="font-family:monospace;font-size:0.8rem;letter-spacing:0.25em;opacity:0.5;">DR. CLARK</p>
+    <h2>1' ARE You alright</h2>
+    <a href="alex-session5b.html" class="continue-btn">Continue Session 5 — Part 2 →</a>
+  </div>
+
+  <script>
+    /* ── QUOTE WORD FADE ANIMATION ── */
+    function splitWords() {
+      let quote = document.querySelector("blockquote q");
+      if (!quote) return;
+      let text = quote.innerText;
+      let quotewords = text.split(" ");
+      let wordCount = quotewords.length;
+      quote.innerHTML = "";
+      for (let i = 0; i < wordCount; i++) {
+        quote.innerHTML += "<span>" + quotewords[i] + "</span>";
+        if (i < quotewords.length - 1) {
+          quote.innerHTML += " ";
+        }
+      }
+      quotewords = document.querySelectorAll("blockquote q span");
+      fadeWords(quotewords);
+    }
+
+    function getRandom(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function fadeWords(quotewords) {
+      Array.prototype.forEach.call(quotewords, function(word) {
+        word.animate([{
+          opacity: 0,
+          filter: "blur(" + getRandom(2,5) + "px)"
+        }, {
+          opacity: 1,
+          filter: "blur(0px)"
+        }], { 
+          duration: 1000,
+          delay: getRandom(500, 3300),
+          fill: 'forwards'
+        });
+      });
+    }
+
+    splitWords();
+
+    /* ── WHITE TO BLACK BG ON SCROLL USING GREYS ── */
+    window.addEventListener('scroll', function() {
+      let scrollTop = window.scrollY || document.documentElement.scrollTop;
+      let docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      let scrollPercent = Math.min(1, Math.max(0, scrollTop / Math.min(docHeight, 1200)));
+
+      // Interpolate from 255 (white) to 0 (black)
+      let bgVal = Math.round(255 * (1 - scrollPercent));
+      let textVal = Math.round(255 * scrollPercent);
+
+      document.body.style.backgroundColor = `rgb(${bgVal}, ${bgVal}, ${bgVal})`;
+      document.body.style.color = `rgb(${textVal}, ${textVal}, ${textVal})`;
+    });
+
+    /* ── CANVAS SPIRAL ANIMATION WITH SPIRAL TEXT ── */
+    (function() {
+      const canvas = document.getElementById('spiralCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width, H = canvas.height;
+      let angleOffset = 0;
+
+      const spiralText = "why why why why who who who where where breath breath BREATH my hand i cant feel it dad? I AM sorry am i???";
+
+      function render() {
+        ctx.clearRect(0, 0, W, H);
+        const cx = W / 2, cy = H / 2;
+        
+        // Draw spiral line
+        ctx.beginPath();
+        const loops = 5;
+        const maxRadius = 220;
+        const steps = 600;
+        for (let i = 0; i < steps; i++) {
+          const r = (i / steps) * maxRadius;
+          const a = (i / steps) * loops * Math.PI * 2 + angleOffset;
+          const x = cx + r * Math.cos(a);
+          const y = cy + r * Math.sin(a);
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = "rgba(220, 50, 50, 0.6)";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Draw spiral text along path
+        ctx.fillStyle = "rgba(230, 70, 70, 0.9)";
+        ctx.font = "14px monospace";
+        ctx.textAlign = "center";
+        
+        const chars = spiralText.split('');
+        for (let i = 0; i < chars.length; i++) {
+          const progress = i / chars.length;
+          const r = 30 + progress * (maxRadius - 40);
+          const a = progress * loops * Math.PI * 2 + angleOffset;
+          const x = cx + r * Math.cos(a);
+          const y = cy + r * Math.sin(a);
+          
+          ctx.save();
+          ctx.translate(x, y);
+          ctx.rotate(a + Math.PI / 2);
+          ctx.fillText(chars[i], 0, 0);
+          ctx.restore();
+        }
+
+        angleOffset -= 0.008;
+        requestAnimationFrame(render);
+      }
+
+      render();
+    })();
+
+    /* ── AUTOPLAY CONTROLS FOR MEMORY AUDIO ── */
+    (function() {
+      var music = document.getElementById('music');
+      if (!music) return;
+
+      function attemptPlay() {
+        music.play().catch(function() {
+          var autoPlayFallback = function() {
+            music.play();
+            document.removeEventListener('click', autoPlayFallback);
+            document.removeEventListener('scroll', autoPlayFallback);
+            document.removeEventListener('keydown', autoPlayFallback);
+          };
+          document.addEventListener('click', autoPlayFallback);
+          document.addEventListener('scroll', autoPlayFallback);
+          document.addEventListener('keydown', autoPlayFallback);
+        });
+      }
+
+      attemptPlay();
+    })();
+  </script>
+
+</body>
+</html>
