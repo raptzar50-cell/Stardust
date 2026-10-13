@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>E LIT — Alex Brown: Session 2 Transcript</title>
+  <link rel="stylesheet" href="vendor/fonts/fonts.css" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── SESSION 2: BLUE & WHITE ── */
+    :root {
+      --s2-blue: #1a2fc2;
+      --s2-blue-mid: #2540d4;
+      --s2-blue-light: #e8ecff;
+      --s2-blue-pale: #f0f3ff;
+      --s2-white: #ffffff;
+    }
+
+    body,
+    .doc-page-bg {
+      background: #9a6d45 !important;
+    }
+
+    .document-sheet {
+      background: rgba(255, 255, 255, 0.9) !important;
+      border-top: 5px solid var(--s2-blue);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--s2-blue);
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--s2-blue-light);
+    }
+
+    /* Blue header stripe */
+    .doc-header-stripe {
+      background: var(--s2-blue) !important;
+    }
+
+    /* Session title override */
+    .doc-patient-name {
+      color: var(--s2-blue);
+    }
+
+    .doc-type-label {
+      color: var(--s2-blue);
+      border-bottom-color: var(--s2-blue-light);
+    }
+
+    /* Therapist speaker blue */
+    .dialogue-speaker.therapist {
+      color: var(--s2-blue);
+      border-right-color: var(--s2-blue);
+    }
+
+    /* Info cells */
+    .info-cell-label {
+      color: var(--s2-blue);
+    }
+
+    .info-cell {
+      border-bottom-color: rgba(26, 47, 194, 0.12);
+    }
+
+    /* Obs note — blue tint */
+    .obs-note {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 13px;
+      color: rgba(26, 47, 194, 0.6);
+      background: var(--s2-blue-light);
+      border-left: 3px solid var(--s2-blue);
+      padding: 10px 16px;
+      margin: 14px 0 14px 130px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    /* Memory pull quote */
+    .memory-pull {
+      margin: 32px 0;
+      padding: 28px 40px;
+      background: var(--s2-blue);
+      border-radius: 4px;
+      position: relative;
+    }
+
+    .memory-pull p {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 18px;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.9);
+      text-align: center;
+    }
+
+    .memory-pull::before {
+      content: '"';
+      position: absolute;
+      top: -10px;
+      left: 24px;
+      font-size: 80px;
+      color: rgba(255, 255, 255, 0.1);
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    /* Session heading */
+    .session-title-bar {
+      background: var(--s2-blue-light);
+      border: 1px solid rgba(26, 47, 194, 0.2);
+      border-radius: 4px;
+      padding: 14px 20px;
+      margin-bottom: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .session-title-bar h2 {
+      font-family: var(--font-sans);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--s2-blue);
+      letter-spacing: -0.02em;
+    }
+
+    .session-title-bar span {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: rgba(26, 47, 194, 0.5);
+      letter-spacing: 0.15em;
+    }
+
+    /* Therapist note blue */
+    .therapist-note {
+      background: var(--s2-blue-light);
+      border-left-color: var(--s2-blue);
+    }
+
+    .therapist-note-label {
+      color: var(--s2-blue) !important;
+    }
+
+    /* Footer strip blue */
+    .doc-footer-strip {
+      background: var(--s2-blue);
+    }
+
+    /* ── AUDIO PLAYER UI (CASSETTE DEVICE BOX) ── */
+    @font-face {
+      font-family: 'Squada One';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("vendor/fonts/SquadaOne.woff") format('woff');
+    }
+
+    .document-sheet {
+      position: relative;
+    }
+
+    .device-box {
+      padding: 20px;
+      padding-top: 35px;
+      padding-bottom: 0px;
+      width: fit-content;
+      position: absolute;
+      top: 40px;
+      left: -360px;
+      z-index: 100;
+      transform: scale(0.82);
+      transform-origin: top right;
+      border-radius: 8px;
+      background-color: #868686;
+      box-shadow: inset -3px 0 4px #8E918E, inset -7px 0 7px #DFDFDF, inset 1px 0 3px #66696A, inset 3px 0 10px #616465, inset 0 3px 7px #919496, inset 0 4px 10px white, 0 8px 24px rgba(0, 0, 0, 0.3);
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 1400px) {
+      .device-box {
+        position: relative;
+        top: 0;
+        left: 0;
+        transform: scale(0.85);
+        transform-origin: top center;
+        margin: 20px auto 30px;
+      }
+    }
+
+    .device-box input {
+      display: none;
+    }
+
+    .device-box .device-main-section {
+      width: min(280px, 80vw);
+      background: #181818;
+      border-radius: 6px;
+      padding: 12px 14px;
+      margin: 0 auto;
+      border: 2px solid #444;
+      box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.8);
+      color: #e3e3e3;
+    }
+
+    .device-box .cassette-screen {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .device-box .cassette-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Squada One', monospace;
+      color: #ffca28;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .device-box .cassette-reels {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 32px;
+      background: #0d0d0d;
+      border-radius: 4px;
+      border: 1px solid #333;
+      padding: 0 8px;
+      gap: 8px;
+    }
+
+    .device-box .reel {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 3px dashed #777;
+      flex-shrink: 0;
+      animation: spin 3s linear infinite;
+      animation-play-state: paused;
+    }
+
+    .device-box.playing .reel {
+      animation-play-state: running;
+    }
+
+    @keyframes spin {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .device-box #timeline {
+      flex: 1;
+      height: 8px;
+      background: #333;
+      border-radius: 4px;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .device-box #playhead {
+      width: 0%;
+      height: 100%;
+      background: var(--s2-blue);
+      border-radius: 4px;
+      transition: width 0.1s linear;
+    }
+
+    .device-box .device-button-section {
+      display: flex;
+      width: fit-content;
+      border-radius: 4px 4px 2px 2px;
+      background-color: black;
+      padding: 3px;
+      margin: auto;
+      margin-top: 20px;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    .device-box .button {
+      position: relative;
+      cursor: pointer;
+      margin: 2px;
+      margin-bottom: 0;
+      width: 58px;
+      height: 66px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='58' height='66' viewBox='0 0 58 66'%3E%3Cdefs%3E%3ClinearGradient id='offGrad' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%234a4a4d'/%3E%3Cstop offset='20%25' stop-color='%23323235'/%3E%3Cstop offset='80%25' stop-color='%23212124'/%3E%3Cstop offset='100%25' stop-color='%23141416'/%3E%3C/linearGradient%3E%3ClinearGradient id='topBevel' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236e6e73'/%3E%3Cstop offset='100%25' stop-color='%23323235'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='2' y='2' width='54' height='62' rx='4' fill='%23050505' opacity='0.6'/%3E%3Crect x='2' y='0' width='54' height='60' rx='4' fill='url(%23offGrad)' stroke='%231a1a1c' stroke-width='1'/%3E%3Crect x='4' y='2' width='50' height='6' rx='2' fill='url(%23topBevel)'/%3E%3Crect x='2' y='54' width='54' height='6' rx='2' fill='%230d0d0f'/%3E%3C/svg%3E");
+    }
+
+    .device-box .button.selected,
+    .device-box input[type="radio"]:checked+label .button {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='58' height='66' viewBox='0 0 58 66'%3E%3Cdefs%3E%3ClinearGradient id='onGrad' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2318181a'/%3E%3Cstop offset='50%25' stop-color='%23242427'/%3E%3Cstop offset='100%25' stop-color='%232e2e32'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='2' y='0' width='54' height='64' rx='4' fill='%23000000'/%3E%3Crect x='3' y='6' width='52' height='56' rx='3' fill='url(%23onGrad)' stroke='%230f0f11' stroke-width='1'/%3E%3Crect x='3' y='6' width='52' height='8' rx='2' fill='%23000000' opacity='0.5'/%3E%3C/svg%3E");
+    }
+
+    .device-box .button .label {
+      position: absolute;
+      margin: 0 auto;
+      width: fit-content;
+      color: #e3e3e3;
+      top: -36%;
+      left: 0;
+      right: 0;
+      font-family: 'Squada One', 'Space Grotesk', 'Courier Prime', monospace;
+    }
+
+    .play-hint {
+      position: absolute;
+      top: -26px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(18, 18, 20, 0.92);
+      color: #dfdfdf;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-family: 'Courier Prime', 'Space Grotesk', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+      white-space: nowrap;
+      pointer-events: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 120;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      animation: hintBreathe 2.4s ease-in-out infinite alternate;
+    }
+
+    .play-hint .hint-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: #4ade80;
+      border-radius: 50%;
+      box-shadow: 0 0 6px rgba(74, 222, 128, 0.8);
+      animation: hintDotPulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes hintBreathe {
+      from { transform: translateX(-50%) translateY(0); opacity: 0.9; }
+      to { transform: translateX(-50%) translateY(-3px); opacity: 1; }
+    }
+
+    @keyframes hintDotPulse {
+      0%, 100% { opacity: 0.4; transform: scale(0.85); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    .play-hint.fade-out {
+      opacity: 0 !important;
+      transform: translateX(-50%) translateY(-8px) !important;
+      pointer-events: none;
+    }
+  </style>
+  <script src="platform.js"></script>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+</head>
+
+<body>
+
+  <header class="site-header" style="border-bottom-color:#2540d4;">
+    <div class="header-inner">
+      <div class="header-logo">
+        <span class="logo-acronym">E.T.I.</span>
+        <span class="logo-full">Eastbrook Therapeutic Institute</span>
+      </div>
+      <nav class="header-nav">
+        <span class="nav-tag" style="color:#6080ff;border-color:#6080ff;">SESSION 02</span>
+        <a href="chapter1.html" class="nav-link">← Chapter One</a>
+      </nav>
+    </div>
+    <div class="header-classification" style="background:rgba(26,47,194,0.15);border-top-color:rgba(26,47,194,0.4);">
+      <span>CLASSIFICATION: OPEN</span>
+      <span class="divider">|</span>
+      <span>PATIENT: ALEX BROWN &nbsp;|&nbsp; ETI-2024-001</span>
+      <span class="divider">|</span>
+      <span>SESSION 2 OF 5 &nbsp;|&nbsp; 17.04.2024</span>
+    </div>
+  </header>
+
+  <div class="doc-page-bg">
+    <div class="document-sheet">
+      <!-- ── AUDIO PLAYER: Pictures of the Past (Stuck to Sheet) ── -->
+      <div class="device-box" id="deviceBox">
+        <div class="play-hint" id="playHint">
+          <span class="hint-dot"></span>
+          <span>press play</span>
+        </div>
+        <div class="device-main-section">
+          <div class="cassette-screen">
+            <div class="cassette-header">
+              <span>TAPE 2A</span>
+              <span>SESSION 02</span>
+            </div>
+            <div class="cassette-reels">
+              <div class="reel"></div>
+              <div id="timeline">
+                <div id="playhead"></div>
+              </div>
+              <div class="reel"></div>
+            </div>
+          </div>
+        </div>
+        <div class="device-button-section">
+          <input type="radio" name="device-btn-s2" id="btn-play-s2">
+          <label for="btn-play-s2">
+            <div class="button">
+              <span class="label">PLAY</span>
+            </div>
+          </label>
+
+          <input type="radio" name="device-btn-s2" id="btn-pause-s2" checked>
+          <label for="btn-pause-s2">
+            <div class="button">
+              <span class="label">PAUSE</span>
+            </div>
+          </label>
+
+          <input type="radio" name="device-btn-s2" id="btn-rewind-s2">
+          <label for="btn-rewind-s2">
+            <div class="button">
+              <span class="label">REWIND</span>
+            </div>
+          </label>
+
+          <input type="radio" name="device-btn-s2" id="btn-ff-s2">
+          <label for="btn-ff-s2">
+            <div class="button">
+              <span class="label">F.FWD</span>
+            </div>
+          </label>
+        </div>
+      </div>
+      <div class="doc-header-stripe">
+        <span class="doc-header-title">Eastbrook Therapeutic Institute — Session Transcript</span>
+        <span class="doc-header-ref">REF: ETI-2024-001-S02 &nbsp;|&nbsp; AUDIO: TAPE 2A</span>
+      </div>
+
+      <div class="doc-hole-column">
+        <div class="punch-hole"></div>
+        <div class="punch-hole"></div>
+        <div class="punch-hole"></div>
+        <div class="punch-hole"></div>
+        <div class="punch-hole"></div>
+        <div class="punch-hole"></div>
+        <div class="punch-hole"></div>
+      </div>
+
+      <div class="doc-content">
+        <p class="doc-type-label">SESSION TRANSCRIPT — NO. 2</p>
+        <h1 class="doc-patient-name">Alex Brown</h1>
+        <p class="doc-session-num">SESSION DATE: 17.04.2024 &nbsp;&nbsp;·&nbsp;&nbsp; DURATION: 54 MIN
+          &nbsp;&nbsp;·&nbsp;&nbsp; THERAPIST: DR. M. CLARK</p>
+
+        <div class="doc-info-grid" style="margin-bottom:36px;">
+          <div class="info-cell">
+            <div class="info-cell-label">Session Number</div>
+            <div class="info-cell-value">2 of 5</div>
+          </div>
+          <div class="info-cell">
+            <div class="info-cell-label">Date</div>
+            <div class="info-cell-value">17 April, 2024</div>
+          </div>
+          <div class="info-cell">
+            <div class="info-cell-label">Session Type</div>
+            <div class="info-cell-value">Individual — Open Dialogue</div>
+          </div>
+          <div class="info-cell">
+            <div class="info-cell-label">Patient Demeanour</div>
+            <div class="info-cell-value">More open — disclosed early childhood memory</div>
+          </div>
+        </div>
+
+        <div class="session-title-bar">
+          <h2>Pictures of the Past</h2>
+          <span>TAPE 2A &nbsp;·&nbsp; SIDE A</span>
+        </div>
+
+        <audio id="music" preload="auto">
+          <source src="james-primate-pictures-of-the-past.mp3" type="audio/mpeg">
+          <source src="james-primate-pictures-of-the-past.mp3" type="audio/mpeg">
+        </audio>
+
+        <hr class="doc-divider" />
+
+        <h2 class="doc-verbatim-title">Transcript — Verbatim</h2>
+
+        <p class="obs-note" style="margin-bottom:25px;">[EXTRACTS FROM SESSION 02 TRANSCRIPT]</p>
+
+        <div class="session-dialogue">
+
+          <div class="dialogue-line">
+            <span class="dialogue-speaker therapist">DR. CLARK</span>
+            <span class="dialogue-text">You were just 7?</span>
+          </div>
+
+          <div class="dialogue-line">
+            <span class="dialogue-speaker">ALEX</span>
+            <span class="dialogue-text">Y-yes.</span>
+          </div>
+
+          <div class="dialogue-line">
+            <span class="dialogue-speaker therapist">DR. CLARK</span>
+            <span class="dialogue-text">I am sorry to hear that.</span>
+          </div>
+
+          <p class="obs-note">he opened up very quickly, as if he had been wanting to tell someone for a long time. he
+            knew this was for the case — and yet. he really needs actual therapy. i feel bad for him.</p>
+
+          <div class="dialogue-line">
+            <span class="dialogue-speaker">ALEX</span>
+            <span class="dialogue-text">When mom was still home, it felt good with her. I di-did not understand when
+              things happened.</span>
+          </div>
+
+          <div class="dialogue-line">
+            <span class="dialogue-speaker">ALEX</span>
+            <span class="dialogue-text">I was there alone and they would fight all day. I would play with my blocks and
+              would not bothe-r — in my room. Al-one. The blocks would be my world. I would make houses.</span>
+          </div>
+
+          <div class="dialogue-line">
+            <span class="dialogue-speaker">ALEX</span>
+            <span class="dialogue-text">I used to chase that feeling all my life — even in worst times. I did not hate
+              it. The evening still felt nice. Even in school, when all alone — it still felt nice.</span>
+          </div>
+
+          <div class="dialogue-line">
+            <span class="dialogue-speaker">ALEX</span>
+            <span class="dialogue-text">The mountains, the road behind school, I used to walk there alone sometimes with
+              my bike. As things got worse between them, I did not understand these things growing up, but I thought
+              I'll be fine. But it went all grey. I thought I'll feel it again, I did not... after Dad was too much for
+              me. He was chaotic.</span>
+          </div>
+
+          <div class="dialogue-line">
+            <span class="dialogue-speaker">ALEX</span>
+            <span class="dialogue-text">I still lik- loved him. But it was bound to happen.</span>
+          </div>
+
+          <div class="dialogue-line">
+            <span class="dialogue-speaker therapist">DR. CLARK</span>
+            <span class="dialogue-text">I feel bad, and I think you need to understand your struggles as well.</span>
+          </div>
+
+          <div class="dialogue-line">
+            <span class="dialogue-speaker">ALEX</span>
+            <span class="dialogue-text">I don't know man, feels lost.</span>
+          </div>
+
+          <div class="dialogue-line">
+            <span class="dialogue-speaker therapist">DR. CLARK</span>
+            <span class="dialogue-text">Why do you feel like you don't have it now?</span>
+          </div>
+
+          <div class="dialogue-line">
+            <span class="dialogue-speaker">ALEX</span>
+            <span class="dialogue-text">It's too numb, man. I am — I am sorry.</span>
+          </div>
+
+          <div class="dialogue-line">
+            <span class="dialogue-speaker therapist">DR. CLARK</span>
+            <span class="dialogue-text">Don't be sorry. It's my job to listen.</span>
+          </div>
+
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:25px;">
+          <div>
+            <p
+              style="font-family:var(--font-mono);font-size:10px;color:var(--ink-ghost);letter-spacing:0.12em;line-height:25px;margin:0;">
+              SESSION CLOSED: 17.04.2024 &nbsp;·&nbsp; TRANSCRIPT REVIEWED: 19.04.2024</p>
+            <p
+              style="font-family:var(--font-mono);font-size:10px;color:var(--ink-ghost);letter-spacing:0.12em;line-height:25px;margin:0;">
+              AUDIO TAPE 2A ARCHIVED &nbsp;·&nbsp; NO REDACTIONS APPLIED</p>
+          </div>
+          <div
+            style="font-family:var(--font-stamp);font-size:14px;color:var(--s2-blue);border:2px solid var(--s2-blue);padding:4px 12px;border-radius:3px;transform:rotate(-2deg);">
+            FILED</div>
+        </div>
+
+        <!-- ── PAPER NAVIGATION LINK TO SESSION 05 (ON PAPER SHEET ITSELF) ── -->
+        <div
+          style="margin-top:25px;padding-top:25px;border-top:1px dashed rgba(160,140,100,0.35);display:flex;justify-content:space-between;align-items:center;position:relative;z-index:10;">
+          <a href="alex-session1.html"
+            style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--ink-ghost);text-decoration:none;letter-spacing:0.12em;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid rgba(160,140,100,0.3);border-radius:3px;background:rgba(255,255,255,0.7);">
+            ← SESSION 01
+          </a>
+          <a href="mse-alex-s2.html"
+            style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:#7a6f5e;text-decoration:none;letter-spacing:0.12em;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border:1px dashed rgba(160,140,100,0.5);border-radius:3px;background:rgba(255,255,255,0.7);transition:all 0.2s ease;">
+            ◈ VIEW MSE REPORT
+          </a>
+          <a href="alex-session5.html"
+            style="font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--s2-blue);text-decoration:none;letter-spacing:0.12em;display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border:2px solid var(--s2-blue);border-radius:4px;background:rgba(26,47,194,0.08);box-shadow:0 2px 5px rgba(0,0,0,0.05);transition:all 0.2s ease;">
+            NEXT TRANSCRIPT: SESSION 05 →
+          </a>
+        </div>
+      </div>
+
+      <div class="doc-footer-strip">
+        <span class="doc-footer-text">ETI-2024-001-S02 &nbsp;|&nbsp; OPEN — FULL</span>
+        <span class="doc-footer-text">PAGE 1 OF 1 &nbsp;|&nbsp; CHAPTER 01</span>
+      </div>
+    </div>
+
+    <div style="max-width:820px;margin:40px auto 0;display:flex;justify-content:space-between;align-items:center;">
+      <a href="alex-session1.html" class="back-btn">← Session 1</a>
+    </div>
+  </div>
+  </div>
+
+  <footer class="site-footer" style="background:var(--s2-blue);border-top-color:#2540d4;">
+    <div class="footer-inner">
+      <span class="footer-logo">E.T.I.</span>
+      <p class="footer-text" style="color:rgba(255,255,255,0.4);">This document is the property of Eastbrook Therapeutic
+        Institute. Unauthorized access is a criminal offense under the Mental Health Records Protection Act (2019).</p>
+    </div>
+    <div class="footer-bottom" style="border-top-color:rgba(255,255,255,0.1);color:rgba(255,255,255,0.2);">
+      <span>© 2024 E LIT — A Work of Fiction</span>
+      <span>ETI-2024-001-S02</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      var music = document.getElementById('music');
+      var deviceBox = document.getElementById('deviceBox');
+      var playBtn = document.getElementById('btn-play-s2');
+      var pauseBtn = document.getElementById('btn-pause-s2');
+      var rewindBtn = document.getElementById('btn-rewind-s2');
+      var ffBtn = document.getElementById('btn-ff-s2');
+
+      var playLabel = document.querySelector('label[for="btn-play-s2"]');
+      var pauseLabel = document.querySelector('label[for="btn-pause-s2"]');
+      var rewindLabel = document.querySelector('label[for="btn-rewind-s2"]');
+      var ffLabel = document.querySelector('label[for="btn-ff-s2"]');
+
+      var playhead = document.getElementById('playhead');
+      var timeline = document.getElementById('timeline');
+      var playHint = document.getElementById('playHint');
+      if (!music) return;
+
+      // Preload audio immediately for zero latency
+      music.preload = "auto";
+      music.load();
+
+      function dismissPlayHint() {
+        if (playHint && !playHint.classList.contains('fade-out')) {
+          playHint.classList.add('fade-out');
+          setTimeout(function () {
+            if (playHint) playHint.style.display = 'none';
+          }, 1000);
+        }
+      }
+
+      function setPlayingUI() {
+        if (playBtn) playBtn.checked = true;
+        if (deviceBox) deviceBox.classList.add('playing');
+        dismissPlayHint();
+      }
+
+      function setPausedUI() {
+        if (pauseBtn) pauseBtn.checked = true;
+        if (deviceBox) deviceBox.classList.remove('playing');
+      }
+
+      function playAudio() {
+        setPlayingUI(); // Instant visual state change
+        var p = music.play();
+        if (p && p.catch) {
+          p.catch(function (e) { console.log(e); });
+        }
+      }
+
+      function pauseAudio() {
+        setPausedUI(); // Instant visual state change
+        music.pause();
+      }
+
+      function rewindAudio() {
+        if (rewindBtn) rewindBtn.checked = true;
+        music.currentTime = Math.max(0, music.currentTime - 10);
+        setTimeout(function () {
+          if (music.paused) setPausedUI(); else setPlayingUI();
+        }, 200);
+      }
+
+      function ffAudio() {
+        if (ffBtn) ffBtn.checked = true;
+        if (music.duration) {
+          music.currentTime = Math.min(music.duration, music.currentTime + 10);
+        }
+        setTimeout(function () {
+          if (music.paused) setPausedUI(); else setPlayingUI();
+        }, 200);
+      }
+
+      if (playLabel) {
+        playLabel.addEventListener('click', function (e) {
+          e.preventDefault();
+          playAudio();
+        });
+      }
+      if (pauseLabel) {
+        pauseLabel.addEventListener('click', function (e) {
+          e.preventDefault();
+          pauseAudio();
+        });
+      }
+      if (rewindLabel) {
+        rewindLabel.addEventListener('click', function (e) {
+          e.preventDefault();
+          rewindAudio();
+        });
+      }
+      if (ffLabel) {
+        ffLabel.addEventListener('click', function (e) {
+          e.preventDefault();
+          ffAudio();
+        });
+      }
+
+      music.addEventListener('play', setPlayingUI);
+      music.addEventListener('pause', setPausedUI);
+      music.addEventListener('ended', setPausedUI);
+
+      if (timeline && playhead) {
+        music.addEventListener('timeupdate', function () {
+          if (music.duration) {
+            var pct = (music.currentTime / music.duration) * 100;
+            playhead.style.width = pct + '%';
+          }
+        });
+
+        timeline.addEventListener('click', function (e) {
+          var rect = timeline.getBoundingClientRect();
+          var clickPos = (e.clientX - rect.left) / rect.width;
+          if (music.duration) {
+            music.currentTime = clickPos * music.duration;
+          }
+        });
+      }
+
+      // ── SECRET: double-click DR. MARY CLARK / title / logo → login page ──
+      var drMaryTriggers = document.querySelectorAll('#dr-clark-trigger, .header-title, .glitch-title, .doc-session-num, .card-name, .logo-acronym, .logo-full, .header-logo');
+      drMaryTriggers.forEach(function (el) {
+        el.style.cursor = 'pointer';
+        el.addEventListener('dblclick', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          window.location.href = 'login.html';
+        });
+      });
+    })();
+  </script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
+  </script>
+</body>
+
+</html>

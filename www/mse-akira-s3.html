@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>FILE AKR-03 — Akira, Session 3</title>
+<style>
+@import url("vendor/fonts/fonts.css");
+
+:root{
+  --paper:      #ffffff;
+  --paper-dim:  #f2f1ec;
+  --paper-deep: #e9e7de;
+  --ink:        #0b0b0a;
+  --ink-70:     rgba(11,11,10,.72);
+  --ink-45:     rgba(11,11,10,.46);
+  --ink-25:     rgba(11,11,10,.22);
+  --ink-12:     rgba(11,11,10,.12);
+  --stamp:      #b21e1e;
+  --stamp-dim:  rgba(178,30,30,.35);
+
+  --f-display: 'EB Garamond', Georgia, serif;
+  --f-label:   'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --f-mono:    'IBM Plex Mono', ui-monospace, monospace;
+  --f-chrome:  'Silkscreen', monospace;
+}
+
+*{ box-sizing:border-box; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+html,body{ margin:0; padding:0; }
+body{
+  min-height:100vh;
+  background: var(--paper-deep);
+  color: var(--ink);
+  font-family: var(--f-label);
+  padding: 34px 16px 60px;
+}
+body::before{
+  content:'';
+  position:fixed; inset:0; pointer-events:none; z-index:3;
+  opacity:.14; mix-blend-mode:multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+::selection{ background: var(--ink); color: var(--paper); }
+
+.comb{ display:flex; flex-direction:column; gap:2px; width:132px; }
+.comb i{ display:block; height:3px; background:var(--ink); }
+
+.sheet{ width:min(880px, 100%); margin:0 auto; }
+.masthead{ text-align:center; margin-bottom:16px; }
+.masthead .comb{ margin:0 auto 12px; }
+.eyebrow-label{ font-family: var(--f-label); font-size:11px; letter-spacing:2.2px; text-transform:uppercase; color:var(--ink-70); margin-bottom:6px; }
+.masthead-title{ font-family: var(--f-display); font-style:italic; font-weight:500; font-size: clamp(24px, 4.4vw, 34px); margin:4px 0; }
+
+.win{ background:var(--paper); border:1.5px solid var(--ink); box-shadow: 5px 5px 0 var(--ink-12); }
+.win-title{ display:flex; align-items:center; gap:10px; padding:6px 8px; border-bottom:1.5px solid var(--ink); background: repeating-linear-gradient(180deg, var(--ink) 0 1px, transparent 1px 3px); height:22px; }
+.win-box{ width:12px; height:12px; border:1.3px solid var(--ink); background:var(--paper); flex:0 0 auto; }
+.win-title-text{ font-family: var(--f-chrome); font-size:10px; letter-spacing:.5px; background:var(--paper); padding:0 8px; margin:0 auto; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.win-title-spacer{ width:12px; flex:0 0 auto; }
+
+.record{ padding: 22px 30px 26px; }
+.record-top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; flex-wrap:wrap; gap:8px; }
+.file-tag{ font-family: var(--f-mono); font-size:11px; letter-spacing:.5px; border:1px solid var(--ink); padding:5px 9px; }
+.badge{ font-family: var(--f-label); font-size:10px; letter-spacing:1.6px; text-transform:uppercase; padding:6px 10px; border:1.3px solid var(--ink); }
+.badge.flagged{ background:var(--stamp); border-color:var(--stamp); color:var(--paper); }
+
+.record-title{ font-family: var(--f-display); font-weight:500; font-size:clamp(24px, 3.6vw, 32px); margin:6px 0 0; line-height:1.08; }
+.stage-title{ font-family: var(--f-mono); font-size:11px; color:var(--ink-45); margin:5px 0 20px; }
+
+.meta{ display:grid; grid-template-columns: repeat(4, 1fr); border:1.3px solid var(--ink); margin-bottom:22px; }
+.meta div{ padding:9px 12px; border-right:1px solid var(--ink-25); }
+.meta div:last-child{ border-right:none; }
+.meta .lab{ font-family: var(--f-label); font-size:9px; letter-spacing:1.4px; color:var(--ink-45); text-transform:uppercase; margin-bottom:3px; }
+.meta .val{ font-family: var(--f-display); font-size:14px; }
+
+table{ width:100%; border-collapse:collapse; border:1.3px solid var(--ink); margin-bottom:18px; }
+colgroup .lbl{ width:29%; }
+td{ border:1px solid var(--ink-25); padding:9px 12px; vertical-align:top; text-align:left; }
+tr.band td{ background:var(--ink); color:var(--paper); font-family: var(--f-label); font-size:10.5px; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; padding:6px 12px; }
+td.label{ background:var(--paper-dim); font-family: var(--f-label); font-weight:600; font-size:12px; }
+td.value{ font-family: var(--f-display); font-size:14.5px; line-height:1.55; }
+tr.flag td.value{ background: rgba(178,30,30,.07); }
+tr.flag td.label{ color: var(--stamp); }
+
+.memo{ border:1.3px dashed var(--ink-45); padding:12px 16px 14px; margin-bottom:18px; }
+.memo-label{ font-family: var(--f-label); font-size:9px; letter-spacing:1.6px; color:var(--stamp); margin-bottom:6px; text-transform:uppercase; }
+.memo p{ font-family: var(--f-display); font-style:italic; font-size:16px; line-height:1.5; margin:0; }
+
+.formulation{ font-family: var(--f-mono); font-size:10.5px; color:var(--ink-45); border-top:1px solid var(--ink-25); padding-top:10px; margin-bottom:18px; }
+.sig{ font-family: var(--f-label); font-size:12px; color:var(--ink-70); }
+.sheet-footer{ text-align:center; font-family: var(--f-mono); font-size:9px; color:var(--ink-45); margin-top:16px; letter-spacing:.4px; line-height:1.9; }
+
+.nav-row{ display:flex; justify-content:space-between; align-items:center; margin-top:20px; padding-top:16px; border-top:1px solid var(--ink-25); }
+.nav-btn{ font-family: var(--f-mono); font-size:11px; letter-spacing:.5px; text-decoration:none; color:var(--ink-70); padding:6px 12px; border:1px solid var(--ink-25); border-radius:3px; transition: all 0.2s ease; }
+.nav-btn:hover{ background:var(--ink); color:var(--paper); }
+
+@media (max-width:640px){ .record{ padding:16px 16px 20px; } .meta{ grid-template-columns: repeat(2, 1fr); } .meta div:nth-child(2){ border-right:none; } }
+@media print{ body{ background:#fff; padding:0; } .sheet{ width:auto; } .win{ border:none; box-shadow:none; } }
+</style>
+  <script src="platform.js"></script>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+</head>
+<body>
+
+<div class="sheet">
+  <header class="masthead">
+    <div class="comb" aria-hidden="true"></div>
+    <div class="eyebrow-label">Field Guide &nbsp;·&nbsp; Mental Status Registry</div>
+    <h1 class="masthead-title">The Status Register</h1>
+  </header>
+
+  <article class="win">
+    <div class="win-title">
+      <span class="win-box"></span>
+      <span class="win-title-text">FILE AKR-03 — AKIRA, SESSION 3, HEAVILY REDACTED</span>
+      <span class="win-title-spacer"></span>
+    </div>
+
+    <div class="record">
+      <div class="record-top">
+        <div class="file-tag">FILE <span>AKR-03</span></div>
+        <div class="badge">ROUTINE ENTRY</div>
+      </div>
+
+      <h2 class="record-title">Akira — Session 3, The Empty School</h2>
+      <div class="stage-title">case://session — Dr. Ellison, individual therapy</div>
+
+      <div class="meta">
+        <div><div class="lab">Subject</div><div class="val">Akira Takahashi</div></div>
+        <div><div class="lab">Session</div><div class="val">3 of ongoing series</div></div>
+        <div><div class="lab">Role</div><div class="val">Witness / person of interest</div></div>
+        <div><div class="lab">Examiner</div><div class="val">Ellison, clinical</div></div>
+      </div>
+
+      <table>
+        <colgroup><col class="lbl"><col></colgroup>
+        <tbody>
+          <tr class="band"><td colspan="2">A. General Appearance and Behavior</td></tr>
+          <tr><td class="label">Age vs. stated age</td><td class="value">Congruent with stated age.</td></tr>
+          <tr><td class="label">Hygiene / grooming</td><td class="value">Adequate; unchanged from previous sessions.</td></tr>
+          <tr><td class="label">Body build</td><td class="value">Average build, unchanged.</td></tr>
+          <tr><td class="label">Sitting comfortably / posture</td><td class="value">More settled than Session 2. Removed jacket mid-session — may indicate increasing comfort or a self-soothing gesture (folded it in his lap).</td></tr>
+          <tr><td class="label">Eye-to-eye contact</td><td class="value">Variable. Direct during dream recollection, averted during pauses and emotionally loaded material about displacement.</td></tr>
+          <tr><td class="label">Rapport</td><td class="value">Improved over Session 2. Subject responded positively to Dr. Ellison&rsquo;s honesty (&ldquo;That&rsquo;s probably the most honest thing a doctor has ever said to me&rdquo;). Rapport built through authenticity rather than authority.</td></tr>
+          <tr><td class="label">Attitude toward examiner</td><td class="value">Cooperative. Less confrontational than with Dr. Clark. Responsive to Dr. Ellison&rsquo;s non-prescriptive style.</td></tr>
+          <tr><td class="label">Psychomotor activity</td><td class="value">Reduced from Session 2. Moments of stillness, particularly during the 43-second pause. Self-soothing gesture (jacket folding) observed.</td></tr>
+          <tr><td class="label">Abnormal involuntary movement</td><td class="value">None observed.</td></tr>
+
+          <tr class="band"><td colspan="2">B. Speech</td></tr>
+          <tr><td class="label">Relevant / spontaneity</td><td class="value">Highly relevant. Spontaneity markedly increased — subject initiated disclosure of dream content and philosophical reflection unprompted.</td></tr>
+          <tr><td class="label">Productivity</td><td class="value">Highest of the series. Extended, eloquent narrative passages — particularly the dream sequence and the window-drawing metaphor.</td></tr>
+          <tr class="flag"><td class="label">Reaction time</td><td class="value">Variable. Normal during reflective passages. One 43-second pause observed during identity-related disclosure (&ldquo;I think it was me. A version of me that stayed.&rdquo;).</td></tr>
+          <tr><td class="label">Coherence / comprehensibility</td><td class="value">Fully coherent. Notably articulate — language more literary than Session 2. ⬛ Note: large sections heavily redacted; coherence assessment limited to unredacted portions.</td></tr>
+          <tr><td class="label">Articulation defect</td><td class="value">None. Voice quiet during reflective passages but steady throughout.</td></tr>
+
+          <tr class="band"><td colspan="2">C. Thought</td></tr>
+          <tr class="flag"><td class="label">Stream</td><td class="value">Goal-directed but with rich, non-linear associations. Dream content reveals complex internal processing — empty school as symbolic architecture of loss. Subject links dream imagery to displacement and identity (&ldquo;a version of me that stayed&rdquo;).</td></tr>
+          <tr><td class="label">Possession</td><td class="value">No obsessions or compulsions. Condensation-drawing ritual (window) appears repetitive but is self-identified as intentional and therapeutic (&ldquo;practicing letting go&rdquo;), not compulsive.</td></tr>
+          <tr class="flag"><td class="label">Content</td><td class="value">Themes of displacement, identity fragmentation, enforced uprooting. &ldquo;Running&rdquo; identified as the family&rsquo;s unspoken reality. Values honesty intensely — anger toward euphemism (&ldquo;fresh start,&rdquo; &ldquo;transition&rdquo;). Condensation drawings = practicing passive loss. ⬛ Redacted sections (pages 3–4) may contain additional significant content.</td></tr>
+          <tr><td class="label">Form</td><td class="value">No formal thought disorder. Metaphorical thinking is sophisticated and reality-anchored.</td></tr>
+
+          <tr class="band"><td colspan="2">D. Mood and Affect</td></tr>
+          <tr><td class="label">Quality of mood</td><td class="value">Reflective, melancholic. Less hostile than Session 2. Underlying sadness more accessible.</td></tr>
+          <tr><td class="label">Appropriateness</td><td class="value">Fully congruent throughout.</td></tr>
+          <tr><td class="label">Range</td><td class="value">Broader than Session 2. Curiosity (dream recollection) → wistfulness (empty school) → quiet intensity (identity disclosure) → calm resignation (window metaphor).</td></tr>
+          <tr><td class="label">Reactivity</td><td class="value">Fully reactive. Genuine emotional engagement.</td></tr>
+          <tr><td class="label">Stability</td><td class="value">Stable throughout. No lability observed — transitions are gradual and appropriate.</td></tr>
+          <tr><td class="label">Depth and intensity</td><td class="value">Deep. Subject is engaged with internal world in a way not observed in earlier sessions.</td></tr>
+
+          <tr class="band"><td colspan="2">E. Perception</td></tr>
+          <tr><td class="label">Hallucination / illusion</td><td class="value">None reported or observed. Dream content is recognised as dream.</td></tr>
+          <tr><td class="label">Derealization</td><td class="value">Not present. Dream content has a derealized quality but is appropriately contextualised by subject.</td></tr>
+          <tr><td class="label">Depersonalization</td><td class="value">Identity fragmentation in dream content (&ldquo;a version of me that stayed&rdquo;) is symbolic rather than dissociative. No clinical depersonalization observed.</td></tr>
+
+          <tr class="band"><td colspan="2">F. Cognitive Function</td></tr>
+          <tr><td class="label">Orientation</td><td class="value">Oriented x4 — informal assessment.</td></tr>
+          <tr><td class="label">Attention / concentration</td><td class="value">Excellent. Sustained focus across complex material.</td></tr>
+          <tr><td class="label">Memory</td><td class="value">Remote memory intact — detailed dream recall, school memories. Recent memory not formally tested.</td></tr>
+          <tr><td class="label">Intelligence / abstraction</td><td class="value">Abstract reasoning sophisticated — self-generated metaphors (condensation as impermanence, window as passive loss mechanism).</td></tr>
+
+          <tr class="band"><td colspan="2">G. Insight and Judgment</td></tr>
+          <tr class="flag"><td class="label">Insight</td><td class="value">Developing significantly. Subject recognises the dream figure as an alternate self (&ldquo;a version of me that stayed&rdquo;). Identifies family relocation as &ldquo;running&rdquo; and resents the euphemisms used to describe it. Articulates the window-drawing as a coping strategy with self-awareness.</td></tr>
+          <tr><td class="label">Judgment (personal / social)</td><td class="value">Intact. Good social awareness and appropriate boundaries within session.</td></tr>
+
+          <tr class="band"><td colspan="2">H. Risk</td></tr>
+          <tr><td class="label">Suicidal ideation</td><td class="value">None elicited or observed.</td></tr>
+          <tr><td class="label">Self-harm / substance use</td><td class="value">None disclosed. ⬛ Redacted sections may contain relevant information.</td></tr>
+          <tr><td class="label">Risk to others</td><td class="value">None elicited or observed. No hostility this session.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="memo">
+        <div class="memo-label">Management / Follow-Up</div>
+        <p>Significant therapeutic progress under Dr. Ellison. Akira is engaging with internal material for the first time. The dream content and window metaphor suggest readiness for deeper work on displacement and identity. Redacted sections (pages 3–4, by senior review) require resolution before full clinical picture can be established. Continue current therapeutic approach.</p>
+      </div>
+
+      <div class="formulation">
+        Diagnostic Formulation: not completed. Presentation consistent with unresolved displacement trauma and emerging identity-related processing. Abstract coping strategies (condensation drawings) suggest intact ego function and creative adaptation. ⬛ Full formulation deferred pending review of redacted material.
+      </div>
+
+      <div class="sig">Signature: ____________________________&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date: ____________</div>
+
+      <div class="nav-row">
+        <a href="akira-session3.html" class="nav-btn">← Back to Session 3</a>
+        <a href="chapter1-akira.html" class="nav-btn">Akira Folder →</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="sheet-footer">
+    Case archive — Ellison, clinical<br />
+    file 3 of 4 &nbsp;·&nbsp; subject: akira
+  </footer>
+</div>
+
+<script>
+  function buildComb(el, count){
+    if(!el) return;
+    const widths = [38,72,54,132,26,98,44,120,60,84,32,110];
+    for(let i=0;i<count;i++){
+      const bar = document.createElement('i');
+      bar.style.width = widths[i%widths.length] + 'px';
+      el.appendChild(bar);
+    }
+  }
+  buildComb(document.querySelector('.masthead .comb'), 10);
+</script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
+  </script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>E LIT — Alex Brown: Session 5 — The Party (Part 2)</title>
+  <link rel="stylesheet" href="vendor/fonts/fonts.css" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .obs-note {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 13px;
+      color: #7a6f5e;
+      background: rgba(180, 160, 120, 0.07);
+      border-left: 2px solid rgba(180, 160, 120, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0 12px 130px;
+      border-radius: 0 3px 3px 0;
+    }
+
+    /* Glitch / gibberish lines — dissociative static before the memory surfaces */
+    .dialogue-text.glitch-text {
+      font-family: var(--font-mono);
+      letter-spacing: 0.12em;
+      color: rgba(0, 0, 0, 0.32);
+      filter: blur(0.2px);
+    }
+
+    #alexRevealTrigger {
+      transition: background-color 0.25s ease;
+      border-radius: 4px;
+    }
+
+    #alexRevealTrigger:hover {
+      background-color: rgba(255, 46, 196, 0.08);
+    }
+
+    #alexRevealTrigger:hover .dialogue-text {
+      color: #c2149a;
+    }
+  </style>
+  <script src="platform.js"></script>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+</head>
+
+<body>
+
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <span class="logo-acronym">E.T.I.</span>
+        <span class="logo-full">Eastbrook Therapeutic Institute</span>
+      </div>
+      <nav class="header-nav">
+        <span class="nav-tag">SESSION 05 — PT. 2</span>
+        <a href="alex-session5.html" class="nav-link">← Part 1</a>
+      </nav>
+    </div>
+    <div class="header-classification">
+      <span>CLASSIFICATION: OPEN</span>
+      <span class="divider">|</span>
+      <span>PATIENT: ALEX BROWN &nbsp;|&nbsp; ETI-2024-001</span>
+      <span class="divider">|</span>
+      <span>SESSION 5 — "The Party" (Part 2) &nbsp;|&nbsp; 08.05.2024</span>
+    </div>
+  </header>
+
+
+  <div class="doc-page" style="padding-top:90px;">
+    <div style="background:var(--navy);padding:40px 80px 60px;">
+      <a href="alex-session5.html" class="back-btn">← Return to Part 1</a>
+    </div>
+
+    <div class="doc-page-bg">
+      <div class="document-sheet">
+        <div class="doc-hole-column">
+          <div class="punch-hole"></div>
+          <div class="punch-hole"></div>
+          <div class="punch-hole"></div>
+          <div class="punch-hole"></div>
+          <div class="punch-hole"></div>
+          <div class="punch-hole"></div>
+          <div class="punch-hole"></div>
+        </div>
+
+        <div class="doc-content">
+          <div class="session-dialogue">
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">Are you alright?</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">Yes, sorry — I just got caught in it again for a second.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">Take your time. drink some water , You were on the sofa.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">I was on the sofa alone and wondering about things. Not sure what — I don't
+                remember much. I did not consume any form of alcohol .</span>
+            </div>
+
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">I tried calling Akira, he would not pick.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">You feeling better now?</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">Sort of.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker therapist">DR. CLARK</span>
+              <span class="dialogue-text">It's all ok, pace yourself.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">So I was calling him and a senior next to me tried some small talk.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">I felt very weird, I did not respond.</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">I remember trying to breathe, then she sat beside...</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text">I remember her face...</span>
+            </div>
+
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text glitch-text">A— S— SOPH— S O P H I A—</span>
+            </div>
+
+            <div class="dialogue-line" id="alexRevealTrigger" style="cursor:pointer;">
+              <span class="dialogue-speaker">ALEX</span>
+              <span class="dialogue-text" style="color: #c2149a; text-decoration: underline; text-underline-offset: 4px;">I remember you — you used to come with Akira in our hideout. Yes. You are Sophia.</span>
+            </div>
+
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:25px;margin-bottom:25px;">
+            <div>
+              <p style="font-family:var(--font-mono);font-size:10px;color:var(--ink-ghost);letter-spacing:0.12em;line-height:25px;margin:0;">SESSION CLOSED: 08.05.2024 &nbsp;·&nbsp; TRANSCRIPT RECORDING PART 2</p>
+              <p style="font-family:var(--font-mono);font-size:10px;color:var(--ink-ghost);letter-spacing:0.12em;line-height:25px;margin:0;">AUDIO TAPE 5B ARCHIVED &nbsp;·&nbsp; DISSOCIATIVE MEMORY RECOVERED</p>
+            </div>
+            <div style="font-family:var(--font-stamp);font-size:14px;color:var(--red-stamp);border:2px solid var(--red-stamp);padding:4px 12px;border-radius:3px;transform:rotate(-2deg);">RECOVERED</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Background Ambient Audio — carries through into alexsophiaeye.html -->
+  <audio id="bgMusic" autoplay preload="auto">
+    <source src="angels-stardust/9-promise-reprise.mp3" type="audio/mpeg">
+    <source src="angels-stardust/9-promise-reprise.mp3" type="audio/mpeg">
+  </audio>
+
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      var bgMusic = document.getElementById('bgMusic');
+
+      // ── BACKGROUND AUDIO: autoplays the moment the page loads ──
+      if (bgMusic) {
+        bgMusic.muted = false;
+
+        function tryAutoplay() {
+          var p = bgMusic.play();
+          if (p !== undefined) {
+            return p.then(function () {
+              return true;
+            }).catch(function (e) {
+              console.log("Autoplay blocked, will start on first interaction:", e);
+              return false;
+            });
+          }
+          return Promise.resolve(false);
+        }
+
+        tryAutoplay().then(function (started) {
+          if (started) return;
+          var startOnInteraction = function () {
+            bgMusic.play().catch(function (e) {
+              console.log("Autoplay retry failed:", e);
+            });
+            document.removeEventListener('click', startOnInteraction);
+            document.removeEventListener('keydown', startOnInteraction);
+            document.removeEventListener('touchstart', startOnInteraction);
+          };
+          document.addEventListener('click', startOnInteraction, { once: true });
+          document.addEventListener('keydown', startOnInteraction, { once: true });
+          document.addEventListener('touchstart', startOnInteraction, { once: true });
+        });
+      }
+
+      // ── click the reveal line → hand off audio state, then go to alexsophiaeye.html ──
+      var pageTrigger = document.getElementById('alexRevealTrigger');
+      if (pageTrigger) {
+        pageTrigger.addEventListener('click', function () {
+          if (bgMusic) {
+            sessionStorage.setItem('bgMusicTime', bgMusic.currentTime);
+            sessionStorage.setItem('bgMusicPaused', bgMusic.paused ? '1' : '0');
+          }
+          window.location.href = 'alexsophiaeye.html';
+        });
+      }
+    })();
+  </script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
+  </script>
+</body>
+
+</html>
